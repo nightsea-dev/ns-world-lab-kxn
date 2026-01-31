@@ -1,5 +1,5 @@
 import { ReactNode, useReducer } from "react"
-import { EventHandlersFromMap, HasNode, PickAndPrefixKeysAndCapitalise } from "@ns-lab-klx/types"
+import { EventHandlersFromMap, HasNode, PickAndPrefixKeysAndCapitalise, XOR } from "@ns-lab-klx/types"
 import { _t, SpatialNode, SpatialNode_UI, SpatialNodeEventsMap, SpatialNodeInput } from "@ns-lab-klx/logic"
 import { _effect, _memo } from "../../utils"
 import { reaction } from "mobx"
@@ -12,14 +12,22 @@ export type UseSpatialNodeEventsMap = {
 }
 
 // ========================================
-export type UseSpatialNodeInput =
-    & Pick<SpatialNodeInput,
-        // | "onChange"
-        | "isObservable"
-    >
+type A =
     & PickAndPrefixKeysAndCapitalise<"initial", SpatialNodeInput, | "size" | "position">
-    & EventHandlersFromMap<UseSpatialNodeEventsMap>
 
+type B = {
+    spatialNode: SpatialNode
+}
+
+export type UseSpatialNodeInput =
+    & Partial<
+        & XOR<A, B>
+        & Pick<SpatialNodeInput,
+            // | "onChange"
+            | "isObservable"
+        >
+        & EventHandlersFromMap<UseSpatialNodeEventsMap>
+    >
 
 
 // ========================================
@@ -31,10 +39,18 @@ export const useSpatialNode = ({
     , initialPosition
     , isObservable
 
+    , spatialNode: spatialNode_IN
+
     , onChange
 }: UseSpatialNodeInput
+
 ) => {
-    const { spatialNode } = _memo([], () => {
+    const { spatialNode } = _memo([spatialNode_IN], () => {
+        if (spatialNode_IN instanceof SpatialNode) {
+            return {
+                spatialNode: spatialNode_IN
+            }
+        }
         return {
             spatialNode: new SpatialNode({
                 size: initialSize

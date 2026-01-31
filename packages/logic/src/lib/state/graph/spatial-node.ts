@@ -77,7 +77,7 @@ export class SpatialNode
         , size
         , isObservable
         , onChange
-    }: SpatialNodeInput
+    } = {} as SpatialNodeInput
     ) {
 
         this.id = id

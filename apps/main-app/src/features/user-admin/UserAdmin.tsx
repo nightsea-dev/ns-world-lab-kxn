@@ -18,7 +18,7 @@ type M_Status = "IDLE" | "LOADING USERS"
 
 // ======================================== events
 export type UserAdminEventsMap = {
-    usersLoaded: {
+    usersChange: {
         users: User[]
     }
 }
@@ -35,7 +35,7 @@ export type UserAdminProps =
 // ======================================== component
 export const UserAdmin = ({
     loadUsersOnFirstRender = true
-    , onUsersLoaded
+    , onUsersChange
 }: UserAdminProps
 ) => {
 
@@ -70,11 +70,6 @@ export const UserAdmin = ({
                         , users
                         , status: "IDLE"
                     }))
-
-                    onUsersLoaded?.({
-                        users
-                    })
-
                     // .map((user) => ({
                     //     // why did they use  [user:any] ???
                     //     // data.map((user: any) => ({
@@ -98,6 +93,14 @@ export const UserAdmin = ({
                 })
         }
 
+    _effect([state.users, state.isFirstRender], () => {
+        if (state.isFirstRender) {
+            return
+        }
+        onUsersChange?.({
+            users: state.users
+        })
+    })
     _effect([loadUsersOnFirstRender, state.isFirstRender], () => {
         if (!state.isFirstRender
             || !loadUsersOnFirstRender

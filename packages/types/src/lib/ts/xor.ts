@@ -1,6 +1,7 @@
 
 
+export type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
 
-export type XOR<A, B> =
-    | (A & { [K in keyof B]?: never })
-    | (B & { [K in keyof A]?: never })
+export type XOR<T, U> =
+    | (T & Without<U, T>)
+    | (U & Without<T, U>)

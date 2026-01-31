@@ -52,18 +52,6 @@ export const TagGroupNS = ({
             ))}
         </div>
     )
-    //     return (
-    //     <TagGroup
-    //         {...rest}
-    //     >
-    //         {data.map((v, i) => (
-    //             <Tag
-    //                 key={[v, i].join("|")}
-    //                 color={_c?.()}
-    //             >{v}</Tag>
-    //         ))}
-    //     </TagGroup>
-    // )
 }
 
 // ========================================
@@ -117,6 +105,10 @@ type _getValueProps<
         | "sortedKeys"
     >
 
+const _isIterable = <
+    T extends any
+>(v: unknown): v is Array<T> | Set<T> => Array.isArray(v) || (v instanceof Set)
+
 const _getValue = <
     T extends ObjectViewValue
 >({
@@ -129,8 +121,23 @@ const _getValue = <
 }: _getValueProps<T>
 ): ReactNode => {
 
-    if (Array.isArray(v) && showOnlyArrayLength) {
-        return `${v.length} item${v.length === 1 ? "" : "s"}`
+    if (showOnlyArrayLength && _isIterable(v)) {
+
+        const len = Array.isArray(v)
+            ? v.length
+            : v instanceof Set
+                ? v.size
+                : undefined
+
+        if (len === undefined) {
+            debugger
+            const err = new Error(`Something's wrong. [len === undefined]`)
+            console.error(err)
+            throw err
+        }
+
+        return `${len} item${len === 1 ? "" : "s"}`
+
     }
 
     if (isStringArray(v)) {

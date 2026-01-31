@@ -103,7 +103,7 @@ export const ScrollableHtmlTable = <
                         )}
                         {keys?.map((k, i) => (
                             <th
-                                key={["key", k, i].join("|")}
+                                key={["key", k].join("|")}
                                 // style={TableRow_COMMON_STYLES}
                                 className={`
                                         bg-gray-100

@@ -5,7 +5,8 @@ import {
     _cb, _effect, _memo, _use_state
     , ObjectView, Page
     , PickHtmlAttributes, SurfaceNode,
-    TwToggle,
+    ToggleRS,
+    ToggleTW,
     ViewContainer
 } from "@ns-lab-klx/web"
 import { Button, ButtonGroup, Nav, NavMenu, Toggle } from "rsuite"
@@ -52,7 +53,7 @@ export const MainApp = ({
 
             , userAdminProps: {
                 // loadUsersOnFirstRender: true
-                onUsersLoaded: ({
+                onUsersChange: ({
                     users: loadedUsers
                 }) => _set_state({ loadedUsers })
             } as UserAdminProps
@@ -78,6 +79,7 @@ export const MainApp = ({
             headerMidContent={(
                 <div
                     data-nav-menu-container
+                    className="flex items-center gap-2 whitespace-nowrap"
                 >
 
                     {state.showInfo &&
@@ -99,14 +101,14 @@ export const MainApp = ({
                                 {k}
                             </Nav.Item>
                         ))}
-                        <Toggle
-                            checked={state.showInfo}
-                            checkedChildren="Show Info"
-                            unCheckedChildren="HideInfo"
-                            onChange={showInfo => _set_state({ showInfo })}
-                            size="md"
-                        />
                     </Nav>
+                    <ToggleRS
+                        checked={state.showInfo}
+                        onChange={({ value: showInfo }) => _set_state({ showInfo })}
+                    >
+                        Show Info
+                    </ToggleRS>
+
                 </div>
             )}
         >

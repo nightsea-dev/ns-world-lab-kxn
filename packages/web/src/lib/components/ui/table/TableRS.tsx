@@ -134,7 +134,7 @@ export const TableRS = <
                 ) : undefined)
                 , ...(keys ?? []).map((k, i) => (
                     <Column
-                        key={[k, i].join("|")}
+                        key={k}
                         flexGrow={1}
                         minWidth={180}
                     >

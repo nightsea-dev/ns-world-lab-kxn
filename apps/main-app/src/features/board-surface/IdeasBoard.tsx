@@ -22,15 +22,17 @@ export type IdeasBoardProps =
             BoardSurfaceProps<IdeaWithAuthor>,
             | "data"
             | "createPayloadFn"
-            | "payloadRenderer"
-            | "onPayloadsAdded"
-            | "onPayloadRemoved"
+            | "onNodesAdded"
+            | "onNodesRemoved"
+            | "children"
+        // | "payloadRenderer"
         >
     >
 // ======================================== component
 export const IdeasBoard = ({
     data
     , createPayloadFn = createIdeaWithAuthor
+    , children = IdeaNodeComponent
     , ...rest
 }: IdeasBoardProps
 ) => {
@@ -44,7 +46,7 @@ export const IdeasBoard = ({
             {...rest}
             data={data}
             createPayloadFn={createPayloadFn}
-            payloadRenderer={IdeaNodeComponent}
+            children={children}
             kind="idea"
         // createPayloadFn={createDataItemFn}
         // kind="idea"

@@ -61,6 +61,13 @@ export type SpatialNodeComponentEventHandlers =
 //     & PickHtmlAttributes<"children">
 // >
 
+type A = Pick<
+    UseSpatialNodeInput,
+    | "initialSize"
+    | "initialPosition"
+    | "isObservable"
+>
+
 
 export type SpatialNodeComponentProps =
     & PickHtmlAttributes<"children">
@@ -70,6 +77,7 @@ export type SpatialNodeComponentProps =
             | "initialSize"
             | "initialPosition"
             | "isObservable"
+            | "spatialNode"
         >
 
         & PickHtmlAttributes<"className" | "style">
@@ -92,6 +100,7 @@ export const SpatialNodeComponent = ({
     initialSize
     , initialPosition
     , isObservable = true
+    , spatialNode: spatialNode_IN
 
     , className
     , style
@@ -109,20 +118,23 @@ export const SpatialNodeComponent = ({
     , onMount
 
     , ...rest
-
 }: SpatialNodeComponentProps
 ) => {
 
 
-    const { spatialNode } = useSpatialNode({
-        initialSize
-        , initialPosition
-        , isObservable
-        , onChange: ({ spatialNode }) => {
-            console.log({ spatialNode })
-            onChange?.({ spatialNode })
-        }
-    })
+    const { spatialNode } = useSpatialNode(
+        spatialNode_IN
+            ? {
+                isObservable
+                , spatialNode: spatialNode_IN
+                , onChange
+            }
+            : {
+                initialSize
+                , initialPosition
+                , isObservable
+                , onChange
+            })
 
         , _handleCloseButtonClick: CloseButtonProps["onClick"]
             = () => {

@@ -93,7 +93,7 @@ export const TableRow = <
                 // ]
                 valueKeys.map((k, i) => (
                     <td
-                        key={["key", k, i].join("|")}
+                        key={["value", k].join("|")}
                         style={TableRow_COMMON_STYLES}
                     // className="hover:bg-gray-100"
                     >

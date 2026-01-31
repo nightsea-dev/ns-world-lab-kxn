@@ -61,37 +61,6 @@ export const useTableKeys = <
                 )]
         }
 
-        // return {
-        //     keys
-        //     , thead: <thead
-        //         className="flex-none"
-        //     >
-        //         <tr
-        //             className="table w-full table-fixed"
-        //         >
-        //             {showIndex && (
-        //                 <th
-        //                     className={`
-        //                                 bg-gray-100
-        //                                 text-center 
-        //                                 w-[${DEFAULT.idxColWidth}px]
-        //                         `}
-        //                 >#</th>
-        //             )}
-        //             {keys.map((k, i) => (
-        //                 <th
-        //                     key={["key", k, i].join("|")}
-        //                     // style={TableRow_COMMON_STYLES}
-        //                     className={`
-        //                                 bg-gray-100
-        //                         `}
-        //                 >{
-        //                         COLUMN_INFOS[k]?.label ?? _capitalise(k)
-        //                     }</th>
-        //             ))}
-        //         </tr>
-        //     </thead>
-        // }
     })
 }
 

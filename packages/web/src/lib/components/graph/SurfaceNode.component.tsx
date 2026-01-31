@@ -13,7 +13,8 @@ import {
     , SpatialNodeComponentEventHandlers, SpatialNodeComponentProps
 } from "./SpatialNode.component"
 import {
-    HasPayloadRenderer
+    HasPayloadRenderer,
+    PayloadRenderer
 } from "./PayloadRenderer"
 import {
     DEFAULT_PayloadRenderer
@@ -92,10 +93,13 @@ export type SurfaceNodeProps<
         | keyof SpatialNodeComponentEventHandlers
     >
     & HasSurfacePayload<P>
-    & XOR<
-        HasPayloadRenderer<P>
-        , HasChildren<ReactNode>
-    >
+    & {
+        children?: ReactNode | PayloadRenderer<P>
+    }
+    // & XOR<
+    //     HasPayloadRenderer<P>
+    //     , HasChildren<ReactNode>
+    // >
     & Partial<
         & EventHandlersWithKindFromMap<
             SurfaceNodeEventsMap<P>
@@ -113,14 +117,19 @@ export const SurfaceNodeComponent
         P extends PayloadWithKind<any>
     >({
         payload
-        , payloadRenderer: PayloadRenderer = DEFAULT_PayloadRenderer
-        , children
+        // , payloadRenderer: PayloadRenderer = DEFAULT_PayloadRenderer
+        , children = DEFAULT_PayloadRenderer
         , onChange
         , onCloseButtonClick
         , onMount
         , ...rest
     }: SurfaceNodeProps<P>
     ) => {
+
+        const PayloadRenderer: PayloadRenderer<P>
+            = typeof (children) === "function"
+                ? children
+                : () => children
 
         return (
             <SpatialNodeComponent
