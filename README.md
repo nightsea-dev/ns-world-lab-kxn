@@ -19,7 +19,7 @@ decisions made during delivery is available here:
 
 ```
 apps/
-  web-app/        Primary React application (Vite)
+  web-app/         Primary React application (Vite)
 packages/
   logic/           Runtime logic (graph state, factories, utils)
   types/           Types-only package (contracts, composites, primitives)
