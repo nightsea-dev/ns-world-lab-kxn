@@ -1,4 +1,4 @@
-# web
+# web-app
 
 Primary React application for the NS-WORLD-LAB-knx workspace.
 
@@ -21,7 +21,6 @@ interactive board-style surfaces and related admin features.
 ```
 src/features/
   board-surface/    Spatial board and node surface
-  web/         App shell and routing
   user-admin/       User administration views
   _types/           Feature-local types
 ```
@@ -39,7 +38,7 @@ src/components/
 From the repository root:
 
 ```bash
-nx serve web
+npm run serve:web-app
 ```
 
 ---
@@ -49,7 +48,7 @@ nx serve web
 - Layout and scrolling concerns belong to layout primitives
   (not feature components).
 - Runtime logic must come from `@ns-lab-knx/logic`.
-- Type contracts must come from `@ns-lab-knx/types` (type-only imports).
+- Type contracts must come from `@ns-lab-knx/types`.
 - Shared UI components come from `@ns-lab-knx/web`.
 
 ---

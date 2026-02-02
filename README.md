@@ -6,13 +6,20 @@ for spatial graph / board-style UI experimentation.
 This repository separates **runtime logic**, **type contracts**, and **UI components**
 into explicit workspace packages, consumed by one or more apps.
 
+## Technical notes
+
+A concise technical review describing the main structural and architectural
+decisions made during delivery is available here:
+
+
+* [Technical Review & Delivery Notes](./docs/202602021407-KNX-Technical_Review_Delivery_Notes.md)
 
 
 ## Repository layout
 
 ```
 apps/
-  web/        Primary React application (Vite)
+  web-app/        Primary React application (Vite)
 packages/
   logic/           Runtime logic (graph state, factories, utils)
   types/           Types-only package (contracts, composites, primitives)
@@ -26,8 +33,6 @@ packages/
 
 - `@ns-lab-knx/types`
   - Types only
-  - Emits declarations only
-  - Must always be imported using `import type`
   - Never used at runtime
 
 - `@ns-lab-knx/logic`
@@ -91,7 +96,7 @@ apps/web/src/styles/styles.css
 ## Dependency graphs
 
 #### apps/
-* [web](./docs/web.svg)
+* [web-app](./docs/web-app.svg)
 
 #### packages/
 * [types](./docs/types.svg)
