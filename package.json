@@ -1,6 +1,6 @@
 {
     "name": "@ns-lab-knx/source",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "license": "MIT",
     "scripts": {
         "serve:web-app": "npm run clean && nx serve web-app --host=localhost --port=8090 --watch",
