@@ -1,7 +1,9 @@
 # KNX-Technical Review & Delivery Notes
-20260202
 
----
+[20260202]
+
+
+
 
 ## Scope
 
@@ -9,14 +11,14 @@ This document summarises the issues observed in the original take-home repositor
 
 The objective was to restore a coherent build, correct dependency direction, and align the architecture with React and Nx best practices.
 
----
+
 
 ## 1) Initial state
 
 - The repository, as received, **did not compile**.
 - The first step was a **direct inspection of the repository structure**, `package.json` files, and **TypeScript configuration (`tsconfig*`)**, using only a text editor and without relying on tooling.
 
----
+
 
 ## 2) Structural issue: invalid dependency direction
 
@@ -40,7 +42,7 @@ The objective was to restore a coherent build, correct dependency direction, and
     - **applications depend on libraries**
     - any shared concern is extracted into a library rather than referenced from another application
 
----
+
 
 ## 3) TypeScript configuration issue: tsconfig layering
 
@@ -66,7 +68,7 @@ This was visible by simply opening and comparing the `extends` chains in the con
     - each project `tsconfig.json` extends the base and defines project-specific references and scope
     - `tsconfig.app.json` / `tsconfig.lib.json` extend their **immediate project tsconfig**
 
----
+
 
 ## 4) Repository organisation and application consolidation
 
@@ -81,7 +83,7 @@ This was visible by simply opening and comparing the `extends` chains in the con
 - Shared logic and primitives were placed below the application boundary in libraries.
 - The structure now reflects a clear entrypoint → library flow.
 
----
+
 
 ## 5) Tooling adjustment: Rspack → Vite
 
@@ -101,7 +103,7 @@ With the previous setup, updates made in shared packages while running the appli
 
 The decision was driven by **development workflow correctness and reliability**, rather than tooling preference.
 
----
+
 
 ## 6) Architectural refactor: composition over inheritance
 
@@ -125,7 +127,7 @@ The decision was driven by **development workflow correctness and reliability**,
     - responsibilities are separated into small, composable units
     - reuse is achieved by combination rather than subclassing
 
----
+
 
 ## 7) Graph semantics: node vs payload separation
 
@@ -152,7 +154,7 @@ Position and size are preserved but are derived from the transformation owned by
 
 This keeps the graph model clean and extensible.
 
----
+
 
 ## 8) Reactivity scope and dependency hygiene
 
@@ -169,7 +171,7 @@ This keeps the graph model clean and extensible.
 
 Dependencies are introduced only where they are strictly required.
 
----
+
 
 ## 9) Nx boundary enforcement (final state)
 
@@ -190,7 +192,7 @@ Dependencies are introduced only where they are strictly required.
 
 These rules are enforced via `@nx/enforce-module-boundaries` in ESLint.
 
----
+
 
 ## 10) Result
 
