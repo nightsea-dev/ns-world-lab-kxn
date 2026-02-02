@@ -45,4 +45,4 @@ zips/**
 
 vite.config.*.timestamp*
 
-_docs/**
+_docs*/**
