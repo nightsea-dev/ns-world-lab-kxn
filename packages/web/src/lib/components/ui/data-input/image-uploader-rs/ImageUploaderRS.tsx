@@ -25,7 +25,7 @@ import {
     , LoadedFileItem
 } from "../../../../types"
 import { Box, ObjectView } from "../../_basic"
-import { ImageInfo, ImageRow } from "../../media"
+import { ImageInfo, ImageCard } from "../../media"
 import { ListNS } from "../../collections"
 import { pickFrom } from "../../../../../../../logic/src"
 
@@ -122,6 +122,8 @@ export const ImageUploaderRS = ({
 
         , _handle_FileDialogInput_Load: FileDialogInputProps["onLoad"]
             = ({ loadedFileItems }) => {
+
+                debugger
 
                 _set_state_async({
                     status: "PROCESSING"
@@ -231,7 +233,7 @@ export const ImageUploaderRS = ({
             return (
                 !fileType.blobFile
                     ? fileElement
-                    : <ImageRow
+                    : <ImageCard
                         data={_transform_RsFileType_to_ImageInfo(fileType)}
                     />
             )
@@ -331,7 +333,7 @@ export const ImageUploaderRS = ({
 
             <ListNS
                 data={imageInfos}
-                renderer={ImageRow}
+                renderer={ImageCard}
                 headerLabel={<div>
                     Images [{imageInfos.length}]
                 </div>}

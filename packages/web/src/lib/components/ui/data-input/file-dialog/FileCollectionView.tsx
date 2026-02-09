@@ -33,7 +33,7 @@ export type FileCollectionViewProps =
 // ======================================== component
 export const FileCollectionView = (
     {
-        data
+        data: data
         , placeholder
         , fileRenderer: R = FileWithUrlRenderer.DEFAULT
         , onClick
@@ -134,7 +134,7 @@ export const FileCollectionView = (
                                 />
                                 <CloseButton
                                     data-file-item-close-button
-                                    onClick={() => onItemCloseButtonClick?.({ data })}
+                                    onClick={() => onItemCloseButtonClick?.({ data: data })}
                                 />
                             </div>
                         ))}

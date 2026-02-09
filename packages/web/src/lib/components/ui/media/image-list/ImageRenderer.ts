@@ -1,6 +1,7 @@
 import {
     HasData
-    , HasName, HasSource, HasId
+    , HasName, HasSource, HasId,
+    HasDimentions
 } from "@ns-lab-knx/types"
 import { Renderer } from "../../../../types"
 
@@ -11,8 +12,13 @@ export type ImageInfo =
         & HasName
     >
 
+export type ImageInfoWithPartialDimensions =
+    & ImageInfo
+    & Partial<HasDimentions>
+
+
 export type ImageRendererProps<
-    I extends ImageInfo = ImageInfo
+    I extends ImageInfoWithPartialDimensions = ImageInfoWithPartialDimensions
 > =
     & HasData<I>
 

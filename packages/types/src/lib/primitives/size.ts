@@ -12,3 +12,7 @@ export type HasSize = {
     size: Size
 }
 
+
+export type HasDimentions = {
+    dimensions?: Size
+}

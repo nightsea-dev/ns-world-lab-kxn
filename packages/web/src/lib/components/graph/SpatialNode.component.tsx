@@ -22,6 +22,8 @@ import {
     ComponentProps,
     MouseEvent,
     ReactNode,
+    RefCallback,
+    RefObject,
     useId,
     useLayoutEffect,
     useRef
@@ -85,12 +87,20 @@ export type SpatialNodeComponentEvent
 export type SpatialNodeComponentEventsMap = {
     closeButtonClick: SpatialNodeComponentEvent
     change: SpatialNodeComponentEvent
-    mount: SpatialNodeComponentEvent
+    // mount: SpatialNodeComponentEvent
 }
 export type SpatialNodeComponentEventHandlers =
     EventHandlersFromMap<
         SpatialNodeComponentEventsMap
     >
+
+export type SpatialNodeRef =
+    & HasSpatialNode_UI
+    & {
+        action: "mounted" | "dismounted"
+    }
+
+
 // ======================================== props
 export type SpatialNodeComponentProps =
     & Partial<
@@ -108,9 +118,10 @@ export type SpatialNodeComponentProps =
         & PickHtmlAttributes<"children">
         & SpatialNodeComponentEventHandlers
 
-
+        & {
+            spatialNodeRef: RefCallback<SpatialNodeRef>
+        }
     >
-
 
 const DRAG_HANDLE_CLASS_NAME
     = "data-spatial-node-drag-handle" as const satisfies string
@@ -137,7 +148,8 @@ export const SpatialNodeComponent = ({
 
     , onChange
     , onCloseButtonClick
-    , onMount
+    // , onMount
+    , spatialNodeRef
 
     , backgroundColor
 
@@ -232,7 +244,7 @@ export const SpatialNodeComponent = ({
 
     useLayoutEffect(() => {
 
-
+        // debugger
 
         _refs.closeButton = document.querySelector(`[data-spatial-node-close-button="${id}"]`) as H
 
@@ -247,8 +259,17 @@ export const SpatialNodeComponent = ({
         }
     })
 
-    _effect([onMount], () => {
-        onMount?.({ spatialNode })
+    _effect([spatialNodeRef, spatialNode], () => {
+        spatialNodeRef?.({
+            spatialNode
+            , action: "mounted"
+        })
+        return () => {
+            spatialNodeRef?.({
+                spatialNode
+                , action: "dismounted"
+            })
+        }
     })
 
 

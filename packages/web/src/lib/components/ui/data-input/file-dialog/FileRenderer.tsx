@@ -4,14 +4,14 @@ import {
     , HasPartialUrl,
     PartialEventHandlersFromMap
 } from "@ns-lab-knx/types";
-import { _memo, FileWithPartialUrlAndFileID, PickHtmlAttributes } from "../../../../utils";
-import { Renderer } from "../../../../types";
+import { _memo, PickHtmlAttributes } from "../../../../utils";
+import { FileItemWithPartialUrlAndPartialFileID, Renderer } from "../../../../types";
 import { ObjectView } from "../../_basic";
 import { pickFrom } from "@ns-lab-knx/logic";
 
 // ======================================== types/props
 export type FileWithUrlRendererProps =
-    & HasData<FileWithPartialUrlAndFileID>
+    & HasData<FileItemWithPartialUrlAndPartialFileID>
     & PickHtmlAttributes<"className">
 
 // ======================================== types/renderer
@@ -28,7 +28,7 @@ export type HasFileWithUrlRenderer =
 export namespace FileWithUrlRenderer {
 
     export const DEFAULT: FileWithUrlRenderer = ({
-        data
+        data: data
         , ...rest
     }) => {
         // const {

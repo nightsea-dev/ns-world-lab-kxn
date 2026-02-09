@@ -45,7 +45,7 @@ export type ListNSProps<
 export const ListNS = <
     TData extends HasId
 >({
-    data
+    data: data
     , renderer: R
     , headerLabel
     , onClear

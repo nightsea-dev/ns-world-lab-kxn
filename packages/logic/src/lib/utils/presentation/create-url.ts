@@ -9,6 +9,17 @@ const REACHABLE_DOMAINS = [
     'news.ycombinator.com',
     'stackoverflow.com',
 ]
+export const IFRAME_SAFE_URLS = [
+    'https://example.com',
+    'https://picsum.photos/800/600',
+    'https://placehold.co/800x600',
+    'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    'https://player.vimeo.com/video/76979871',
+    'https://www.openstreetmap.org/export/embed.html',
+    'https://httpbin.org/html',
+    'https://www.w3schools.com/html/html_iframe.asp',
+]
+
 
 
 

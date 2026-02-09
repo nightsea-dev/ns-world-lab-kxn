@@ -75,7 +75,7 @@ type BaseControlButtonsProps<
     TInfoData extends ObjectViewValue | undefined = undefined
 > =
     & {
-        showInfo: boolean
+        // showInfo: boolean
         infoData: TInfoData extends ObjectViewValue ? ObjectViewProps<TInfoData>["data"] : never
         showInfoName: string
         hideButtons: ControlButton_EventKind[]
@@ -112,8 +112,8 @@ export type ControlButtonsRenderer<
 export const ControlButtons = <
     TInfoData extends ObjectViewValue | undefined = undefined
 >({
-    showInfo
-    , showInfoName
+    // showInfo
+    showInfoName
     , infoData
     , isDisabled: isDisabledFnMap_IN
 
@@ -218,7 +218,7 @@ export const ControlButtons = <
             <ObjectViewWithToggle
                 data={infoData}
                 header={showInfoName}
-                show={showInfo}
+                className="mb-2"
                 showOnlyArrayLength
                 toggleProps={{
                     name: showInfoName

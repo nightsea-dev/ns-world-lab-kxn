@@ -43,7 +43,7 @@ export type CommonTableProps<
 export const useTableKeys = <
     T extends object
 >({
-    data
+    surfaceNodes: data
     , keys: keys_IN
 }: Pick<CommonTableProps<T>, "data" | "keys">) => {
     return _memo([data, keys_IN], () => {

@@ -42,7 +42,7 @@ export const TableRow = <
     TData extends object
 >({
     idx
-    , data//: user
+    , data: data//: user
     // , data: {
     //     email
     //     , job
@@ -60,7 +60,7 @@ export const TableRow = <
     return (
         <tr
             data-table-row
-            onClick={() => onClick?.({ idx, data })}
+            onClick={() => onClick?.({ idx, data: data })}
             className={_cn(
                 (isSelected
                     ? `

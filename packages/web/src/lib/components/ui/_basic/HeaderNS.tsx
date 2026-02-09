@@ -25,7 +25,7 @@ export type HeaderNSProps =
 
 
 export const HeaderNS = ({
-    data
+    data: data
     , children = data
     , bgColour// = "gray-200"
     , headerRef

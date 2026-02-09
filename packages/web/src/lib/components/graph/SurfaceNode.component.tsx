@@ -1,9 +1,10 @@
-import { ReactNode } from "react"
+import { ReactNode, RefCallback, RefObject } from "react"
 import {
     HasSpatialNode_UI,
     SpatialNode
 } from "@ns-lab-knx/logic"
 import {
+    EventHandlersWithKindFromMap,
     HasPartialChildren
     , HasPayload
     , HasPayloadWithKind, PartialEventHandlersWithKindFromMap
@@ -12,7 +13,8 @@ import {
 import {
     SpatialNodeComponent
     , SpatialNodeComponentEventHandlers
-    , SpatialNodeComponentProps
+    , SpatialNodeComponentProps,
+    SpatialNodeRef
 } from "./SpatialNode.component"
 import {
     PAYLOAD_RENDERERS
@@ -39,6 +41,11 @@ export type HasSurfaceNode<
 > = {
     surfaceNode: SurfaceNode<P>
 }
+export type HasSurfaceNodes<
+    P extends PayloadWithKind<any>
+> = {
+    surfaceNodes: SurfaceNode<P>[]
+}
 // ======================================== events
 export type SurfaceNodeEvent<
     P extends PayloadWithKind<any>
@@ -50,7 +57,7 @@ export type SurfaceNodeEventsMap<
 > = {
     change: SurfaceNodeEvent<P>
     , closeButtonClick: SurfaceNodeEvent<P>
-    , mount: SurfaceNodeEvent<P>
+    // , mount: SurfaceNodeEvent<P>
 }
 
 export type HasSurfaceNodeChildren<
@@ -59,6 +66,16 @@ export type HasSurfaceNodeChildren<
     & HasPartialChildren<
         ReactNode | PayloadRenderer<P>
     >
+
+export type SurfaceNodeRef<
+    P extends PayloadWithKind<any>
+> =
+    & HasSurfaceNode<P>
+    & Pick<SpatialNodeRef, "action">
+
+
+
+
 
 // ======================================== props
 export type SurfaceNodeProps<
@@ -76,9 +93,17 @@ export type SurfaceNodeProps<
         | keyof SpatialNodeComponentEventHandlers
     >
 
-    & PartialEventHandlersWithKindFromMap<
-        SurfaceNodeEventsMap<P>
+    & Partial<
+        & {
+            surfaceNodeRef: RefCallback<
+                & SurfaceNodeRef<P>
+            >
+        }
+        & EventHandlersWithKindFromMap<
+            SurfaceNodeEventsMap<P>
+        >
     >
+
 
 
 
@@ -94,7 +119,9 @@ export const SurfaceNodeComponent = <
 
     , onChange
     , onCloseButtonClick
-    , onMount
+    // , onMount
+
+    , surfaceNodeRef
 
     , ...rest
 }: SurfaceNodeProps<P>
@@ -104,6 +131,7 @@ export const SurfaceNodeComponent = <
         = typeof (children) === "function"
             ? children
             : () => children
+
 
     return (
         <SpatialNodeComponent
@@ -125,11 +153,28 @@ export const SurfaceNodeComponent = <
                 })
             }}
 
-            onMount={({ spatialNode }) => {
-                onMount?.({
-                    eventKind: "mount"
-                    , surfaceNode: { payload, spatialNode }
+
+            spatialNodeRef={ref => {
+                if (!surfaceNodeRef || !ref) {
+                    return
+                }
+                const {
+                    action
+                    , spatialNode
+                } = ref
+                console.log({ ref })
+                surfaceNodeRef({
+                    surfaceNode: { payload, spatialNode }
+                    , action
                 })
+
+                // onMount?.({
+                //     eventKind: "mount"
+                //     , surfaceNode: { payload, spatialNode }
+                // })
+                // return () => {
+                //     surfaceNodeRef?.(null)
+                // }
             }}
         >
             <PayloadRenderer payload={payload} />

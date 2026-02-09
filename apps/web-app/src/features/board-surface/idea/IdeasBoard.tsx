@@ -1,10 +1,10 @@
 import {
     _effect
-    , BoardSurfaceProps
     , BoardSurfaceComponent,
     HasCreatePayloadFn,
     _memo,
-    _use_state
+    _use_state,
+    BoardSurface_Props
 } from '@ns-lab-knx/web'
 import {
     createIdeaWithAuthor
@@ -12,17 +12,17 @@ import {
 import {
     IdeaWithAuthor
 } from '@ns-lab-knx/types'
-import { IdeaPayloadRenderer } from '../../components'
+import { IdeaPayloadRenderer } from '../../../components'
 
 // ======================================== CONST
 // ======================================== props
 export type IdeasBoardProps =
     & Partial<
         & Pick<
-            BoardSurfaceProps<IdeaWithAuthor>,
+            BoardSurface_Props<IdeaWithAuthor>,
             | "data"
-            | "onNodesAdded"
-            | "onNodesRemoved"
+            | "onPayloadsAdded"
+            | "onPayloadsRemoved"
         >
     >
 // ======================================== component

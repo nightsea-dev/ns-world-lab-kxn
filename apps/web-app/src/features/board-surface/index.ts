@@ -1,2 +1,2 @@
-export * from "./IdeasBoard"
+export * from "./idea"
 export * from "./known-payloads-board"

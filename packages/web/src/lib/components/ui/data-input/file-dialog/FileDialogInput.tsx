@@ -1,6 +1,6 @@
-import React, { ChangeEvent, DragEvent, FunctionComponent, HTMLAttributes, InputHTMLAttributes, ReactNode, RefObject, useEffect, useRef, useState } from "react"
+import React, { ChangeEvent, DragEvent, FunctionComponent, HTMLAttributes, InputHTMLAttributes, ReactNode, RefCallback, RefObject, useEffect, useRef, useState } from "react"
 import { entriesOf, extractFrom, pickFrom } from "@ns-lab-knx/logic"
-import { EventHandlersFromMap, HasChildren, HasData, HasEventHandler, HasLabel, HasPartialEventHandler, HasPartialUrl, KeyOf, PartialEventHandlersFromMap, XOR } from "@ns-lab-knx/types"
+import { EventHandler, EventHandlersFromMap, HasChildren, HasData, HasEventHandler, HasLabel, HasPartialEventHandler, HasPartialUrl, KeyOf, PartialEventHandlersFromMap, XOR } from "@ns-lab-knx/types"
 import {
     _cn, _filterFiles
     , _getFileUrl, _memo, _normaliseFiles, _use_state
@@ -20,23 +20,29 @@ import { Box, ObjectView } from "../../_basic"
 import { FileWithUrlRenderer } from "./FileRenderer"
 import {
     FileLoaderProps
-    , InputFileItemList
+    , HasFileLoaderEventHandlers, InputFileItemList
     , LoadedFileItem
 } from "../../../../types"
 import { ObjectViewWithToggle } from "../../data-display"
 
 
 // ======================================== handle
-export type FileDialogHandleValue =
+
+export type FileDialogRef =
     & {
         inputElement?: HTMLInputElement | null
+        clear: () => void
     }
 
-export type FileDialogHandleRef = RefObject<FileDialogHandleValue>
+// export type FileDialogRefType
+//     = RefCallback<
+//         FileDialogRef
+//     >
+
 
 // ======================================== props
 export type FileDialogInputProps =
-    & FileLoaderProps
+    // & FileLoaderProps
     & Partial<
         & HasLabel<ReactNode>
         & {
@@ -44,9 +50,10 @@ export type FileDialogInputProps =
             isDroppable: boolean
             inputIsHidden: boolean
             showFileCollection: boolean
-            handleRef: FileDialogHandleRef
+            fileDialogRef: RefCallback<FileDialogRef>
             fileRenderer: FileWithUrlRenderer
             beforeFileCollectionChildren: ReactNode
+            reverseListAdding: boolean
         }
         & XOR<
             {
@@ -54,8 +61,30 @@ export type FileDialogInputProps =
             }
             , PickHtmlAttributes<"children">
         >
-        & PickHtmlAttributes<"className" | "onClick">
+        & PickHtmlAttributes<"className">
         & Pick<HTMLInputElement, "multiple">
+        & {
+            onChange: (
+                ev:
+                    & {
+                        loadedFileItems: LoadedFileItem[]
+                    }
+                    & (
+
+                        | {
+                            eventKind: "clear"
+                        }
+                        | {
+                            eventKind: "removed  fileItems"
+                            removedItems: LoadedFileItem[]
+                        }
+                        | {
+                            eventKind: "added fileItems"
+                            addedFileItems: LoadedFileItem[]
+                        }
+                    )
+            ) => void
+        }
     >
 
 // ======================================== component
@@ -63,16 +92,18 @@ export const FileDialogInput = ({
     label
     , placeholder: placeholder_IN = "Drop files here, or click to choose"
     , isDroppable = true
-    , inputIsHidden //= true
+    , inputIsHidden = true
     , showFileCollection = true
-    , handleRef
+    , fileDialogRef
     , fileRenderer = FileWithUrlRenderer.DEFAULT
     , beforeFileCollectionChildren
     , children
     , afterFileCollectionChildren = children
     , multiple
-    , onLoad: onLoad_IN
-    , onClick: onClick_IN
+    , reverseListAdding = true
+    // , onLoad: onLoad_IN
+    // , onClick: onClick_IN
+    , onChange
     // , onItemsRemoved
     , ...rest_01
 }: FileDialogInputProps
@@ -105,9 +136,7 @@ export const FileDialogInput = ({
             }
         , showInfo: false
     })
-        , { current: _refs } = useRef({} as {
-            inputElement?: HTMLInputElement | null
-        })
+        , { current: _refs } = useRef({} as Pick<FileDialogRef, "inputElement">)
         , _openDialog = () => _refs.inputElement?.click()
 
         , { placeholder } = _memo([placeholder_IN, isDroppable], () => {
@@ -121,8 +150,10 @@ export const FileDialogInput = ({
             }
         })
 
+        , _emitChange: FileDialogInputProps["onChange"]
+            = ev => onChange?.(ev)
 
-        , _addFiles = (
+        , _addFileItems = (
             inputFileItemList: InputFileItemList
         ) => {
 
@@ -143,10 +174,22 @@ export const FileDialogInput = ({
             console.log(latestAction)
 
             if (filesToAdd.length) {
-                next_loadedFileItems.push(...filesToAdd)
+                next_loadedFileItems[
+                    reverseListAdding
+                        ? "unshift" : "push"
+                ](...(
+                    reverseListAdding
+                        ? filesToAdd.reverse()
+                        : filesToAdd
+                ))
                 latestAction = `ADDED FILES: ${filesToAdd.length}`
                 _set_state({
                     loadedFileItems: next_loadedFileItems
+                })
+                _emitChange({
+                    eventKind: "added fileItems"
+                    , addedFileItems: filesToAdd
+                    , loadedFileItems: next_loadedFileItems
                 })
             } else {
                 latestAction = "NO NEW FILES"
@@ -172,36 +215,39 @@ export const FileDialogInput = ({
             , onChange: onChange_lifecycle
             , onClick: onClick_lifecycle
         } = useFileDialogLifecycle({
-            onLoad: ({ loadedFileItems }) => _addFiles(loadedFileItems)
+            onLoad: ({ loadedFileItems }) => _addFileItems(loadedFileItems)
         })
 
         , _removeFileFn = (
             ...fileItems: (LoadedFileItem | LoadedFileItem[])[]
         ) => {
-            debugger
+
             const requestedFilesToRemove = fileItems.flat(1)
 
             if (!requestedFilesToRemove.length) {
-                return
+                return {}
             }
 
-            const fileIdsToRemove
-                = requestedFilesToRemove.map(({ fileID }) => fileID)
-                    .filter(Boolean)
-
+            const fileIdsToRemoveSet
+                = new Set(
+                    requestedFilesToRemove.map(({ fileID }) => fileID)
+                        .filter(Boolean)
+                )
                 , { loadedFileItems } = state
 
                 , out = {
                     toRemove: [] as LoadedFileItem[]
                     , toKeep: [] as LoadedFileItem[]
                 }
+
             loadedFileItems.forEach(o => {
                 out[
-                    fileIdsToRemove.includes(o.fileID)
+                    fileIdsToRemoveSet.has(o.fileID)
                         ? "toRemove"
                         : "toKeep"
                 ].push(o)
             })
+
             if (out.toRemove.length) {
                 _revokeUrls(out.toRemove)
                 _set_state({
@@ -216,38 +262,54 @@ export const FileDialogInput = ({
             })
 
             return {
-                current_loadedFileItems: out.toKeep
-                , removed: out.toRemove
+                loadedFileItems: out.toKeep
+                , removedItems: out.toRemove
             }
         }
 
-        , _handleChange: InputHTMLAttributes<HTMLInputElement>["onChange"]
-            = ev => {
-                onChange_lifecycle?.(ev)
-                onLoad_IN?.({
-                    loadedFileItems: state.loadedFileItems
+        , _clear = () => {
+            const {
+                removedItems
+                , loadedFileItems
+            } = _removeFileFn(state.loadedFileItems)
+                ;
+            ; !loadedFileItems
+                || _emitChange({
+                    eventKind: "clear"
+                    , loadedFileItems
                 })
+        }
+
+
+        , _handleInputChange: InputHTMLAttributes<HTMLInputElement>["onChange"]
+            = ev => {
+                // debugger
+                onChange_lifecycle?.(ev)
                     ;
                 ; !_refs.inputElement || (_refs.inputElement.value = "")
             }
 
-        , _handleClick: InputHTMLAttributes<HTMLInputElement>["onClick"]
-            = ev => {
+        , _handleInputClick: InputHTMLAttributes<HTMLInputElement>["onClick"]
+            = () => {
                 onClick_lifecycle?.()
-                onClick_IN?.(ev)
                     ;
                 ; !_refs.inputElement || (_refs.inputElement.value = "")
             }
 
         , _handleItemCloseButtonClick: FileCollectionViewProps["onItemCloseButtonClick"]
-            = ({ data }) => _removeFileFn(data)
-
-        , _handleClearButtonClick: FileCollectionViewProps["onClearButtonClick"]
-            = (ev) => _removeFileFn(state.loadedFileItems)
-
-        , _handleCollectionClick: FileCollectionViewProps["onClick"]
-            = () => _openDialog()
-
+            = ({ data: data }) => {
+                const {
+                    loadedFileItems
+                    , removedItems
+                } = _removeFileFn(data)
+                    ;
+                ; !removedItems
+                    || _emitChange({
+                        eventKind: "removed  fileItems"
+                        , loadedFileItems
+                        , removedItems
+                    })
+            }
 
         , _handleDragEvent = (
             handlerKey: DragEventHandlerKey
@@ -293,7 +355,7 @@ export const FileDialogInput = ({
                         }
                     })
 
-                    _addFiles(ev.dataTransfer?.files)
+                    _addFileItems(ev.dataTransfer?.files)
                     break
                 }
             }
@@ -315,11 +377,10 @@ export const FileDialogInput = ({
                 }
             }
 
-    if (handleRef) {
-        handleRef.current.inputElement = _refs.inputElement
-    }
-    // handleRef ??= useRef<FileDialogHandleValue>({})
-    ;
+    fileDialogRef?.({
+        ..._refs
+        , clear: _clear
+    })
 
     return (
         <Box
@@ -338,12 +399,6 @@ export const FileDialogInput = ({
                 {FileDialogInput.name}
             </b>}
         >
-            {/* <div
-                className={_cn(
-                    "absolute w-[100%] h-[100%] z-[1000] bg-gray-300"
-                    , state.dragIsOver ? undefined : "hidden"
-                )}
-            /> */}
             <ObjectViewWithToggle
                 data={{
                     ...pickFrom(lifecycle_state, "dialogMState")
@@ -351,38 +406,11 @@ export const FileDialogInput = ({
                 }}
                 header={FileDialogInput.name}
             />
-            {/* <Box>
-                {state.showInfo && <ObjectView
-                    data={{
-                        ...pickFrom(lifecycle_state, "dialogMState")
-                        , state
-                    }}
-                    showOnlyArrayLength
-                    header={FileDialogInput.name}
-                // grayHeader
-                />}
-                <ShowInfoToggle
-                    checked={state.showInfo}
-                    onChange={_set_state}
-                    name={FileDialogInput.name}
-                />
-            </Box> */}
-
-            {label && (
-                <div
-                    data-label-container
-                >
-                    {label}
-                </div>)}
-            <div
-                data-placeholder
-            >{placeholder}</div>
 
             <input
                 type="file"
                 multiple={multiple}
                 ref={el => {
-                    ; !handleRef || (handleRef.current.inputElement = el)
                     _refs.inputElement = el
                 }}
                 className={_cn(
@@ -390,8 +418,8 @@ export const FileDialogInput = ({
                     , "hover:bg-gray-100 transition-all duration-[.2s]"
                     , inputIsHidden ? "hidden" : undefined
                 )}
-                onChange={_handleChange}
-                onClick={_handleClick}
+                onChange={_handleInputChange}
+                onClick={_handleInputClick}
             />
 
             {beforeFileCollectionChildren && (
@@ -405,9 +433,9 @@ export const FileDialogInput = ({
                     data={state.loadedFileItems}
                     fileRenderer={fileRenderer}
                     placeholder={placeholder}
-                    onClick={_handleCollectionClick}
+                    onClick={_openDialog}
                     onItemCloseButtonClick={_handleItemCloseButtonClick}
-                    onClearButtonClick={_handleClearButtonClick}
+                    onClearButtonClick={_clear}
                 />)}
 
 

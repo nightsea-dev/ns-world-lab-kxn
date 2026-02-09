@@ -59,7 +59,7 @@ export const TableRS = <
 }: TableRSProps<T>
 ) => {
     const { keys } = useTableKeys({
-        data: rest.data
+        surfaceNodes: rest.data
         , keys: rest.keys
     })
 

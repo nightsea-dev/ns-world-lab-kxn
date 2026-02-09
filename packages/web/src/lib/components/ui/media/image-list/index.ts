@@ -1,3 +1,3 @@
 export * from "./ImageList"
 export * from "./ImageRenderer"
-export * from "./ImageRow"
+export * from "./ImageCard"

@@ -158,7 +158,7 @@ const ObjectViewValue = <
 export const ObjectView = <
     T extends ObjectViewValue
 >({
-    data
+    data: data
     , header
     , grayHeader
     , absolute

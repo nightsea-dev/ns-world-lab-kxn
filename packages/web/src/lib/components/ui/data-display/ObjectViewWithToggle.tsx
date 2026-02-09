@@ -1,7 +1,8 @@
 import { EventHandlersFromMap, KeyOf } from "@ns-lab-knx/types"
-import { ObjectView, ObjectViewProps, ObjectViewValue } from "../_basic"
+import { Box, ObjectView, ObjectViewProps, ObjectViewValue } from "../_basic"
 import { _cn, _effect, _use_state } from "../../../utils"
 import { ToggleRS, ToggleRSProps } from "../rs"
+import { Panel } from "rsuite"
 
 
 
@@ -41,9 +42,10 @@ export const ObjectViewWithToggle = <
 >({
     show
     , onChange
-    , data
+    , data: data
     , label: toggleLabel = "Show"
     , toggleProps
+    , className
     , ...rest
 }: ObjectViewWithToggleProps<T>
 ) => {
@@ -68,34 +70,56 @@ export const ObjectViewWithToggle = <
         })
     })
     return (
-        <div
-            className={_cn(`
-                grid
-                gap-2 
-                py-0.5
-                items-center
-                justify-between
+        <Box
+            data-object-view-with-toggle
+            bordered={false}
+            className={className}
+            //className="mb-2"
+            // className={_cn(`
+            //     grid
+            //     gap-2 
+            //     py-0.5
+            //     items-center
+            //     justify-between
+            //     `
+            // )}
+            childrenContainerProps={{
+                className: _cn(`
+                    ---w-full
+                    grid
+                    gap-1 
+                    py-0.5
+                    items-center
+                    justify-end
+                    ---border border-red-500
                 `
-            )}
+                )
+            }}
+
         >
+            <div
+                className="flex justify-end"
+            >
+                <ToggleRS
+                    {...(toggleProps as any)}
+                    checked={state.isShown}
+                    onChange={_handleToggleChange}
+                    label={toggleProps?.label ?? toggleLabel}
+                // name={toggleName}
+                // size={toggleSize}
+                // label={toggleLabel}
+                />
+            </div>
             {state.isShown && data && (
                 <ObjectView
                     relative
                     {...rest}
                     data={data}
+                    className="w-full"
                 // header={showInfoName}
                 // header={ImageUploaderRS.name}
                 // grayHeader
                 />)}
-            <ToggleRS
-                {...(toggleProps as any)}
-                checked={state.isShown}
-                onChange={_handleToggleChange}
-                label={toggleProps?.label ?? toggleLabel}
-            // name={toggleName}
-            // size={toggleSize}
-            // label={toggleLabel}
-            />
-        </div>
+        </Box>
     )
 }

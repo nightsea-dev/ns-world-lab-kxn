@@ -5,8 +5,8 @@ import {
     , PartialEventHandlersFromMap
 } from "@ns-lab-knx/types"
 import {
-    ImageRow, ImageRowEventsMap, ImageRowProps
-} from "./ImageRow"
+    ImageCard, ImageCardEventsMap, ImageCardProps
+} from "./ImageCard"
 import { _effect, _use_state } from "../../../../utils"
 import { ImageInfo } from "./ImageRenderer"
 import { NoData } from "../../_basic"
@@ -16,7 +16,7 @@ const EMPTY_data = [] as ImageInfo[]
 
 
 export type ImageListEventKind =
-    | keyof ImageRowEventsMap
+    | keyof ImageCardEventsMap
     | "remove"
 
 
@@ -58,8 +58,8 @@ export const ImageList = ({
             previous_data_IN?: ImageInfo[]
         })
 
-        , _handleRename: ImageRowProps["onRename"] = ({
-            data
+        , _handleRename: ImageCardProps["onRename"] = ({
+            data: data
         }) => {
 
             const {
@@ -76,7 +76,7 @@ export const ImageList = ({
 
         }
         , _handleRemove = ({
-            data
+            data: data
             // , idx
         }:
             & HasData<ImageInfo>
@@ -184,19 +184,19 @@ export const ImageList = ({
                     className="grid grid-cols-2 gap-3"
                 >
                     {state.items.map((data, idx) => (
-                        <ImageRow
+                        <ImageCard
                             key={data.id}
                             data={data}
                             onRename={_handleRename}
                         >
                             <div className="flex justify-end">
                                 <ButtonRS
-                                    onClick={() => _handleRemove({ data })}
+                                    onClick={() => _handleRemove({ data: data })}
                                 >
                                     Remove
                                 </ButtonRS>
                             </div>
-                        </ImageRow>
+                        </ImageCard>
                     ))}
                 </div>}
         </div>

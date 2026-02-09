@@ -16,7 +16,7 @@ export type TagGroupNSProps<
 export const TagGroupNS = <
     T extends ReactNode = ReactNode
 >({
-    data
+    data: data
     , withRandomColour
     , ...rest
 }: TagGroupNSProps<T>

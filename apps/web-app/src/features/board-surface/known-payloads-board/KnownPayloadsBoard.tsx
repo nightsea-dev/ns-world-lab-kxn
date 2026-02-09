@@ -7,8 +7,8 @@ import {
     DrawerInfo,
     _getFileUrl,
     BoardSurface_Props,
-    useBoardSurfaceHandleRef,
     BoardSurface_EventsMap,
+    BoardSurfaceRef,
 } from '@ns-lab-knx/web'
 import {
     createIdeaWithAuthor,
@@ -22,6 +22,7 @@ import {
     , KnownPayloadKind
 } from './KnownPayloadRenderer'
 import { KNOWN_PAYLOAD_LOADER_DRAWER_INFOS_MAP, KnownPayloadLoaderProps } from './KnownPayloadLoader'
+import { useRef } from 'react'
 
 // ======================================== helpers
 
@@ -76,8 +77,10 @@ export const KnownPayloadsBoard = ({
     } as State)
 
         , {
-            ref: _boardSurfaceHandleRef
-        } = useBoardSurfaceHandleRef<KnownPayload>()
+            current: _refs
+        } = useRef({} as {
+            boardSurfaceRef?: BoardSurfaceRef<KnownPayload> | null
+        })
 
 
         , { openInputView } = _memo([state.m_state.name], () => {
@@ -168,10 +171,10 @@ export const KnownPayloadsBoard = ({
                     } = state
                         , next_payloads = [...current_payloads]
                         , {
-                            current: {
-                                numberOfItems = 1
-                            } = {}
-                        } = _boardSurfaceHandleRef ?? {}
+                            // current: {
+                            numberOfItems = 1
+                            // } = {}
+                        } = _refs.boardSurfaceRef ?? {}
                     next_payloads.push(
                         ...(
                             Array.from({
@@ -302,7 +305,9 @@ export const KnownPayloadsBoard = ({
                     }
                 }}
 
-                boardSurfaceRef={_boardSurfaceHandleRef}
+                boardSurfaceRef={ref => {
+                    _refs.boardSurfaceRef = ref
+                }}
 
                 inputViewInfo={{
                     content: inputViewDrawerInfo
