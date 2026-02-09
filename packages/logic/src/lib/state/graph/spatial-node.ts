@@ -48,7 +48,6 @@ export type SpatialNodeInput
  * * uses [mobx]
  */
 export class SpatialNode
-    // implements GraphNode {
     implements
     GraphNodeWithTransformMutators
     , Pick<SpatialNodeInput, "onChange"> {
@@ -148,7 +147,7 @@ export class SpatialNode
 
 
 
-// ======================================== U lexicon/ exports
+// ======================================== exports - UI lexicon
 export type SpatialNodeData =
     Pick<SpatialNode, | "id" | "size" | "position">
 
@@ -158,12 +157,14 @@ export type SpatialNode_UI
         | "id"
         | "size"
         | "position"
+
+        | "updateTransformation"
+        | "transformation"
+
         // keeping these to remain within the [KLX] base
         | "updatePosition"
         | "updateSize"
 
-        | "updateTransformation"
-        | "transformation"
     >
 
 export type HasSpatialNode_UI =

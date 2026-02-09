@@ -1,23 +1,21 @@
 import React, { FunctionComponent, isValidElement, ReactElement, ReactNode, RefObject, useId, useReducer, useRef } from 'react'
 import {
     _capitalise, _jitterPositions, _t
-    , keysOf, pickFrom
+    , keysOf, pickFromAsArray, pickFrom,
+    pickFromAsTuple,
+    omitFrom
 } from "@ns-lab-knx/logic"
 import {
     HasData
     , Position
     , Transformation
-    , EventHandlersWithKindFromMap
-    , PayloadWithKind,
-    M_StateFromMap,
-    HasHeader,
-    HasBody,
-    XOR,
-    HasPayload,
-    HasPayloadWithKind,
-    HasEventKind,
-    EventHandlersFromMap,
-    KeyOf,
+    , PayloadWithKind
+    , M_StateFromMap
+    , HasPayloadWithKind
+    , HasEventKind
+    , EventHandlersFromMap
+    , KeyOf,
+    HasPayloads
 } from '@ns-lab-knx/types'
 
 import {
@@ -31,9 +29,15 @@ import {
     , SurfaceNodeComponent
     , SurfaceNodeProps
 } from '../graph'
-import { ButtonsMap, NoData, ObjectView } from '../ui'
 import { _cb, _effect, _memo, _use_state } from '../../utils'
-import { Button, ButtonToolbar, Drawer, DrawerProps, Modal } from 'rsuite'
+import { Drawer } from 'rsuite'
+import { DrawerInfo, ButtonsMap, DrawerRS, NoData, ObjectView, ButtonGroupEntryItem } from '../ui'
+import {
+    BoardSurface_Props, BoardSurface_EventData
+    , BoardSurface_State,
+    BoardSurface_EventsMap,
+    InputViewInfo
+} from './BoardSurface.types'
 
 
 // ======================================== CONSTS/DEFAULTS
@@ -63,178 +67,6 @@ const DEFAULT = {
 
 
 
-// ======================================== types
-
-export type SurfaceNodesMap<
-    P extends PayloadWithKind<any>
-> = Map<P, SurfaceNode<P>>
-
-export type HasSurfaceNodesMap<
-    P extends PayloadWithKind<any>
-> = {
-    nodesMap: SurfaceNodesMap<P>
-}
-
-// ======================================== types - M_STATES
-
-type _Stage = "PROCESSING" | "DONE"
-type _M_STATES_MAP<
-    P extends PayloadWithKind<any>
-> = {
-    IDLE: {}
-    "ADD PAYLOADS": {
-        stage: _Stage
-        addedPayloads?: P[]
-    }
-    "REMOVE PAYLOADS": {
-        stage: _Stage
-        removedPayloads?: P[]
-        unableToRemovedPayloads?: P[]
-    }
-}
-
-export type BoardSurfaceM_State<
-    P extends PayloadWithKind<any>
-> = M_StateFromMap<_M_STATES_MAP<P>>
-
-// ======================================== state
-
-/**
- * * [BoardSurface] only knows about [Payloads]
- */
-export type BoardSurfaceState<
-    P extends PayloadWithKind<any>
-> =
-    & {
-        payloads: Set<P>
-        surfaceNodesMap: Map<P, SurfaceNode<P>>
-        numberOfItems: number
-        m_state: BoardSurfaceM_State<P>
-        showInfo: boolean
-        isDisabled: boolean
-    }
-
-// ======================================== events
-type _EventData<
-    P extends PayloadWithKind<any>
-> =
-    & HasPayloadWithKind<P>
-    & HasSurfaceNode<P>
-
-type _BoardSurfaceEventBase<
-    P extends PayloadWithKind<any>
-> =
-    & HasData<_EventData<P>[]>
-    & {
-        payloads: P[]
-    }
-
-type _NodesAddedEvent<
-    P extends PayloadWithKind<any>
-> =
-    & _BoardSurfaceEventBase<P>
-    & HasEventKind<"nodesAdded">
-    & {
-        addedPayloads: P[]
-    }
-
-type _NodesRemovedEvent<
-    P extends PayloadWithKind<any>
-> =
-    & _BoardSurfaceEventBase<P>
-    & HasEventKind<"nodesRemoved">
-    & {
-        removedPayloads: P[]
-        unableToRemovedPayloads: P[]
-    }
-
-
-export type BoardSurfaceEventsMap<
-    P extends PayloadWithKind<any>
-> = {
-    nodesAdded: _NodesAddedEvent<P>
-    nodesRemoved: _NodesRemovedEvent<P>
-    modalClose: {}
-}
-
-export type BoardSurfaceEventKind
-    = KeyOf<BoardSurfaceEventsMap<any>>
-
-
-export type BaseDrawerInfo =
-    & HasHeader<ReactNode>
-    & HasBody<ReactNode | FunctionComponent>
-
-
-
-type DrawerInfo =
-    XOR<
-        ReactNode,
-        BaseDrawerInfo
-    >
-
-
-export type BoardSurfaceHandleValue<
-    P extends PayloadWithKind<any>
-> = Readonly<
-    Pick<BoardSurfaceState<P>,
-        "numberOfItems"
-        | "payloads"
-        | "surfaceNodesMap"
-    >
->
-
-export type BoardSurfaceHandleRef<
-    P extends PayloadWithKind<any>
-> =
-    RefObject<BoardSurfaceHandleValue<P> | undefined>
-
-export const useBoardSurfaceHandleRef = <
-    P extends PayloadWithKind<any>
->() => {
-    return {
-        ref: useRef<BoardSurfaceHandleValue<P> | undefined>(undefined)
-    }
-}
-
-// ======================================== props
-/**
- * * [BoardSurface] only knows about [Payloads]
- */
-export type BoardSurfaceProps<
-    P extends PayloadWithKind<any>
-> =
-    & Partial<
-        & HasData<P[]>
-        & {
-            createPayloadFnMap: {
-                [k: string]: CreatePayloadFn<P>
-            }
-            payloadRenderer: PayloadRenderer<P>
-            additionalButtonsMap: ButtonsMap
-            isDisabled: boolean
-            // drawerInfo: Partial<DrawerInfo>
-            showModalWithThisContent: ReactNode | FunctionComponent | BaseDrawerInfo
-
-            handle: BoardSurfaceHandleRef<P>
-        }
-
-        & EventHandlersFromMap<
-            BoardSurfaceEventsMap<P>
-        >
-
-        & Pick<
-            SurfaceNodeProps<P>,
-            | "children"
-        >
-
-    // & {
-    //     additionalButtonsMap: ButtonsMap
-    // }
-    >
-
-
-
 // ======================================== component
 /**
  * * [BoardSurface] only knows about [Payloads]
@@ -244,19 +76,21 @@ export const BoardSurfaceComponent = <
 >({
     data: payloads_IN
     , createPayloadFnMap
-    , additionalButtonsMap
+    , additionalButtonsMap: additionalButtonsMap_IN
     , payloadRenderer
     , children = payloadRenderer ?? DEFAULT.PayloadRenderer
-    , handle
-    , isDisabled: isDisabled_IN
-    , showModalWithThisContent
+    , boardSurfaceRef
 
-    , onNodesAdded
-    , onNodesRemoved
-    , onModalClose
+    , inputViewInfo
+
+
+    , onPayloadsAdded
+    , onPayloadsRemoved
+    // , onChange
+    , onInputViewClose
 
     , ...rest
-}: BoardSurfaceProps<P>
+}: BoardSurface_Props<P>
 ) => {
 
 
@@ -270,20 +104,22 @@ export const BoardSurfaceComponent = <
             }
             , surfaceNodesMap: new Map()
             , showInfo: true
-        } as BoardSurfaceState<P>
+            , inputViewInfo: {
+                isOpen: false
+            }
+        } as BoardSurface_State<P>
         )
 
         , _refs = useRef({
             el: undefined as undefined | HTMLElement | null
-            // , surfaceNodesMap: new Map<P, SurfaceNode<P>>()
             , COUNTERS: {} as Record<string, number>
+            , previous_payloads: undefined as undefined | P[]
+            , previous_inputViewInfo: undefined as undefined | InputViewInfo
         })
 
-        , {
-            drawerInfo
-        } = _memo([showModalWithThisContent], () => {
+        , { inputViewDrawerInfo } = _memo([inputViewInfo?.content], () => {
 
-            if (!showModalWithThisContent) {
+            if (!inputViewInfo?.content) {
                 return {}
             }
 
@@ -291,19 +127,19 @@ export const BoardSurfaceComponent = <
                 header
                 , body: B
             } = (
-                isValidElement(showModalWithThisContent)
+                isValidElement(inputViewInfo?.content)
                     ? {
-                        body: showModalWithThisContent
+                        body: inputViewInfo?.content
                     }
-                    : typeof (showModalWithThisContent) === "function"
+                    : typeof (inputViewInfo?.content) === "function"
                         ? {
-                            body: showModalWithThisContent
+                            body: inputViewInfo?.content
                         }
-                        : showModalWithThisContent
-            ) as BaseDrawerInfo
+                        : inputViewInfo?.content
+            ) as DrawerInfo
 
             return {
-                drawerInfo: {
+                inputViewDrawerInfo: {
                     header
                     , body: typeof (B) === "function"
                         ? <B /> : B
@@ -355,7 +191,7 @@ export const BoardSurfaceComponent = <
         , _addPayloadAsync = _cb([
             _set_state_async
         ], async (
-            kind: P["kind"]
+            payloadKind: P["kind"]
         ) => {
 
             const {
@@ -378,16 +214,16 @@ export const BoardSurfaceComponent = <
 
             const {
                 numberOfItems
-                , payloads
+                , payloads: current_payloads
             } = await _set_state_async({
                 m_state: {
-                    name: "ADD PAYLOADS"
+                    name: "ADDING PAYLOADS"
                     , stage: "PROCESSING"
                 }
             })
-                , nextPayloads = [...payloads]
+                , next_payloads = [...current_payloads]
                 , payloadsToAdd = Array.from({ length: numberOfItems })
-                    .map(() => createPayloadFnMap[kind]())
+                    .map(() => createPayloadFnMap[payloadKind]())
 
             if (!payloadsToAdd.length) {
                 debugger
@@ -401,11 +237,11 @@ export const BoardSurfaceComponent = <
             /**
              * * nextPayloads
             */
-            nextPayloads.push(...payloadsToAdd)
+            next_payloads.push(...payloadsToAdd)
             _set_state_async({
-                payloads: new Set(nextPayloads)
+                payloads: new Set(next_payloads)
                 , m_state: {
-                    name: "ADD PAYLOADS"
+                    name: "ADDING PAYLOADS"
                     , stage: "DONE"
                     , addedPayloads: payloadsToAdd
                 }
@@ -417,9 +253,8 @@ export const BoardSurfaceComponent = <
             ...payloadsToRemove: P[]
         ) => {
 
-            const {
-                m_state
-            } = await _set_state_async()
+            const { m_state }
+                = await _set_state_async()
 
             if (m_state.name !== "IDLE"
                 || !payloadsToRemove.length
@@ -427,14 +262,13 @@ export const BoardSurfaceComponent = <
                 return
             }
 
-            const {
-                payloads
-            } = await _set_state_async({
-                m_state: {
-                    name: "REMOVE PAYLOADS"
-                    , stage: "PROCESSING"
-                }
-            })
+            const { payloads }
+                = await _set_state_async({
+                    m_state: {
+                        name: "REMOVING PAYLOADS"
+                        , stage: "PROCESSING"
+                    }
+                })
                 , nextPayloadsSet = new Set(payloads)
                 , removedPayloads = [] as P[]
                 , unableToRemovedPayloads = [] as P[]
@@ -453,7 +287,7 @@ export const BoardSurfaceComponent = <
                     : payloads
 
                 , m_state: {
-                    name: "REMOVE PAYLOADS"
+                    name: "REMOVING PAYLOADS"
                     , removedPayloads
                     , unableToRemovedPayloads
                     , stage: "DONE"
@@ -463,10 +297,8 @@ export const BoardSurfaceComponent = <
             console.log({ state_2 })
 
         }
-        , {
-            keys
-            , addItemButtonsMap
-        } = _memo([createPayloadFnMap], () => {
+
+        , { addItemButtonsMap } = _memo([createPayloadFnMap], () => {
             if (!createPayloadFnMap) {
                 return {}
             }
@@ -474,15 +306,27 @@ export const BoardSurfaceComponent = <
             return {
                 keys
                 , addItemButtonsMap: Object.fromEntries(
-                    keys.map(k => [k, () => _addPayloadAsync(k)])
+                    keys.map(k => [
+                        k
+                        , () => _addPayloadAsync(k)
+                    ] as ButtonGroupEntryItem
+                    )
                 )
             }
         })
 
-        , _handleResetButtonClick
+        ,
+        /**
+         * * [_removePayloadAsync]
+         */
+        _handleResetButtonClick
             = () => _removePayloadAsync(...state.payloads)
 
-        , _handleCloseButtonClick: NonNullable<SurfaceNodeProps<P>["onCloseButtonClick"]>
+        ,
+        /**
+         * * [_removePayloadAsync]
+         */
+        _handleCloseButtonClick: NonNullable<SurfaceNodeProps<P>["onCloseButtonClick"]>
             = ({ surfaceNode: { payload } }) => _removePayloadAsync(payload)
 
         , _handleLayoutButtonClick = _cb([
@@ -493,21 +337,15 @@ export const BoardSurfaceComponent = <
                 return
             }
 
-            const {
-                surfaceNodesMap
-            } = state
-                , {
-                    width
-                    , height
-                } = _refs.current.el.getBoundingClientRect()
+            const { surfaceNodesMap } = state
+                , { width, height }
+                    = _refs.current.el.getBoundingClientRect()
+
                 , spatialNodes = [...surfaceNodesMap.values()].map(({ spatialNode }) => spatialNode)
                 , positions = spatialNodes.map(({ position }) => position)
                 , transformations = spatialNodes.map(({ transformation }) => transformation)
                 , { jiterredPositions } = _jitterPositions({
-                    containerSize: {
-                        width
-                        , height
-                    }
+                    containerSize: { width, height }
                     , transformations
                 })
 
@@ -573,12 +411,9 @@ export const BoardSurfaceComponent = <
                     })
 
 
-                const {
-                    current: {
-                        COUNTERS
-                    }
-                } = _refs
-                    ; (COUNTERS[eventKind] ??= 0)
+                const { current: { COUNTERS } } = _refs
+                    ;
+                ; (COUNTERS[eventKind] ??= 0)
                 COUNTERS[eventKind]++
 
                 console.log(
@@ -593,20 +428,19 @@ export const BoardSurfaceComponent = <
             }
 
 
-        , _getNodesFromPayloads = (
-            ...payloads: P[]
-        ) => {
-            const {
-                surfaceNodesMap
-            } = state
-            return payloads.map(payload => {
-                return surfaceNodesMap.get(payload)!
-            })
-        }
-        , _getEventData = (): _EventData<P>[] => {
-            const {
-                surfaceNodesMap
-            } = state
+        // , _getNodesFromPayloads = (
+        //     ...payloads: P[]
+        // ) => {
+        //     const {
+        //         surfaceNodesMap
+        //     } = state
+        //     return payloads.map(payload => {
+        //         return surfaceNodesMap.get(payload)!
+        //     })
+        // }
+
+        , _getEventData = (): BoardSurface_EventData<P>[] => {
+            const { surfaceNodesMap } = state
             return [...surfaceNodesMap.entries()].map(([
                 payload
                 , surfaceNode
@@ -615,36 +449,33 @@ export const BoardSurfaceComponent = <
                 , surfaceNode
             }))
         }
-        , _handleModalClose = () => {
+
+
+        , _handleInputViewClose = () => {
             _set_state({
-                isDisabled: !state.isDisabled
+                inputViewInfo: {
+                    ...state.inputViewInfo
+                    , isOpen: false
+                }
             })
-            onModalClose?.()
+            onInputViewClose?.()
         }
-
-    console.log(
-        "HERE"
-        , pickFrom(
-            state
-            , "payloads"
-            , "surfaceNodesMap"
-        )
-    )
-
-
 
 
     _effect([
-        handle
-        , state.numberOfItems
-        , state.payloads
-        , state.surfaceNodesMap
+        boardSurfaceRef
+        , ...pickFromAsTuple(
+            state
+            , "numberOfItems"
+            , "payloads"
+            , "surfaceNodesMap"
+        )
     ], () => {
-        if (!handle) {
+        if (!boardSurfaceRef) {
             return
         }
-        handle.current =
-            pickFrom(
+        boardSurfaceRef.current
+            = pickFrom(
                 state
                 , "numberOfItems"
                 , "payloads"
@@ -652,18 +483,17 @@ export const BoardSurfaceComponent = <
             )
     })
 
-    const prevInRef = useRef<P[] | undefined>(undefined)
 
     _effect([payloads_IN], () => {
 
         if (
             !payloads_IN?.length
-            || prevInRef.current === payloads_IN
+            || _refs.current.previous_payloads === payloads_IN
         ) {
             return
         }
 
-        prevInRef.current = payloads_IN
+        _refs.current.previous_payloads = payloads_IN
 
         _set_state({
             payloads: new Set(payloads_IN)
@@ -672,12 +502,13 @@ export const BoardSurfaceComponent = <
     })
 
 
-    _effect([state.m_state], () => {
+    _effect([state.m_state.name], () => {
         switch (state.m_state.name) {
             case "IDLE": {
                 return
             }
-            case "ADD PAYLOADS": {
+
+            case "ADDING PAYLOADS": {
                 const {
                     m_state: {
                         stage
@@ -688,20 +519,20 @@ export const BoardSurfaceComponent = <
                 if (stage !== "DONE") {
                     return
                 }
-                if (!addedPayloads.length
-                    || !onNodesAdded
-                ) {
+                if (!addedPayloads.length) {
                     break
                 }
-                onNodesAdded({
-                    eventKind: "nodesAdded"
+
+                onPayloadsAdded?.({
+                    eventKind: "payloadsAdded"
                     , addedPayloads
                     , data: _getEventData()
                     , payloads: [...currentPayloads]
                 })
                 break
             }
-            case "REMOVE PAYLOADS": {
+
+            case "REMOVING PAYLOADS": {
                 const {
                     m_state: {
                         stage
@@ -722,15 +553,12 @@ export const BoardSurfaceComponent = <
                         surfaceNodesMap.delete(p)
                     })
 
-                if (
-                    !onNodesRemoved?.length
-                    || !removedPayloads?.length
-                ) {
+                if (!removedPayloads?.length) {
                     break
                 }
 
-                onNodesRemoved({
-                    eventKind: "nodesRemoved"
+                onPayloadsRemoved?.({
+                    eventKind: "payloadsRemoved"
                     , data: _getEventData()
                     , removedPayloads
                     , unableToRemovedPayloads
@@ -743,19 +571,24 @@ export const BoardSurfaceComponent = <
         _set_state({
             m_state: {
                 name: "IDLE"
+                , latestAction: state.m_state.name
             }
         })
 
     })
 
-    _effect([isDisabled_IN], () => {
-        if (typeof (isDisabled_IN) !== "boolean"
-            || state.isDisabled === isDisabled_IN
+
+    _effect([inputViewInfo], () => {
+
+        if (!inputViewInfo
+            || state.inputViewInfo === inputViewInfo
+            || _refs.current.previous_inputViewInfo === inputViewInfo
         ) {
             return
         }
+        _refs.current.previous_inputViewInfo = inputViewInfo
         _set_state({
-            isDisabled: isDisabled_IN
+            inputViewInfo
         })
 
     })
@@ -774,34 +607,23 @@ export const BoardSurfaceComponent = <
                 _refs.current.el = el
             }}
         >
-            <Drawer
-                open={state.isDisabled}
-                className="items-center pointer-events-none"
-                onClose={_handleModalClose}
-                backdrop="static"
-                centered
-                placement='left'
+            <DrawerRS
+                open={state.inputViewInfo.isOpen}
+                onClose={_handleInputViewClose}
+                {...inputViewDrawerInfo}
+            />
 
-            // keyboard={false}
-            // size="full"
-            // className="pointer-events-none"
-            >
-                <Drawer.Header>{drawerInfo?.header ?? "."}</Drawer.Header>
-                {/* <Modal.Header>
-                    <Modal.Title>.</Modal.Title>
-                </Modal.Header> */}
-                <Drawer.Body>{drawerInfo?.body ?? <NoData />}</Drawer.Body>
-
-            </Drawer>
-
-            {state.showInfo
-                && <ObjectView
-                    data={state}
+            {state.showInfo && (
+                <ObjectView
+                    data={{
+                        ...omitFrom(state, "inputViewInfo")
+                        , "state.inputViewInfo.isOpen": state.inputViewInfo.isOpen
+                    }}
                     showOnlyArrayLength
                     top={10}
                     left={10}
                     absolute
-                />}
+                />)}
 
             <div
                 data-payload-collection-container
@@ -809,7 +631,6 @@ export const BoardSurfaceComponent = <
             >
                 {[...state.payloads].map((payload, idx) => {
 
-                    // debugger
                     return (
                         <SurfaceNodeComponent
                             key={payload.id}
@@ -833,10 +654,10 @@ export const BoardSurfaceComponent = <
             </div>
 
             <BoardSurfaceControlPanel
-                isDisabled={state.isDisabled}
-                buttonsMap={{
+                buttonsAreDisabled={state.inputViewInfo.isOpen}
+                buttons={{
                     ...addItemButtonsMap
-                    , ...additionalButtonsMap
+                    , ...additionalButtonsMap_IN
                     , Sort: {
                         onClick: _handleLayoutButtonClick
                         , disabled: !state.payloads.size

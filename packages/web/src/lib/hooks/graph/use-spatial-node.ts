@@ -8,7 +8,6 @@ import {
     _t
     , SpatialNode
     , SpatialNodeInput
-    , SpatialNode_UI
     , HasSpatialNode_UI
 } from "@ns-lab-knx/logic"
 import { _effect, _memo } from "../../utils"
@@ -21,8 +20,6 @@ export type UseSpatialNodeEventsMap = {
 // ========================================
 type A =
     & PickAndPrefixKeysAndCapitalise<"initial", SpatialNodeInput, | "size" | "position">
-
-// type B = HasSpatialNode_UI
 
 export type UseSpatialNodeInput =
     & Partial<

@@ -6,7 +6,7 @@ import {
 import {
     HasPartialChildren
     , HasPayload
-    , PartialEventHandlersWithKindFromMap
+    , HasPayloadWithKind, PartialEventHandlersWithKindFromMap
     , PayloadWithKind
 } from "@ns-lab-knx/types"
 import {
@@ -23,28 +23,16 @@ import { _effect, _getById, _memo } from "../../utils"
 
 
 // ======================================== types - graph/surface lexicon
-export type HasSurfacePayload<
-    P extends PayloadWithKind<any>
-> =
-    & HasPayload<
-        P
-    >
-
-export type HasSurfacePayloadCollection<
-    P extends PayloadWithKind<any>
-> = {
-    payloads: P[]
-}
-
-
 /**
- * * [SpatialNode_UI] with [KindedPayload]
+ * * [SpatialNode_UI/HasTransformation] with [KindedPayload]
+ * 
+ * [type]
  */
 export type SurfaceNode<
     P extends PayloadWithKind<any>
 > =
+    & HasPayloadWithKind<P>
     & HasSpatialNode_UI
-    & HasSurfacePayload<P>
 
 export type HasSurfaceNode<
     P extends PayloadWithKind<any>
@@ -59,12 +47,11 @@ export type SurfaceNodeEvent<
 
 export type SurfaceNodeEventsMap<
     P extends PayloadWithKind<any>
->
-    = {
-        change: SurfaceNodeEvent<P>
-        , closeButtonClick: SurfaceNodeEvent<P>
-        , mount: SurfaceNodeEvent<P>
-    }
+> = {
+    change: SurfaceNodeEvent<P>
+    , closeButtonClick: SurfaceNodeEvent<P>
+    , mount: SurfaceNodeEvent<P>
+}
 
 export type HasSurfaceNodeChildren<
     P extends PayloadWithKind<any>
@@ -78,7 +65,7 @@ export type SurfaceNodeProps<
     P extends PayloadWithKind<any>
 >
     =
-    & HasSurfacePayload<P>
+    & HasPayloadWithKind<P>
     & HasSurfaceNodeChildren<P>
 
     & Omit<
@@ -97,8 +84,6 @@ export type SurfaceNodeProps<
 
 // ======================================== component
 /**
- * * [SpatialNode_UI] with [KindedPayload]
- * 
  * [component]
  */
 export const SurfaceNodeComponent = <
@@ -123,6 +108,8 @@ export const SurfaceNodeComponent = <
     return (
         <SpatialNodeComponent
             {...rest}
+
+            header={payload.kind}
 
             onChange={({ spatialNode }) => {
                 onChange?.({

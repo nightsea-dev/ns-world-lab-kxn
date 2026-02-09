@@ -1,6 +1,6 @@
 import {
     _cn,
-    _effect, _use_state, ClockWithShowToggle, Page, TailwindSanity_02, useElementHeight
+    _effect, _use_state, ButtonGroupRS, ClockWithShowToggle, Page, TailwindSanity_02, useElementHeight
 
 } from '@ns-lab-knx/web'
 import { API, createUser } from "@ns-lab-knx/logic"
@@ -10,7 +10,7 @@ import {
 
 } from "@ns-lab-knx/types"
 import { useId, useRef } from 'react'
-import { Button, ButtonGroup, Input, Loader } from 'rsuite'
+import { Input, Loader } from 'rsuite'
 
 const APP_NAME = '@ns-lab-knx/admin'
 // ======================================== types
@@ -128,7 +128,7 @@ export const UserAdmin = ({
                     h-full min-h-0 flex flex-col 
                     ---p-2
                 `
-                // , "border-[1px] border-gray-500"
+                // , "border border-gray-500"
                 // , "border-[10px] border-amber-500"
             )}
         >
@@ -155,22 +155,31 @@ export const UserAdmin = ({
                         }
                     }}
                 />
-                <ButtonGroup
+                <ButtonGroupRS
                     className='my-1'
                     disabled={state.status === "LOADING USERS"}
+                    buttons={{
+                        "load Users": {
+                            appearance: "primary"
+                            , onClick: _loadUsers
+                        }
+                        , reset: {
+                            disabled: !state.users.length
+                            , onClick: _reset
+                        }
+                    }}
                 >
-                    <Button
+                    {/* <Button
                         appearance='primary'
                         size='xs'
                         onClick={_loadUsers}
                     >load Users</Button>
                     <Button
-                        // appearance='ghost'
                         size='xs'
                         onClick={_reset}
                         disabled={!state.users.length}
-                    >reset</Button>
-                </ButtonGroup>
+                    >reset</Button> */}
+                </ButtonGroupRS>
                 <ClockWithShowToggle
                     data-clock
                     show

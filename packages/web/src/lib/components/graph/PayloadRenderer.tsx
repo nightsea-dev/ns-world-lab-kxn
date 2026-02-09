@@ -1,22 +1,21 @@
 import { FunctionComponent, ReactNode } from "react"
 import {
-    HasColor,
-    HasContent,
-    HasPayloadWithKind
-    , KindBase
+    HasColor
+    , HasContent
+    , HasPayloadWithKind
     , PayloadWithKind
 } from "@ns-lab-knx/types"
 import {
     ObjectView
 } from "../ui"
 import { _cn, _memo, PickHtmlAttributes } from "../../utils"
-import { getRandomColour } from "../../../../../logic/src"
+import { getRandomColour } from "@ns-lab-knx/logic"
 
 // ======================================== types
 
 export type CreatePayloadFn<
     P extends PayloadWithKind<any>
-> = () => P//ayloadWithKind<K>//P["kind"]>
+> = () => P
 
 export type HasCreatePayloadFn<
     P extends PayloadWithKind<any>

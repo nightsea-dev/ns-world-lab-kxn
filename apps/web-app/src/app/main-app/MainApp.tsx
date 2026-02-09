@@ -5,7 +5,7 @@ import {
     _cb, _effect, _memo, _use_state
     , HasSurfaceNode, ObjectView
     , Page
-    , ShowInfo, SurfaceNode
+    , ShowInfoToggle, SurfaceNode
     , ToggleRS
     , WorkspaceView
 } from "@ns-lab-knx/web"
@@ -123,9 +123,9 @@ export const MainApp = ({
                             </Nav.Item>
                         ))}
                     </Nav>
-                    <ShowInfo
+                    <ShowInfoToggle
                         checked={state.showInfo}
-                        onChange={({ value: showInfo }) => _set_state({ showInfo })}
+                        onChange={({ showInfo: showInfo }) => _set_state({ showInfo })}
                     />
                 </div>
             )}

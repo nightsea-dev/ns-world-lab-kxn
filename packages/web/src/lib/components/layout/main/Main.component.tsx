@@ -17,7 +17,7 @@ export const Main = ({
             {...rest}
             data-main
             className={_cn(
-                // "relatve border-[1px] border-[dodgerblue]"
+                // "relatve border border-[dodgerblue]"
                 //  "flex-1 p-4 h-full"
                 "flex-1 overflow-hidden"
                 , className

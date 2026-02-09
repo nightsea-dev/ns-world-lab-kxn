@@ -2,7 +2,8 @@
 import {
     DependencyList, EffectCallback, useEffect, useMemo
     , useState
-    , useCallback
+    , useCallback,
+    useLayoutEffect
 } from "react"
 
 // ========================================
@@ -46,7 +47,8 @@ export const _use_state = <
                 ]
         ) => {
             const isReducerFn = typeof (arg_0) === "function"
-                , reducerFn: ReducerFn = (p) => ({
+
+                , reducerFn: ReducerFn = p => ({
                     ...p
                     , ...(isReducerFn ? arg_0(p) : arg_0)
                 })
@@ -118,12 +120,44 @@ export const _effect = (
         ]
     return useEffect(effect, deps)
 }
+
     ,
     /**
      * ---
      * same as **useEffect**
      */
     _watch = _effect
+
+
+
+    , _layoutEffect = (
+        ...args:
+            | [
+                effect: EffectCallback
+            ]
+            | [
+                effect: EffectCallback
+                , deps?: DependencyList
+            ]
+            | [
+                deps: DependencyList
+                , effect: EffectCallback
+            ]
+    ) => {
+        const [
+            effect
+            , deps
+        ] = (
+            typeof (args[0]) === "function"
+                ? args
+                : [args[1], args[0]]
+        ) as [
+                effect: EffectCallback
+                , deps?: DependencyList
+            ]
+        return useLayoutEffect(effect, deps)
+    }
+
 
 // ========================================
 /**

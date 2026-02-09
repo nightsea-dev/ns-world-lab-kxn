@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { Toggle, ToggleProps } from "rsuite"
-import { _cn } from "../../../utils"
-import { EventHandlersFromMap, HasName, HasPartialName } from "@ns-lab-knx/types"
+import { _cn, OmitHtmlAttributes, OmitHtmlAttributesFrom, PickHtmlAttributes } from "../../../utils"
+import { EventHandlersFromMap, HasEventHandler, HasName, HasPartialEventHandler, HasPartialName, KeyOf, PartialEventHandlersFromMap, XOR } from "@ns-lab-knx/types"
 
 // ======================================== events
 export type ToggleRSEventsMap = {
@@ -10,28 +10,37 @@ export type ToggleRSEventsMap = {
     }
 }
 // ======================================== props
-export type ToggleRSProps =
-    & Omit<ToggleProps, "label" | "onChange">
-    & Partial<
-        & {
+type BaseToggleRSProps =
+    & {
+        inline: boolean
+    }
+    & XOR<
+        {
             label: ReactNode
-            inline: boolean
         }
-        & EventHandlersFromMap<ToggleRSEventsMap>
+        , {
+            children: ReactNode
+        }>
+    & EventHandlersFromMap<ToggleRSEventsMap>
+
+
+export type ToggleRSProps =
+    & Partial<
+        & BaseToggleRSProps
+        & Omit<ToggleProps, KeyOf<BaseToggleRSProps>>
     >
 
 // ======================================== component
-export const ToggleRS = (
-    {
-        size = "xs"
-        , label
-        , children = label
-        , checked
-        , inline
-        , className
-        , onChange
-        , ...rest
-    }: ToggleRSProps
+export const ToggleRS = ({
+    size = "xs"
+    , label
+    , children = label
+    , checked
+    , inline
+    , className
+    , onChange
+    , ...rest
+}: ToggleRSProps
 ) => {
 
     return (
@@ -43,11 +52,11 @@ export const ToggleRS = (
                 gap-1 
                 whitespace-nowrap 
                 text-[12px]
-                border-[1px]
+                border
                 border-gray-200
-                rounded-[8px]
-                py-[6px]
-                px-[10px]
+                rounded-lg
+                py-1.5
+                px-2.5
                 bg-white
                 ${inline ? "inline" : ""}
                     `
@@ -58,9 +67,9 @@ export const ToggleRS = (
                 {...rest}
                 checked={checked}
                 size={size}
-                onChange={value => onChange?.({
-                    value
-                })}
+                onChange={
+                    value => onChange?.({ value })
+                }
             >
                 <div
                     className="text-[12px] pt-1"
@@ -73,23 +82,40 @@ export const ToggleRS = (
 }
 
 
-// ======================================== ShowInfo
-export type ShowInfoProps =
-    & ToggleRSProps
-    & HasPartialName
-
-export const ShowInfo = (
-    {
-        name = ""
-        , inline = true
-        , ...rest
-    }: ShowInfoProps
-) => (
-    <ToggleRS
-        {...rest}
-        data-show-info
-        inline={inline}
+// ======================================== ShowInfoToggle/props
+type BaseShowInfoToggleProps =
+    & XOR<
+        HasName
+        , Pick<ToggleRSProps, "label" | "children">
     >
-        Show {name} Info
-    </ToggleRS>
-)
+    & HasEventHandler<"change", { showInfo: boolean }>
+
+export type ShowInfoToggleProps =
+    & Partial<
+        & BaseShowInfoToggleProps
+        & Omit<ToggleRSProps, KeyOf<BaseShowInfoToggleProps>>
+    >
+
+// ======================================== ShowInfoToggle/component
+export const ShowInfoToggle = ({
+    name = ""
+    , label
+    , children = label
+    , inline = true
+    , onChange
+    , ...rest
+}: ShowInfoToggleProps
+) => {
+    return (
+        <ToggleRS
+            {...rest}
+            data-show-info
+            inline={inline}
+            onChange={
+                ({ value: showInfo }) => onChange?.({ showInfo })
+            }
+        >
+            {children ?? `Show ${name} Info`}
+        </ToggleRS>
+    )
+}

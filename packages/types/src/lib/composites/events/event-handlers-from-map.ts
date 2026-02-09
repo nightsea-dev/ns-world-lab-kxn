@@ -2,62 +2,91 @@ import { HasKind } from "../../capabilities"
 import { KeyOf } from "../../ts"
 
 
-type BaseEventHandler<
-    E extends object
+/**
+ * * SuffixAndCapitaliseKey
+ */
+type Sx<
+    K extends string
 >
-    = (ev: E) => void
+    = `on${Capitalize<K>}`
+
+
+
+// ======================================== handlers
+
+type BaseEventHandler<
+    Ev extends object
+>
+    = (ev: Ev) => void
 
 export type EventHandler<
-    E extends object
+    Ev extends object
 >
-    = E extends object
+    = Ev extends object
     ? (
-        KeyOf<E> extends never
+        KeyOf<Ev> extends never
         ? () => void
-        : BaseEventHandler<E>
+        : BaseEventHandler<Ev>
     )
-    : BaseEventHandler<E>
+    : BaseEventHandler<Ev>
 
 export type HasEventHandler<
-    Sx extends string
-    , E extends object
+    EvKind extends string
+    , Ev extends object
 > = {
-        [k in `on${Capitalize<Sx>}`]: EventHandler<E>
+        [k in `on${Capitalize<EvKind>}`]: EventHandler<Ev>
     }
 
 
+export type HasPartialEventHandler<
+    EvKind extends string
+    , Ev extends object
+> = Partial<
+    HasEventHandler<EvKind, Ev>
+>
 
+// ======================================== handlers - f/map
 export type EventHandlersFromMap<
     EvMap extends Record<string, object>
 > = {
-        [k in KeyOf<EvMap> as `on${Capitalize<k>}`]: EventHandler<EvMap[k]>
+        [k in KeyOf<EvMap> as Sx<k>]: EventHandler<EvMap[k]>
     }
 
 
 export type PartialEventHandlersFromMap<
     EvMap extends Record<string, object>
-> = EventHandlersFromMap<EvMap>
+> = Partial<EventHandlersFromMap<EvMap>>
 
-
-
-
-// ========================================
-
+// ======================================== events - w/kind
 export type HasEventKind<
     K extends any = unknown
 > = {
     eventKind: K
 }
 
+export type EventWithKind<
+    Ev extends object
+    , K extends string
+> =
+    & Ev
+    & HasEventKind<K>
+
+export type EventsWithKindFromMap<
+    EvMap extends Record<string, object>
+> = {
+        [k in KeyOf<EvMap>]: EventWithKind<EvMap[k], k>
+    }
+
+
+
+// ======================================== handlers - w/kind
 export type EventHandlersWithKindFromMap<
     EvMap extends Record<string, object>
 > = {
-        [k in KeyOf<EvMap> as `on${Capitalize<k>}`]: EventHandler<
-            & EvMap[k]
-            & HasEventKind<k>
+        [k in KeyOf<EvMap> as Sx<k>]: EventHandler<
+            & EventWithKind<EvMap[k], k>
         >
     }
-
 
 export type PartialEventHandlersWithKindFromMap<
     EvMap extends Record<string, object>

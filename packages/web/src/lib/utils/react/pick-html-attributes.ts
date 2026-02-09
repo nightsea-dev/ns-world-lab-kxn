@@ -4,7 +4,7 @@ import { KeyOf } from "@ns-lab-knx/types"
 
 
 export type PickHtmlAttributes<
-    Pk extends KeyOf<HTMLAttributes<T>>
+    Pk extends KeyOf<HTMLAttributes<T>> = KeyOf<HTMLAttributes<HTMLElement>>
     , T = HTMLElement
 > = Pick<HTMLAttributes<T>, Pk>
 
@@ -27,3 +27,8 @@ export type {
     PickHtmlAttributes as HasHtmlAttributes
     , OmitHtmlAttributes as HasHtmlAttributesOmitted
 }
+
+
+export type OmitHtmlAttributesFrom<
+    T
+> = Omit<T, KeyOf<HTMLAttributes<HTMLElement>>>

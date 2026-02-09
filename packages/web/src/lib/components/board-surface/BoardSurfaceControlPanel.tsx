@@ -1,12 +1,9 @@
-import {
-
-} from "react"
 import { _cn } from "../../utils"
-import { EventHandlersFromMap, XOR } from "@ns-lab-knx/types"
+import { EventHandlersFromMap, PartialEventHandlersFromMap, PickRequired, PickRequiredRestPartial, XOR } from "@ns-lab-knx/types"
 import {
     Input
 } from "rsuite"
-import { ButtonGroupRS, ButtonGroupRSProps, ShowInfo, ToggleRS } from "../ui"
+import { ButtonGroupRS, ButtonGroupRSProps, ShowInfoToggle, ToggleRS } from "../ui"
 
 
 // ======================================== events
@@ -29,23 +26,21 @@ export type BoardSurfaceControlPanelProps =
     & {
         numberOfItems?: number
         showInfo?: boolean
-        isDisabled?: boolean
+        buttonsAreDisabled?: boolean
     }
-    & Pick<
+    & PickRequired<
         ButtonGroupRSProps
-        , "buttonsMap"
+        , "buttons"
     >
-    & Partial<
-        & EventHandlersFromMap<BoardSurfaceControlPanelEventsMap>
-    >
+    & PartialEventHandlersFromMap<BoardSurfaceControlPanelEventsMap>
 
 
 // ======================================== component
 export const BoardSurfaceControlPanel = ({
-    buttonsMap
+    buttons: buttonsMap
     , numberOfItems
     , showInfo = true
-    , isDisabled
+    , buttonsAreDisabled
     , onChange
     , onEnterKey
 }: BoardSurfaceControlPanelProps
@@ -61,11 +56,11 @@ export const BoardSurfaceControlPanel = ({
                 `
             )}
         >
-            <ShowInfo
+            <ShowInfoToggle
                 checked={showInfo}
                 name="BoardSurface"
                 size="xs"
-                onChange={({ value: showInfo }) => onChange?.({
+                onChange={({ showInfo: showInfo }) => onChange?.({
                     numberOfItems
                     , showInfo
                 })}
@@ -99,8 +94,8 @@ export const BoardSurfaceControlPanel = ({
                 }}
             />
             <ButtonGroupRS
-                buttonsMap={buttonsMap}
-                disabled={isDisabled}
+                buttons={buttonsMap}
+                disabled={buttonsAreDisabled}
             />
         </div>
     )

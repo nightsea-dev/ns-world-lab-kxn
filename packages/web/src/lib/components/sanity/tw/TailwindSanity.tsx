@@ -40,8 +40,8 @@ export const TailwindSanity_01 = () => {
                     </p>
 
                     <div
-                        className="border-[1px] border-gray-200 p-2 my-2 rounded-[10px]"
-                    // className="border-[1px] border-blue-500 p-2"
+                        className="border border-gray-200 p-2 my-2 rounded-[10px]"
+                    // className="border border-blue-500 p-2"
                     // className="border border-blue-500 p-2"
                     // style={{
                     //     border:"1px solid red"

@@ -54,13 +54,13 @@ export const Page = ({
                 `
                     relative
                     flex-1 min-h-0 overflow-hidden
-                    border-[1px] border-blue-500
+                    border border-blue-500
                     border-gray-200
                     p-3
                 `
                 // , `
                 // flex-1 min-h-0 overflow-hidden
-                // border-[1px] border-blue-500
+                // border border-blue-500
                 //  border-gray-200
                 //  p-3
                 // `

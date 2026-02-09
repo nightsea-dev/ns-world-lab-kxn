@@ -5,3 +5,9 @@ export type HasPayload<
 > = {
     payload: P
 }
+
+export type HasPayloads<
+    P extends any = unknown
+> = {
+    payloads: P[]
+}

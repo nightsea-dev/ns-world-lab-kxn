@@ -1,4 +1,4 @@
-import { Image, ImageWithKind, MimeType, PickRequiredRestPartial, Size } from "@ns-lab-knx/types"
+import { Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-lab-knx/types"
 import { createID, createSize } from "../primitives"
 import { faker } from "@faker-js/faker"
 
@@ -25,7 +25,7 @@ export const createSeed = (): string => {
 
     , createImageWithKind = ({
         id = createID()
-        , mimeType = "image/jpeg" as MimeType
+        , mimeType = "image/jpeg" as MIME_TYPE
         , ...rest
     }: PickRequiredRestPartial<
         Omit<ImageWithKind, "kind">
@@ -40,7 +40,7 @@ export const createSeed = (): string => {
 
     , createFakeImageWithKind = ({
         id = createID()
-        , mimeType = "image/jpeg" as MimeType
+        , mimeType = "image/jpeg" as MIME_TYPE
         , name = faker.animal.petName()
         , size
         , dimensions

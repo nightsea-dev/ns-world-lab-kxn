@@ -1,4 +1,4 @@
-import { EntryOf } from "@ns-lab-knx/types"
+import { EntryItemOf } from "@ns-lab-knx/types"
 
 export type EntriesOfOptions =
     & {
@@ -10,8 +10,8 @@ export const entriesOf = <T extends object>(
     , {
         sorted
     } = {} as EntriesOfOptions
-): EntryOf<T>[] => {
-    const entries = Object.entries(o) as EntryOf<T>[]
+): EntryItemOf<T>[] => {
+    const entries = Object.entries(o) as EntryItemOf<T>[]
     return !sorted
         ? entries
         : sorted === "localeCompare"

@@ -41,5 +41,11 @@ export const _cn = (...args: CnInput[]): string => {
         }
     }
 
-    return out.join(" ")
+    return [...new Set(
+        out.join(" ").split(" ")
+            .map(v => v.trim())
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b))
+    )].join("\n")
+    // return [...new Set(out)].sort((a, b) => a.localeCompare(b)).join(" ")
 }

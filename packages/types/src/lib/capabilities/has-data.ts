@@ -8,3 +8,6 @@ export type HasData<
 export type HasPartialData<
     D extends any = unknown
 > = Partial<HasData<D>>
+
+
+

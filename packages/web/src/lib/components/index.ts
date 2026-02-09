@@ -1,5 +1,5 @@
 export * from './board-surface'
 export * from './graph'
 export * from './layout'
-export * from './ui'
 export * from './sanity'
+export * from './ui'

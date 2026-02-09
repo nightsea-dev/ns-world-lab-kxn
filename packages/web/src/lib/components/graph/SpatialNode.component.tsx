@@ -30,10 +30,7 @@ import {
     useSpatialNode
     , UseSpatialNodeInput
 } from "../../hooks/"
-import {
-    CloseButton
-    , CloseButtonProps
-} from "../ui"
+import { CloseButton, CloseButtonProps } from "../ui"
 
 type H = HTMLElement | undefined
 
@@ -72,7 +69,9 @@ const _moveToFront = ({
         el: HTMLElement
     }
 >
-) => !el || el.parentElement!.append(el)
+) => {
+    !el || el.parentElement!.append(el)
+}
 
 // ======================================== events
 export type SpatialNodeComponentEvent
@@ -366,3 +365,7 @@ export const SpatialNodeComponent = ({
     )
 }
 
+
+
+
+    , DragabbleNode = SpatialNodeComponent

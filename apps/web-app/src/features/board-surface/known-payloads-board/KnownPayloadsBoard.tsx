@@ -1,106 +1,46 @@
 import {
     _effect
-    , BoardSurfaceProps
-    , BoardSurfaceComponent,
-    HasCreatePayloadFn,
-    _memo,
+    , BoardSurfaceComponent
+    , _memo,
     _use_state,
     PayloadRenderer,
-    ObjectView,
-    BoardSurfaceHandleValue,
-    BoardSurfaceHandleRef,
+    DrawerInfo,
+    _getFileUrl,
+    BoardSurface_Props,
     useBoardSurfaceHandleRef,
-    BaseDrawerInfo
+    BoardSurface_EventsMap,
 } from '@ns-lab-knx/web'
 import {
-    createID,
     createIdeaWithAuthor,
-    createImageWithKind,
+    pickFromAsArray,
+    pickFromAsTuple,
 } from "@ns-lab-knx/logic"
-import { IFrameWithKind, PickRestPartial } from '@ns-lab-knx/types'
+import { HasPayloads, PickRequired } from '@ns-lab-knx/types'
 import {
-    _getFileTypeUrl,
-    IdeaPayloadRenderer
-    , IFramePayloadRenderer
-    , ImageUploader, ImageUploaderProps, ImagePayloadRenderer,
-    IFrameInputView,
-    IFrameInputViewProps,
-    IFrameDataItem
-} from '../../../components'
-import { ComponentProps, useRef } from 'react'
-import { FileType, Header } from 'rsuite'
+    KNOWN_PAYLOAD_RENDERERS_BY_KIND
+    , KnownPayload
+    , KnownPayloadKind
+} from './KnownPayloadRenderer'
+import { KNOWN_PAYLOAD_LOADER_DRAWER_INFOS_MAP, KnownPayloadLoaderProps } from './KnownPayloadLoader'
 
 // ======================================== helpers
-const _fromFileTypeToImageWithKind = (
-    {
-        blobFile
-        , fileKey
-        , name
-        , progress
-        , status
-        , url
-    }: FileType
-) => !blobFile
-        ? undefined
-        : createImageWithKind({
-            file: blobFile
-            , src: _getFileTypeUrl(blobFile)!
-            , name: blobFile.name
-        })
 
-    , _fromIFrameDataItemToIFrameWithKind = ({
-        id = createID()
-        , name
-        , url: src
-    }: PickRestPartial<IFrameDataItem, "name" | "url">
-    ) => {
-        return ({
-            id
-            , kind: "iframe"
-            , name
-            , src
-        } as IFrameWithKind)
-    }
 
 // ======================================== CONST
-const KNOWN_PAYLOAD_RENDERERS_MAP = {
-    IdeaPayloadRenderer
-    , IFramePayloadRenderer
-    , ImagePayloadRenderer
-}
-type KNOWN_PAYLOAD_RENDERERS_MAP = typeof KNOWN_PAYLOAD_RENDERERS_MAP
-type KnownPayloadRendererKey = keyof KNOWN_PAYLOAD_RENDERERS_MAP
-type KnownPayloadRenderer = KNOWN_PAYLOAD_RENDERERS_MAP[KnownPayloadRendererKey]
-type KnownPayload = ComponentProps<KnownPayloadRenderer>["payload"]
-
-type KnownPayloadKind = KnownPayload["kind"]
-type KnownPayloadOf<
-    K extends KnownPayloadKind
-> = Extract<KnownPayload, { kind: K }>
-
-type KNOWN_PAYLOAD_RENDERERS_BY_KIND = {
-    [R in KnownPayloadRenderer as ComponentProps<R>["payload"]["kind"]]: R
-}
-
-const KNOWN_PAYLOAD_RENDERERS_BY_KIND = {
-    idea: IdeaPayloadRenderer
-    , iframe: IFramePayloadRenderer
-    , image: ImagePayloadRenderer
-} as KNOWN_PAYLOAD_RENDERERS_BY_KIND
 
 
 type M_State =
     | {
         name: "IDLE"
+        lastestAction?: string
     }
     | {
-        name: "IFRAME"
-        status: "showing IFRAME input"
+        name: "SHOWING DRAWER"
+        // status: "showing IFRAME input" | "showing IMAGE input"
+        payloadKind: KnownPayloadKind
     }
-    | {
-        name: "IMAGE"
-        status: "showing IMAGE input"
-    }
+
+type M_StateName = M_State["name"]
 
 type State =
     & {
@@ -115,10 +55,10 @@ type State =
 export type KnownPayloadsBoardProps =
     & Partial<
         & Pick<
-            BoardSurfaceProps<KnownPayload>,
+            BoardSurface_Props<KnownPayload>,
             | "data"
-            | "onNodesAdded"
-            | "onNodesRemoved"
+            | "onPayloadsAdded"
+            | "onPayloadsRemoved"
         >
     >
 // ======================================== component
@@ -140,26 +80,99 @@ export const KnownPayloadsBoard = ({
         } = useBoardSurfaceHandleRef<KnownPayload>()
 
 
+        , { openInputView } = _memo([state.m_state.name], () => {
+
+            const openInputView = state.m_state.name === "SHOWING DRAWER"
+
+            console.log({
+                "state.m_state.name": state.m_state.name
+                , openInputView
+            })
+
+            // debugger
+
+            return { openInputView }
+
+        })
+
+        , _setTo_IDLE = (
+            lastestAction: string
+        ) => {
+
+            _set_state({
+                m_state: {
+                    name: "IDLE"
+                    , lastestAction
+                }
+            })
+        }
+
+        , surfaceBoardHandlers = {
+            onInputViewClose() {
+                _setTo_IDLE("surfaceBoardHandlers.onInputViewClose")
+            }
+            , onPayloadsAdded({
+                payloads
+            }) {
+                _set_state({ payloads })
+            }
+            , onPayloadsRemoved({ payloads }) {
+                _set_state({ payloads })
+            }
+        } as PickRequired<BoardSurface_Props<KnownPayload>, "onInputViewClose" | "onPayloadsAdded" | "onPayloadsRemoved">
+
+        , inputViewHanders = {
+            onCancel() {
+                _setTo_IDLE("inputViewHanders.onCancel")
+            }
+            , onClear() {
+                _set_state(p => ({
+                    ...p
+                    , payloads: []
+                }))
+            }
+            , onDone({
+                payloads: new_payloads
+            }) {
+
+                const {
+                    payloads: current_payloads
+                } = state
+
+                    , payloads = [
+                        ...current_payloads
+                        , ...new_payloads
+                    ]
+
+                _set_state({ payloads })
+
+                _setTo_IDLE("inputViewHanders.onDone")
+
+            }
+        } as Pick<KnownPayloadLoaderProps<KnownPayloadKind>, "onCancel" | "onClear" | "onDone">
+
+
         , _handleButtonClick = (
-            kind: KnownPayloadKind
+            payloadKind: KnownPayloadKind
         ) => {
 
             if (state.m_state.name !== "IDLE") {
                 return
             }
 
-            switch (kind) {
+            switch (payloadKind) {
                 case "idea": {
 
                     const {
-                        payloads: data
+                        payloads: current_payloads
                     } = state
+                        , next_payloads = [...current_payloads]
                         , {
                             current: {
                                 numberOfItems = 1
                             } = {}
                         } = _boardSurfaceHandleRef ?? {}
-                    data.push(
+                    next_payloads.push(
                         ...(
                             Array.from({
                                 length: Math.max(1, numberOfItems)
@@ -167,15 +180,15 @@ export const KnownPayloadsBoard = ({
                                 .map(() => createIdeaWithAuthor())
                         ))
                     _set_state({
-                        payloads: [...data]
+                        payloads: next_payloads
                     })
                     break
                 }
                 case "iframe": {
                     _set_state({
                         m_state: {
-                            name: "IFRAME"
-                            , status: "showing IFRAME input"
+                            name: "SHOWING DRAWER"
+                            , payloadKind
                         }
                     })
                     break
@@ -183,8 +196,8 @@ export const KnownPayloadsBoard = ({
                 case "image": {
                     _set_state({
                         m_state: {
-                            name: "IMAGE"
-                            , status: "showing IMAGE input"
+                            name: "SHOWING DRAWER"
+                            , payloadKind
                         }
                     })
                     break;
@@ -193,94 +206,49 @@ export const KnownPayloadsBoard = ({
 
         }
 
-        , _handleModalClose = () => {
-            _set_state({
-                m_state: {
-                    name: "IDLE"
-                }
-                // , drawerInfo: undefined
-            })
-        }
-        , _handleImageInput: ImageUploaderProps["onDone"] = ({
-            fileList
-        }) => {
 
-            if (!fileList.length) {
-                return
-            }
-            const {
-                payloads
-            } = state
-            payloads.push(
-                ...fileList.map(o => _fromFileTypeToImageWithKind(o)!)
-                    .filter(Boolean)
-            )
-            _set_state({
-                payloads: [...payloads]
-            })
 
-        }
-        
-        , _handleIFrameInput: IFrameInputViewProps["onDone"] = ({
-            data
-        }) => {
+        , { inputViewDrawerInfo } = _memo([
+            state.m_state.name
+            , ...pickFromAsArray(inputViewHanders)
+            // , surfaceBoardHandlers.onInputViewClose
+            // , surfaceBoardHandlers.onPayloadsAdded
+            // , surfaceBoardHandlers.onPayloadsRemoved
+        ], () => {
 
-            if (!data.length) {
-                return
+            const { m_state } = state
+
+            if (m_state.name !== "SHOWING DRAWER") {
+                return {}
             }
 
             const {
-                payloads
-            } = state
+                header
+                , body: R
+            } = KNOWN_PAYLOAD_LOADER_DRAWER_INFOS_MAP[
+            m_state.payloadKind
+            ]!
 
-            payloads.push(
-                ...data
-                    .map(_fromIFrameDataItemToIFrameWithKind)
-                    .filter(Boolean)
-            )
-
-            _set_state({
-                payloads: [...payloads]
-            })
-
-        }
-
-        , _handleChange = ({
-            payloads
-        }: { payloads: KnownPayload[] }
-        ) => {
-            _set_state({ payloads })
-        }
-
-        , boardSurfaceIsDisabled
-            = state.m_state.name === "IFRAME"
-            || state.m_state.name === "IMAGE"
-
-        , showModalWithThisContent = (() => {
-            switch (state.m_state.name) {
-                case "IFRAME": {
-                    return ({
-                        body: (<IFrameInputView
-                            onDone={_handleIFrameInput}
-                            onCancel={_handleModalClose}
-                        />)
-                    } as BaseDrawerInfo)
-                }
-                case "IMAGE": {
-                    return ({
-                        body: (
-                            <ImageUploader
-                                onDone={_handleImageInput}
-                                onCancel={_handleModalClose}
-                            />)
-                        , header: (
-                            <div
-                                className='text-2xl'
-                            >Add Images</div>)
-                    } as BaseDrawerInfo)
-                }
+            if (typeof (R) !== "function") {
+                throw new Error(`[R] must be a function`)
             }
-        })()
+
+            console.log("R", R.name)
+
+            return {
+                inputViewDrawerInfo: {
+                    header
+                    , body: (
+                        <R
+                            {...inputViewHanders}
+                        // onCancel={_handle_BoardSurface_InputView_Close}
+                        // onDone={_handle_BoardSurface_InputView_Done_addPayloads}
+                        // onClear={_handle_BoardSurface_InputView_Clear}
+                        />
+                    )
+                } as DrawerInfo
+            }
+        })
 
     _effect([data_IN], () => {
         if (!data_IN || data_IN === state.payloads) {
@@ -298,14 +266,11 @@ export const KnownPayloadsBoard = ({
         }
 
         _set_state({
-            payloads: [createIdeaWithAuthor()]
+            payloads: [createIdeaWithAuthor()]  // as per [KNX] codebase
             , isFirstRender: false
         })
 
     })
-
-
-
 
 
     return (
@@ -317,28 +282,34 @@ export const KnownPayloadsBoard = ({
                 `}
             data-known-payload-board
         >
-            <ObjectView
-                header="data-known-payload-board"
-                data={state.m_state}
-                showOnlyArrayLength
-                top={10}
-                right={10}
-                absolute
-            />
             <BoardSurfaceComponent<KnownPayload>
                 {...rest}
+
                 data={state.payloads}
+
                 additionalButtonsMap={{
-                    "Add Idea": () => _handleButtonClick("idea")
-                    , "Add IFrame": () => _handleButtonClick("iframe")
-                    , "Add Image": () => _handleButtonClick("image")
+                    "Add Idea": {
+                        onClick: () => _handleButtonClick("idea")
+                        // , disabled: state.m_state.name !== "IDLE"
+                    }
+                    , "Add IFrame": {
+                        onClick: () => _handleButtonClick("iframe")
+                        // , disabled: state.m_state.name !== "IDLE"
+                    }
+                    , "Add Image": {
+                        onClick: () => _handleButtonClick("image")
+                        // , disabled: state.m_state.name !== "IDLE"
+                    }
                 }}
-                handle={_boardSurfaceHandleRef}
-                isDisabled={boardSurfaceIsDisabled}
-                onModalClose={_handleModalClose}
-                showModalWithThisContent={showModalWithThisContent}
-                onNodesAdded={_handleChange}
-                onNodesRemoved={_handleChange}
+
+                boardSurfaceRef={_boardSurfaceHandleRef}
+
+                inputViewInfo={{
+                    content: inputViewDrawerInfo
+                    , isOpen: openInputView
+                }}
+
+                {...surfaceBoardHandlers}
             >
                 {({
                     payload
@@ -356,7 +327,7 @@ export const KnownPayloadsBoard = ({
                     }
                     const R = KNOWN_PAYLOAD_RENDERERS_BY_KIND[kind] as PayloadRenderer<KnownPayload>
                     return <R
-                        payload={payload as KnownPayload}
+                        payload={payload}
                     />
                 }}
             </BoardSurfaceComponent>

@@ -1,4 +1,4 @@
-import { KeyOf } from "@ns-lab-knx/types";
+import { KeyOf, ValueOf } from "@ns-lab-knx/types";
 
 export const keysOf = <
     T extends object
@@ -7,6 +7,6 @@ export const keysOf = <
 
 export const valuesOf = <
     T extends object
->(o: T): (T[KeyOf<T>])[] =>
-    Object.entries(o) as (T[KeyOf<T>])[]
+>(o: T): ValueOf<T>[] =>
+    [...Object.values(o)]
 
