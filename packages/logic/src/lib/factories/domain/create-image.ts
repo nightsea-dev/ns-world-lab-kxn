@@ -1,4 +1,4 @@
-import { Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-lab-knx/types"
+import { Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-world-lab-knx/types"
 import { createID, createSize } from "../primitives"
 import { faker } from "@faker-js/faker"
 

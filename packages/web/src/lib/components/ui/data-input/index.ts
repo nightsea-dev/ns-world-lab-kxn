@@ -1,4 +1,3 @@
-export * from "./FormValueInput"
-export * from "./TextNumberForm"
+export * from "./simple-form"
 export * from "./file-dialog"
 export * from "./image-uploader-rs"

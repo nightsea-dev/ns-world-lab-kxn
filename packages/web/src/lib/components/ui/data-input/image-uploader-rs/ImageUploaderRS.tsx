@@ -7,18 +7,14 @@ import {
 import {
     EventHandlersFromMap
     , HasId
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import {
     ControlButtons
-    , ControlButtonsProps, ControlButtonsRenderer
+    , ControlButtonsRenderer
 } from "../../buttons"
 import {
-    FileDialogInput
-    , FileDialogInputProps
-} from "../file-dialog"
-import {
-    _effect, _filterFiles, _getFileID
-    , _getFileUrl, _memo, _use_state
+    _effect, _filterFiles, _getFileID as _getFileID_fromFile
+    , _getFileUrl as _getUrl_fromFile, _memo, _use_state
 } from "../../../../utils"
 import {
     HasLoadedFileItems
@@ -26,8 +22,6 @@ import {
 } from "../../../../types"
 import { Box, ObjectView } from "../../_basic"
 import { ImageInfo, ImageCard } from "../../media"
-import { ListNS } from "../../collections"
-import { pickFrom } from "../../../../../../../logic/src"
 
 
 // ======================================== types
@@ -43,15 +37,15 @@ const _transform_LoadedFileItem_to_LoadedFileItemWithID = (
     , id: loadedFileItem.fileID
 })
 
-    , _transform_RsFileType_to_LoadedFileItem = ({
+    , _transform_RsFileType_to_LoadedFileItemWithID = ({
         blobFile
     }: FileType
     ): LoadedFileItemWithID => {
-        const fileID = _getFileID(blobFile!)!
+        const fileID = _getFileID_fromFile(blobFile!)!
         return {
             ...blobFile!
             , fileID
-            , url: _getFileUrl(blobFile!)!
+            , url: _getUrl_fromFile(blobFile!)!
             , id: fileID
         }
     }
@@ -63,9 +57,10 @@ const _transform_LoadedFileItem_to_LoadedFileItemWithID = (
             fileID: id
             , name
             , url: src
-        } = _transform_RsFileType_to_LoadedFileItem(fileType)
+        } = _transform_RsFileType_to_LoadedFileItemWithID(fileType)
         return { id, src, name }
     }
+
 
 
 
@@ -87,14 +82,18 @@ export type ImageUploaderRS_Props =
     & Partial<
         & {
             controlButtonsRenderer: ControlButtonsRenderer
+            placeholder: ReactNode
         }
-        & Pick<FileDialogInputProps, "placeholder">
+        // & Pick<FileDialogInputProps, "placeholder">
         & EventHandlersFromMap<ImageUploaderRS_EventsMap>
     >
 
 
 
 // ======================================== component
+/**
+ * @deprecated use **FileDialogInput**
+ */
 export const ImageUploaderRS = ({
     placeholder = "Click to upload or drag an image"
     , controlButtonsRenderer: R = ControlButtons
@@ -109,57 +108,85 @@ export const ImageUploaderRS = ({
             loadedFileItemsWithID: [] as LoadedFileItemWithID[]
             , status: "IDLE" as ImageUploaderRS_Status
         })
+
         , { imageInfos } = _memo([state.loadedFileItemsWithID]
             , () => ({
                 imageInfos: state.loadedFileItemsWithID.map(_transform_RsFileType_to_ImageInfo)
             })
         )
 
-        , _handle_FileDialogInput_Click: FileDialogInputProps["onClick"]
-            = ev => {
+        , _add_files = (
+            fileItems: (LoadedFileItemWithID | LoadedFileItem)[]
+        ) => {
+            const fileItemsToAdd = fileItems.map(o => ({
+                ...o
+                , id: (o as HasId).id ?? o.fileID
+            } as LoadedFileItemWithID))
 
+            if (!fileItemsToAdd.length) {
+                return
             }
 
-        , _handle_FileDialogInput_Load: FileDialogInputProps["onLoad"]
-            = ({ loadedFileItems }) => {
+            _set_state_async({
+                status: "PROCESSING"
+            }).then(state => {
 
-                debugger
+                _set_state(p => {
+                    const next_loadedFileItemsWithID = [
+                        ...p.loadedFileItemsWithID
+                        , ...fileItemsToAdd
+                    ]
+                        , unique_loadedFileItemsWithID
+                            = [...new Map(
+                                next_loadedFileItemsWithID
+                                    .map(o => [o.fileID, o]
+                                    )
+                            ).values()]
 
-                _set_state_async({
-                    status: "PROCESSING"
-                }).then(state => {
-
-                    debugger
-
-                    const {
-                        filteredFiles: fileItemsToAdd
-                        , normalisedFiles
-                    } = _filterFiles(loadedFileItems, state.loadedFileItemsWithID)
-
-                    if (!fileItemsToAdd.length) {
-                        return
+                    return {
+                        ...p
+                        , loadedFileItemsWithID: unique_loadedFileItemsWithID
                     }
-
-                    _set_state(p => {
-                        const next_loadedFileItemsWithID = [...p.loadedFileItemsWithID]
-                        next_loadedFileItemsWithID.push(
-                            ...fileItemsToAdd.map(_transform_LoadedFileItem_to_LoadedFileItemWithID)
-                        )
-                        return {
-                            ...p
-                            , loadedFileItemsWithID: next_loadedFileItemsWithID
-                        }
-                    })
-
-
-                }).finally(() => {
-                    _set_state_async({
-                        status: "IDLE"
-                    })
                 })
 
 
-            }
+            }).finally(() => {
+                _set_state_async({
+                    status: "IDLE"
+                })
+            })
+
+
+        }
+
+        // , _handle_FileDialogInput_Change: FileDialogInputProps["onChange"]
+        //     = ev => {
+
+        //         const {
+        //             loadedFileItemsWithID: current_loadedFileItemsWithID
+        //         } = state
+        //             , {
+        //                 eventKind
+        //                 , loadedFileItems
+        //             } = ev
+
+        //         switch (eventKind) {
+        //             case "added fileItems": {
+        //                 break
+        //             }
+        //             case "removed  fileItems": {
+        //                 break
+        //             }
+        //             case "clear": {
+        //                 break
+        //             }
+        //         }
+        //         debugger
+        //         _add_files(loadedFileItems)
+
+
+        //     }
+
 
         , _handleControlButtonDone = () => {
             const { loadedFileItemsWithID: loadedFileItems } = state
@@ -167,19 +194,13 @@ export const ImageUploaderRS = ({
             onCancel?.()
         }
 
-        , _handleLoaderClick: RSUploaderProps["onClickCapture"] = ev => {
-            if (state.status === "SEEKING") {
-                return
-            }
-            _set_state({
-                status: "SEEKING"
-            })
-        }
 
+        , _handle_RSUploader_Click: RSUploaderProps["onClickCapture"]
+            = ev => {
+
+            }
         , _handleRsUploaderChange: RSUploaderProps["onChange"]
-            = fileTypeList => _handle_FileDialogInput_Load({
-                loadedFileItems: fileTypeList.map(_transform_RsFileType_to_LoadedFileItem)
-            })
+            = fileTypeList => _add_files(fileTypeList.map(_transform_RsFileType_to_LoadedFileItemWithID))
 
         , _handleControlButtonClear = (
             ...fileList: FileType[]
@@ -195,7 +216,7 @@ export const ImageUploaderRS = ({
             fileList.forEach(({
                 blobFile
             }) => {
-                const url = _getFileUrl(blobFile)
+                const url = _getUrl_fromFile(blobFile)
                     ; !url || URL.revokeObjectURL(url)
             })
             _set_state({
@@ -203,7 +224,7 @@ export const ImageUploaderRS = ({
             })
         }
 
-        , _handleRsUploaderRemove: RSUploaderProps["onRemove"] = ({
+        , _handle_RSUploader_Remove: RSUploaderProps["onRemove"] = ({
             blobFile
         }) => {
 
@@ -211,7 +232,7 @@ export const ImageUploaderRS = ({
                 return
             }
 
-            const fileID_toRemove = _getFileID(blobFile)!
+            const fileID_toRemove = _getFileID_fromFile(blobFile)!
                 , {
                     loadedFileItemsWithID: current_loadedFileItems
                 } = state
@@ -226,7 +247,7 @@ export const ImageUploaderRS = ({
             _handleControlButtonClear(removedITem)
         }
 
-        , _handleRsUploaderRenderInfo: RSUploaderProps["renderFileInfo"] = (
+        , _handle_RSUploader_RenderInfo: RSUploaderProps["renderFileInfo"] = (
             fileType
             , fileElement
         ) => {
@@ -238,8 +259,6 @@ export const ImageUploaderRS = ({
                     />
             )
         }
-
-
 
 
     _effect([], () => {
@@ -280,65 +299,56 @@ export const ImageUploaderRS = ({
                 />
             )}
 
-            <FileDialogInput
-                multiple
-                onLoad={_handle_FileDialogInput_Load}
-                onClick={_handle_FileDialogInput_Click}
-                placeholder={placeholder}
-            />
-            <div>imageInfos: {imageInfos.length}</div>
-            {/* 
-            {false &&
-                <RSUploader
-                    action=""
-                    autoUpload={false}
+            {/* <Box
+                header={FileDialogInput.name}
+            >
+                <FileDialogInput
                     multiple
-                    draggable
-                    accept="image/*"
-                    fileList={state.loadedFileItemsWithID}
-                    className="cursor-default"
-                    style={{
-                        cursor: "default"
-                    }}
-                    onClickCapture={_handleLoaderClick}
-                    onBeforeInput={ev => {
-                        console.log("onBeforeInput", ev)
-                        debugger
-                    }}
-                    onChange={_handleRsUploaderChange}
-                    onRemove={_handleRsUploaderRemove}
-                    renderFileInfo={_handleRsUploaderRenderInfo}
-                >
-                    <div style={{
-                        height: 200
-                        , display: 'flex'
-                        , alignItems: 'center'
-                        , justifyContent: 'center'
-                    }}>
-                        <span>{message}</span>
-                    </div>
-                </RSUploader>
-            } */}
+                    // onLoad={_handle_FileDialogInput_Load}
+                    onChange={_handle_FileDialogInput_Change}
+                    placeholder={placeholder}
+                />
+            </Box> */}
+            <RSUploader
+                action=""
+                autoUpload={false}
+                multiple
+                draggable
+                accept="image/*"
+                fileList={state.loadedFileItemsWithID}
+                className="cursor-default"
+                style={{
+                    cursor: "default"
+                }}
+                onClickCapture={_handle_RSUploader_Click}
+                onBeforeInput={ev => {
+                    console.log("onBeforeInput", ev)
+                    debugger
+                }}
+                onChange={_handleRsUploaderChange}
+                onRemove={_handle_RSUploader_Remove}
+                renderFileInfo={_handle_RSUploader_RenderInfo}
+            >
+                <div style={{
+                    height: 200
+                    , display: 'flex'
+                    , alignItems: 'center'
+                    , justifyContent: 'center'
+                }}>
+                    <span>{placeholder}</span>
+                </div>
+            </RSUploader>
 
-            {/* <ImageGrid
-                data={state.fileInputItems}
-                noData={(
-                    <div
-                        className="text-gray-500"
-                    >
-                        No images selected
-                    </div>
-                )}
-            /> */}
 
-            <ListNS
+            {/* <ListNS
+                header={[ImageUploaderRS.name, ListNS.name].join(".")}
                 data={imageInfos}
                 renderer={ImageCard}
                 headerLabel={<div>
                     Images [{imageInfos.length}]
                 </div>}
             />
-
+ */}
 
         </Box>
     )

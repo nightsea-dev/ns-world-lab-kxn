@@ -3,7 +3,7 @@ import {
     EventHandlersFromMap
     , KeyOf,
     OverrideMap
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import { FunctionComponent, ReactNode } from "react"
 import { _cn, _memo, _tw } from "../../../utils"
 import {
@@ -13,7 +13,7 @@ import {
     , ButtonRSProps,
     ButtonGroupRSProps
 } from "../rs"
-import { _capitalise, _isEmpty, entriesOf } from "@ns-lab-knx/logic"
+import { _capitalise, _isEmpty, entriesOf } from "@ns-world-lab-knx/logic"
 import { Box, BoxProps, ObjectView, ObjectViewProps, ObjectViewValue } from "../_basic"
 import { BasicSize } from "rsuite/esm/internals/types"
 import { ObjectViewWithToggle } from "../data-display"
@@ -82,7 +82,6 @@ type BaseControlButtonsProps<
         isDisabled: InputViewControl_ButtonIsDisabledInputMap | boolean
         buttonProps: Omit<
             ButtonRSProps,
-            // | "disabled"
             | KeyOf<ControlButtons_EventHandlers>
         >
     }

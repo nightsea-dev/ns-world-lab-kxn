@@ -1,6 +1,6 @@
 import { ButtonGroup, ButtonProps, ButtonGroupProps, Button } from "rsuite"
-import { _capitalise, entriesOf } from "@ns-lab-knx/logic"
-import { EntryItem, KeyOf, PickRequiredRestPartial, XOR, XOR_3 } from "@ns-lab-knx/types"
+import { _capitalise, entriesOf } from "@ns-world-lab-knx/logic"
+import { EntryItem, KeyOf, PickRequiredRestPartial, XOR, XOR_3 } from "@ns-world-lab-knx/types"
 import { _cn, _filterElementsOfType, _memo } from "../../../utils"
 import React, { Children, ComponentProps, ComponentType, FunctionComponent, HTMLAttributes, isValidElement, ReactElement, ReactNode } from "react"
 import { Box, BoxProps } from "../_basic"

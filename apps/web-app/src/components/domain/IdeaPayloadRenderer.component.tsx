@@ -1,11 +1,11 @@
 import {
     IdeaWithAuthor
-} from '@ns-lab-knx/types'
+} from '@ns-world-lab-knx/types'
 import {
     _cn,
-    PAYLOAD_RENDERERS,
     PayloadRendererProps,
-} from '@ns-lab-knx/web'
+    PayloadWithContentRenderer,
+} from '@ns-world-lab-knx/web'
 
 // ======================================== props
 export type IdeaPayloadRendererProps =
@@ -28,7 +28,7 @@ export const IdeaPayloadRenderer = ({
     // } = payload
 
     return (
-        <PAYLOAD_RENDERERS.WithContentRenderer
+        <PayloadWithContentRenderer
             payload={payload}
         />
     )

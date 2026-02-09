@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, useId, useLayoutEffect, useRef } from "react"
 import { _cn, _effect, _layoutEffect, _memo, OmitHtmlAttributes } from "../../../utils"
-import { PickRequiredRestPartial } from "@ns-lab-knx/types"
+import { PickRequiredRestPartial } from "@ns-world-lab-knx/types"
 import { HeaderNS, HeaderNSProps } from "./HeaderNS"
 
 

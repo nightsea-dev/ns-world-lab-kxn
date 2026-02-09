@@ -1,13 +1,10 @@
 import {
-    _getFileUrl
-    , ControlButton_EventsMap
-    , ControlButton_EventMapFor, Renderer
-} from "@ns-lab-knx/web";
-import {
     EventHandlersFromMap
     , HasPayloads
     , KeyOf, PayloadWithKind
-} from "@ns-lab-knx/types";
+} from "@ns-world-lab-knx/types";
+import { ControlButton_EventMapFor } from "../../ui";
+import { Renderer } from "../../../types";
 
 // ======================================== events
 export type PayloadLoaderEventsMap<

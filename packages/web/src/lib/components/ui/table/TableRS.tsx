@@ -1,8 +1,8 @@
 import { ReactNode } from "react"
 import { Table, TableProps } from "rsuite"
-import { HasData, KeyOf } from "@ns-lab-knx/types"
+import { HasData, KeyOf } from "@ns-world-lab-knx/types"
 import { _cn, _memo, _use_state } from "../../../utils"
-import { _capitalise, keysOf } from "@ns-lab-knx/logic"
+import { _capitalise, keysOf } from "@ns-world-lab-knx/logic"
 import { CommonTableProps, DEFAULT_CommonTable, useTableKeys } from "./_types"
 
 import "./TableRS.css"

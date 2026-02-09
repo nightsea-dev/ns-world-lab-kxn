@@ -1,4 +1,4 @@
-import { EXTENSION_TO_MIME, MIME_EXT } from "@ns-lab-knx/types"
+import { EXTENSION_TO_MIME, MIME_EXT } from "@ns-world-lab-knx/types"
 
 export const _getMimeType = (
     file?: File

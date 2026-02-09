@@ -1,6 +1,7 @@
 import { Rnd } from "react-rnd"
 import {
     EventHandlersFromMap,
+    HasChildren,
     HasHeader,
     HasId,
     ID,
@@ -8,16 +9,17 @@ import {
     SIZE_KEYS,
     Transformation,
     XOR,
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import {
-    _cn, _effect, _getById, _memo, _use_state
+    _cn, _effect, _getById, _layoutEffect, _memo, _use_state
     , HasBackgroundColor
     , PickHtmlAttributes
 } from "../../utils"
 import {
     _t,
     HasSpatialNode_UI,
-} from "@ns-lab-knx/logic"
+    SpatialNodeClass,
+} from "@ns-world-lab-knx/logic"
 import {
     ComponentProps,
     MouseEvent,
@@ -72,7 +74,15 @@ const _moveToFront = ({
     }
 >
 ) => {
-    !el || el.parentElement!.append(el)
+    if (!el
+        || !el.parentElement
+        || el.parentElement.lastElementChild === el
+    ) {
+        return
+    }
+
+    el.parentElement.append(el)
+
 }
 
 // ======================================== events
@@ -125,6 +135,72 @@ export type SpatialNodeComponentProps =
 
 const DRAG_HANDLE_CLASS_NAME
     = "data-spatial-node-drag-handle" as const satisfies string
+
+type SpatialNodeHeaderProps =
+    & {
+        ownerId: ID
+    }
+    & HasHeader<ReactNode>
+
+const SpatialNodeHeader = ({
+    header
+    , ownerId
+}: SpatialNodeHeaderProps) => {
+    return (
+        <div
+            data-spatial-node-header={ownerId}
+            className={_cn(
+                `
+                        ---min-w-0 
+                        ---truncate 
+                        relative flex items-center 
+                        bg-[dodgerblue] text-white 
+                        px-2 
+                        cursor-grab 
+                        active:cursor-grabbing 
+                        shrink-0
+                        `
+                , DRAG_HANDLE_CLASS_NAME
+            )}
+        >
+            {header || "Header (drag here)"}
+        </div>
+    )
+}
+
+type SpatialNodeBodyProps =
+    & HasChildren<ReactNode>
+const SpatialNodeBody = ({
+    children
+}: SpatialNodeBodyProps
+) => {
+    return (
+        <div
+            data-spatial-node-body
+            className={_cn(
+                "flex-1 min-h-0 w-full"
+                , `
+                            h-full w-full overflow-auto 
+                            border-2 border-amber-600
+                            `
+            )}
+
+        >
+            {children}
+        </div>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
 // ======================================== component
 
 /**
@@ -178,9 +254,8 @@ export const SpatialNodeComponent = ({
                     , onChange
                 })
 
-        , _handleCloseButtonClick: CloseButtonProps["onClick"]
+        , _handle_CloseButtonClick: CloseButtonProps["onClick"]
             = (ev: MouseEvent<HTMLButtonElement>) => {
-                debugger
                 onCloseButtonClick?.({ spatialNode })
             }
 
@@ -189,7 +264,7 @@ export const SpatialNodeComponent = ({
         /**
          * * only what interests us
          */
-        _rndHandlers = {
+        rndHandlers = {
             onResize: (ev, direction, el, delta, position) => {
 
             }
@@ -207,7 +282,7 @@ export const SpatialNodeComponent = ({
             , onDragStart: (ev, {
                 node: el
             }) => {
-                // _moveToFront({ id })
+                _moveToFront({ id })
             }
 
             , onDragStop: (ev, data) => {
@@ -234,15 +309,13 @@ export const SpatialNodeComponent = ({
                         transformation
                     )
 
-                // _moveToFront({ el })
-
             }
             , onCloseButtonClick: () => {
 
             }
         } as _RndEventHandlersMap
 
-    useLayoutEffect(() => {
+    _layoutEffect(() => {
 
         // debugger
 
@@ -277,18 +350,19 @@ export const SpatialNodeComponent = ({
         <Rnd
             {...rest}
             id={id}
-            data-spatial-node
+            data-spatial-node={id}
             size={spatialNode.size}
             position={spatialNode.position}
-            {..._rndHandlers}
+            {...rndHandlers}
             bounds="parent"
             className={_cn(
                 `border 
                 border-gray-300 
-                
                 p-0
-                ---shadow-[2px_10px_50px_0_rgba(0,0,0,.2)]
                 shadow-2xl
+                rounded-md
+                
+                ---shadow-[2px_10px_50px_0_rgba(0,0,0,.2)]
                 ---hover:shadow-2xl
                 `
                 , className
@@ -309,54 +383,35 @@ export const SpatialNodeComponent = ({
                 className={_cn(
                     "flex h-full w-full flex-col"
                 )}
-                onMouseDown={({
-                    currentTarget: el
-                }) => {
-
+                onFocusCapture={(ev) => {
+                    const target = ev.target as HTMLElement
+                    if (target.closest(`[data-spatial-node-header="${id}"]`)) {
+                        return
+                    }
                     _moveToFront({ id })
-
                 }}
             >
-                <div
-                    data-spatial-node-header={id}
-                    className={_cn(
-                        DRAG_HANDLE_CLASS_NAME
-                        , `
-                        ---min-w-0 
-                        ---truncate 
-                        relative flex items-center 
-                        bg-[dodgerblue] text-white 
-                        px-2 
-                        cursor-grab 
-                        active:cursor-grabbing 
-                        shrink-0
-                        `
-                    )}
-                >
-                    {/* <div
-                        data-spatial-node-header-text-container={id}
-                        className="min-w-0 flex-1 truncate"
-                    >
-                    </div> */}
-                    {header || "Header (drag here)"}
-
-                    {onCloseButtonClick
-                        && (
-                            <CloseButton
-                                data-spatial-node-close-button={id}
-                                onClick={_handleCloseButtonClick}
-                                className={`
+                {onCloseButtonClick
+                    && (
+                        <CloseButton
+                            data-spatial-node-close-button={id}
+                            onClick={_handle_CloseButtonClick}
+                            className={`
                                     text-white absolute right-0 m-1
                                     z-[1000]
                                     `}
-                                style={{
-                                    position: "absolute"
-                                    , zIndex: 1000
-                                }}
-                                onPointerDownCapture={ev => ev.stopPropagation()}
-                            />)
-                    }
-                </div>
+                            style={{
+                                position: "absolute"
+                                , zIndex: 1000
+                            }}
+                            onPointerDownCapture={ev => ev.stopPropagation()}
+                        />)
+                }
+
+                <SpatialNodeHeader
+                    ownerId={id}
+                    header={header}
+                />
 
                 <div
                     data-spatial-node-body
@@ -367,15 +422,7 @@ export const SpatialNodeComponent = ({
                             border-2 border-amber-600
                             `
                     )}
-                    onMouseDown={({
-                        currentTarget: el
-                    }) => {
 
-                        // debugger
-
-                        _moveToFront({ id })
-
-                    }}
                 >
                     {children}
                 </div>
@@ -389,4 +436,16 @@ export const SpatialNodeComponent = ({
 
 
 
-    , DragabbleNode = SpatialNodeComponent
+    , DragabbleSpatialNode = SpatialNodeComponent
+
+
+
+export namespace SpatialNode {
+    export const Component = SpatialNodeComponent
+    export const Header = SpatialNodeHeader
+    export const Body = SpatialNodeBody
+    export const Class = SpatialNodeClass
+    export type Props = SpatialNodeComponentProps
+}
+
+

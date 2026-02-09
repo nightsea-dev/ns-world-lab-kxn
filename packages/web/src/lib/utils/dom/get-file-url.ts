@@ -1,8 +1,8 @@
-import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-lab-knx/types"
+import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-world-lab-knx/types"
 import {
     AnyFileItemType
     , FileItemWithPartialUrl
-    , FileItemWithPartialUrlAndPartialFileID, FileItemWithUrlAndFileID, InputFileItemList
+    , FileItemWithPartialUrlAndPartialFileID, FileItemWithUrlAndFileID, FileItemWithUrlAndFileIDAndID, InputFileItemList
 } from "../../types"
 
 
@@ -46,25 +46,23 @@ export const _getFileUrl = <
 
     }
 
-    ,
-    /**
-     * [_transform_AnyFileItemType_to_FileItemWithUrlAndFileID]
-     */
-    _normaliseFiles = <
+    , _transform_AnyFileItemType_to_FileItemWithUrlAndFileIDAndID = <
         F extends AnyFileItemType
     >(
         inputFileItems: InputFileItemList<F>
-    ): FileItemWithUrlAndFileID[] =>
+    ): FileItemWithUrlAndFileIDAndID[] =>
         [...(inputFileItems ?? [])]
             .filter(Boolean)
-            .map((o): FileItemWithUrlAndFileID => {
+            .map((file): FileItemWithUrlAndFileIDAndID => {
+                const fileID = _getFileID(file)
                 return Object.assign(
-                    o
+                    file
                     , {
-                        url: _getFileUrl(o)
-                        , fileID: _getFileID(o)
+                        url: _getFileUrl(file)
+                        , fileID
+                        , id: fileID
                     }
-                ) as FileItemWithUrlAndFileID
+                ) as FileItemWithUrlAndFileIDAndID
             })
 
     , _getFileKeySets = <
@@ -94,9 +92,10 @@ export const _getFileUrl = <
      * * will [_normaliseFiles]
      */
     _filterFiles = <
-        F extends AnyFileItemType
+        FT extends AnyFileItemType
+        , I extends InputFileItemList<FT>
     >(
-        inputFileItemList: InputFileItemList<F>
+        inputFileItemList: I
         , excludeFiles = [] as Iterable<FileItemWithPartialUrlAndPartialFileID>
         , options = {} as Partial<{
             filterBy: KeyOf<FileItemWithPartialUrlAndPartialFileID>
@@ -108,7 +107,7 @@ export const _getFileUrl = <
             filterBy = "fileID"
         } = options
 
-            , normalisedFiles = _normaliseFiles(inputFileItemList)
+            , normalisedFiles = _transform_AnyFileItemType_to_FileItemWithUrlAndFileIDAndID(inputFileItemList)
             , { fileIDSet: excludedFileIDs, urlSet: excludedUrls } = _getFileKeySets(excludeFiles)
             , fn = filterBy === "fileID"
                 ? (({ fileID }: F2) => (!!fileID && !excludedFileIDs.has(fileID)))

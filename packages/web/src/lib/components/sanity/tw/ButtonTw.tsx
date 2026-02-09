@@ -1,6 +1,6 @@
-import { HasChildren, KeyOf } from "@ns-lab-knx/types"
+import { HasChildren, KeyOf } from "@ns-world-lab-knx/types"
 import { ButtonHTMLAttributes, ReactNode } from "react"
-import { keysOf } from "@ns-lab-knx/logic"
+import { keysOf } from "@ns-world-lab-knx/logic"
 import { _cn } from "../../../utils"
 
 const BUTTON_TW_APPEARANCES_MAP = {

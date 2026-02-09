@@ -2,7 +2,7 @@ import {
     HasData
     , HasName, HasSource, HasId,
     HasDimentions
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import { Renderer } from "../../../../types"
 
 export type ImageInfo =

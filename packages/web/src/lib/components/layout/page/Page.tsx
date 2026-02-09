@@ -1,4 +1,4 @@
-import { HasData, HasHeader, HasId, PrefixKeys, PrefixKeysAndCapitalisedAfter } from "@ns-lab-knx/types"
+import { HasData, HasHeader, HasId, PrefixKeys, PrefixKeysAndCapitalisedAfter } from "@ns-world-lab-knx/types"
 import { Header, HeaderProps } from "../header"
 import { Footer } from "../footer"
 import { _cn, _effect, PickHtmlAttributes } from "../../../utils"

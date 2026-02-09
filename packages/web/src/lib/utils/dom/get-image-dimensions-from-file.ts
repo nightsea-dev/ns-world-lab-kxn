@@ -1,4 +1,4 @@
-import { Size } from "@ns-lab-knx/types"
+import { Size } from "@ns-world-lab-knx/types"
 
 
 export const getImageDimensionsFromFile = async (

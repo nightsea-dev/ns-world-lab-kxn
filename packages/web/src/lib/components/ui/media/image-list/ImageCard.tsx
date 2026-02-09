@@ -1,10 +1,10 @@
-import { HasData, HasChildren, PartialEventHandlersWithKindFromMap, Size } from "@ns-lab-knx/types"
+import { HasData, HasChildren, PartialEventHandlersWithKindFromMap, Size } from "@ns-world-lab-knx/types"
 import { Input, InputProps } from "rsuite"
 import { Box, NoData } from "../../_basic"
 import { ImageInfo, ImageRenderer, ImageRendererProps } from "./ImageRenderer"
 import { ReactNode } from "react"
 import { _cn } from "../../../../utils"
-import { _isNumber } from "@ns-lab-knx/logic"
+import { _isNumber } from "@ns-world-lab-knx/logic"
 
 // ======================================== events
 export type ImageCardEvent = HasData<ImageInfo>

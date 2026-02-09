@@ -31,16 +31,16 @@ packages/
 
 ### 1. Types vs runtime are strictly separated
 
-- `@ns-lab-knx/types`
+- `@ns-world-lab-knx/types`
   - Types only
   - Never used at runtime
 
-- `@ns-lab-knx/logic`
+- `@ns-world-lab-knx/logic`
   - Runtime library
   - Emits JavaScript + types
   - Contains graph state, factories, utilities
 
-- `@ns-lab-knx/web`
+- `@ns-world-lab-knx/web`
   - Runtime React components and hooks
   - Depends on `logic` and `types`
 
@@ -60,7 +60,7 @@ Never rely on TS-only path mapping for runtime imports.
 ### 3. No self-imports inside a package
 
 Inside a package:
-- ❌ `import { X } from "@ns-lab-knx/web"` (from within `packages/web`)
+- ❌ `import { X } from "@ns-world-lab-knx/web"` (from within `packages/web`)
 - ✅ relative imports only
 
 Each package must be buildable in isolation.

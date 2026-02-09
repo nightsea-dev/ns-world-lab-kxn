@@ -1,4 +1,4 @@
-import { HasFile, HasPartialUrl, HasUrl } from "@ns-lab-knx/types"
+import { HasFile, HasId, HasPartialUrl, HasUrl } from "@ns-world-lab-knx/types"
 
 // ======================================== capabilities
 export type HasFileID = {
@@ -7,19 +7,6 @@ export type HasFileID = {
 export type HasPartialFileID =
     Partial<HasFileID>
 
-// export type HasPartialFileID =
-//     Partial<HasFileID>
-
-// export type HasUrlAndFileID =
-//     & HasUrl
-//     & HasFileID
-
-// export type FileItemWithUrlAndFileID =
-//     & FileItem
-//     & HasUrlAndFileID
-
-// export type HasPartialUrlAndFileID =
-//     & Partial<HasUrlAndFileID>
 
 
 
@@ -33,10 +20,19 @@ export type FileItem = File
 export type FileItemWithUrl =
     & FileItem
     & HasUrl
+export type FileItemWithUrlAndID =
+    & FileItem
+    & HasUrl
+    & HasId
 export type FileItemWithUrlAndFileID =
     & FileItem
     & HasUrl
     & HasFileID
+export type FileItemWithUrlAndFileIDAndID =
+    & FileItem
+    & HasUrl
+    & HasFileID
+    & HasId
 // ========================================
 
 export type FileItemWithPartialUrl =

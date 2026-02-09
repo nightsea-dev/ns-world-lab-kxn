@@ -3,13 +3,13 @@ import {
     EventHandlersFromMap
     , PickAndPrefixKeysAndCapitalise
     , XOR
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import {
     _t
-    , SpatialNode
+    , SpatialNodeClass
     , SpatialNodeInput
     , HasSpatialNode_UI
-} from "@ns-lab-knx/logic"
+} from "@ns-world-lab-knx/logic"
 import { _effect, _memo } from "../../utils"
 
 // ========================================
@@ -52,13 +52,13 @@ export const useSpatialNode = (
 ): HasSpatialNode_UI => {
 
     const { spatialNode } = _memo([spatialNode_IN], () => {
-        if (spatialNode_IN instanceof SpatialNode) {
+        if (spatialNode_IN instanceof SpatialNodeClass) {
             return {
                 spatialNode: spatialNode_IN
             }
         }
         return {
-            spatialNode: new SpatialNode({
+            spatialNode: new SpatialNodeClass({
                 size: initialSize
                 , position: initialPosition
                 , isObservable

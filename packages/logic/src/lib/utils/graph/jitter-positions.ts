@@ -1,4 +1,4 @@
-import { Position, Size, Transformation, XOR } from "@ns-lab-knx/types";
+import { Position, Size, Transformation, XOR } from "@ns-world-lab-knx/types";
 
 
 

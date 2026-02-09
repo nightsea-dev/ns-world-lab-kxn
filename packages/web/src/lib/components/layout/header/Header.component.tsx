@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { HasAuthor, HasTitle, HasUser, User } from "@ns-lab-knx/types"
+import { HasAuthor, HasTitle, HasUser, User } from "@ns-world-lab-knx/types"
 import { PickHtmlAttributes } from '../../../utils'
 import { Avatar } from '../../ui'
 

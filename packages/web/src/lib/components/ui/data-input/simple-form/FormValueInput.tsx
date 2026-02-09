@@ -1,19 +1,19 @@
-import { _capitalise } from "@ns-lab-knx/logic"
-import { _cn, _memo, PickHtmlAttributes } from "../../../utils"
-import { Input } from "rsuite"
-import { KeyOf } from "@ns-lab-knx/types"
 import { HTMLAttributes } from "react"
+import { Input } from "rsuite"
+import { _capitalise } from "@ns-world-lab-knx/logic"
+import { _cn, _memo } from "../../../../utils"
+import { KeyOf } from "@ns-world-lab-knx/types"
 
-
-export type ValidFormValue =
+// ======================================== types
+export type ValidInputValue =
     | string
     | number
 
 
-// ======================================== types
+// ======================================== props
 type BaseFormValueInputProps<
     K extends string
-    , V extends ValidFormValue
+    , V extends ValidInputValue
 > =
     & {
         k: K
@@ -27,7 +27,7 @@ type BaseFormValueInputProps<
 
 export type FormValueInputProps<
     K extends string
-    , V extends ValidFormValue
+    , V extends ValidInputValue
 > =
     & BaseFormValueInputProps<K, V>
     & Omit<
@@ -38,7 +38,7 @@ export type FormValueInputProps<
 // ======================================== component - FormInput
 export const FormValueInput = <
     K extends string
-    , V extends ValidFormValue
+    , V extends ValidInputValue
 >({
     k
     , v

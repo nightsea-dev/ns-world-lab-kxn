@@ -1,8 +1,11 @@
-import { EventHandlersFromMap } from "@ns-lab-knx/types"
-import { Renderer } from "../../capabilities"
+import { EventHandlersFromMap } from "@ns-world-lab-knx/types"
 import { FileItemWithUrlAndFileID } from "./file-item"
 
 // ======================================== types/loader
+/**
+ * * sames as
+ *      * FileItemWithUrlAndFileID
+ */
 export type LoadedFileItem =
     & FileItemWithUrlAndFileID
 

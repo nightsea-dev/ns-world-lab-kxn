@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react"
-import { ButtonGroup, Header, Input, Panel, StatHelpText } from "rsuite"
-import { faker } from "@faker-js/faker"
-import { EventHandler, EventHandlersFromMap, HasData, HasEventHandler, HasId, IFrame, ImageWithKind, KeyOf, PartialEventHandlersFromMap } from "@ns-lab-knx/types"
+import {
+    EventHandlersFromMap, HasData
+} from "@ns-world-lab-knx/types"
 import {
     _cn, _effect, _isValidUrl, _memo, _tw, _use_state
     , Box
     , ButtonRS
-    , ObjectView
-    , TextNumberForm
-    , TextNumberFormProps
-    , ControlButton_EventMapFor,
-    ButtonCollectionRS,
-    ControlButtons,
-    ButtonGroupRS,
+    , SimpleForm
+    , SimpleFormProps
+    , ControlButton_EventMapFor
+    , ButtonGroupRS,
     InputViewLayout,
-} from "@ns-lab-knx/web"
-import { createID, createIFrame } from "@ns-lab-knx/logic"
+    InputViewLayoutProps,
+} from "@ns-world-lab-knx/web"
 import {
     createIFrameDataItem,
     IFRAME_DATA_ITEM_KEYS,
@@ -27,7 +23,7 @@ import {
 
 
 
-// ======================================== const
+// ======================================== helpers
 const _isValidData = <
     T extends Partial<IFrameDataItem>
 >(o?: T) =>
@@ -35,7 +31,7 @@ const _isValidData = <
     && IFRAME_DATA_ITEM_KEYS.every(k => !!o[k] && o[k] !== undefined && o[k] !== null)
     && _isValidUrl(o.url)
 
-    , _isEmpty = <
+    , _isEmptyDataItem = <
         T extends Partial<IFrameDataItem>
     >(o?: T) =>
         o
@@ -82,7 +78,7 @@ export const IFrameInputView = ({
         , currentData: EMPTY_CURRENT_DATA()
     } as State)
 
-        , _handleRemove: IFrameRowProps["onRemove"] = ({
+        , _handle_Remove: IFrameRowProps["onRemove"] = ({
             data
         }) => {
 
@@ -103,7 +99,7 @@ export const IFrameInputView = ({
 
         }
 
-        , _handleAddData = () =>
+        , _handle_AddData = () =>
             _set_state(p => {
 
                 const {
@@ -133,22 +129,22 @@ export const IFrameInputView = ({
 
             })
 
-        , _handleClear_currentData
+        , _handle_Clear_currentData
             = () => _set_state({
                 currentData: EMPTY_CURRENT_DATA()
             })
-
-        , _handleControlClear
-            = () => _set_state(RESET_STATE())
-
-        , _handleControlDone
-            = () => onDone({ data: state.dataCollection })
-
-        , _handleClear_collection
+        , _handle_Clear_collection
             = () => _set_state({ dataCollection: [] })
 
 
-        , _handleChange: TextNumberFormProps<CurrentData>["onChange"] = ({
+        , controlButtonHandlers = {
+            onClear: () => _set_state(RESET_STATE())
+            , onDone: () => onDone({ data: state.dataCollection })
+        } as Pick<InputViewLayoutProps["controlButtonsProps"], "onDone" | "onClear">
+
+
+
+        , _handle_SimpleForm_Change: SimpleFormProps<CurrentData>["onChange"] = ({
             currentData
             , previousData
         }) => _set_state({
@@ -176,12 +172,12 @@ export const IFrameInputView = ({
 
         , _handleGenerateAndAddFake = () => {
             _handleGenerateFake()
-            _handleAddData()
+            _handle_AddData()
         }
 
     _effect([], () => {
         return () => {
-            _handleControlClear()
+            controlButtonHandlers.onClear?.()
         }
     })
 
@@ -193,18 +189,17 @@ export const IFrameInputView = ({
                         done: !state.dataCollection.length
                         , clear: !state.dataCollection.length
                     }
-                    , onDone: _handleControlDone
+                    , ...controlButtonHandlers
                     , onCancel: onCancel
-                    , onClear: _handleControlClear
                     , infoData: state as any
                 }}
             >
                 <Box>
 
-                    <TextNumberForm
+                    <SimpleForm
                         data={state.currentData}
                         hideButtons={true}
-                        onChange={_handleChange}
+                        onChange={_handle_SimpleForm_Change}
                     />
 
                     <ButtonGroupRS
@@ -222,11 +217,11 @@ export const IFrameInputView = ({
                         }}
                         buttons={{
                             clear: {
-                                onClick: _handleClear_currentData
-                                , disabled: _isEmpty(state.currentData)
+                                onClick: _handle_Clear_currentData
+                                , disabled: _isEmptyDataItem(state.currentData)
                             }
                             , add: {
-                                onClick: _handleAddData
+                                onClick: _handle_AddData
                                 , disabled: !_isValidData(state.currentData)
                                 , appearance: "primary"
                             }
@@ -257,10 +252,10 @@ export const IFrameInputView = ({
 
                 <IFrameDataItemList
                     data={state.dataCollection}
-                    onRemove={_handleRemove}
-                    onClear={_handleClear_collection}
+                    onRemove={_handle_Remove}
+                    onClear={_handle_Clear_collection}
                 />
-            </InputViewLayout>
+            </InputViewLayout >
 
             {/* <Box
                 data-iframe-input-view

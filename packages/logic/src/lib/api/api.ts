@@ -1,4 +1,4 @@
-import { User } from "@ns-lab-knx/types"
+import { User } from "@ns-world-lab-knx/types"
 import { createUser } from '../factories'
 import { _t } from "../utils"
 

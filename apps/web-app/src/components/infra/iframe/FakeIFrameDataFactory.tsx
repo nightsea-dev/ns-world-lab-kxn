@@ -1,7 +1,7 @@
-// import { KeyOf, PartialEventHandlersFromMap } from "@ns-lab-knx/types"
+// import { KeyOf, PartialEventHandlersFromMap } from "@ns-world-lab-knx/types"
 // import { IFrameDataItem } from "./IFrameDataItem"
-// import { _tw, Box, ButtonGroupEntryItem, ButtonGroupRS, ButtonRS } from "@ns-lab-knx/web"
-// import { createID, createIFrame, entriesOf } from "@ns-lab-knx/logic"
+// import { _tw, Box, ButtonGroupEntryItem, ButtonGroupRS, ButtonRS } from "@ns-world-lab-knx/web"
+// import { createID, createIFrame, entriesOf } from "@ns-world-lab-knx/logic"
 // import { faker } from "@faker-js/faker"
 
 // // ======================================== const

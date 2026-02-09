@@ -1,6 +1,6 @@
 import {
     HasContent
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import {
     FunctionComponent
     , ReactNode

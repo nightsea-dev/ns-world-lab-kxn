@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, KeyOf } from "@ns-lab-knx/types"
+import { EventHandlersFromMap, HasData, KeyOf } from "@ns-world-lab-knx/types"
 import { CSSProperties } from "react"
 import { _cn } from "../../../utils"
 

@@ -6,7 +6,7 @@ import {
     , EventHandlersFromMap
     , KeyOf
     , Size
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import {
     createID
     , createTransform
@@ -47,7 +47,7 @@ export type SpatialNodeInput
  * * can be [observable]
  * * uses [mobx]
  */
-export class SpatialNode
+export class SpatialNodeClass
     implements
     GraphNodeWithTransformMutators
     , Pick<SpatialNodeInput, "onChange"> {
@@ -149,11 +149,11 @@ export class SpatialNode
 
 // ======================================== exports - UI lexicon
 export type SpatialNodeData =
-    Pick<SpatialNode, | "id" | "size" | "position">
+    Pick<SpatialNodeClass, | "id" | "size" | "position">
 
 export type SpatialNode_UI
     = Pick<
-        SpatialNode,
+        SpatialNodeClass,
         | "id"
         | "size"
         | "position"

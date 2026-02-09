@@ -1,4 +1,3 @@
-export * from "./KnownPayloadLoader"
-export * from "./KnownPayloadRenderer"
+export * from "./KnownPayload.loaders"
+export * from "./KnownPayload.renderers"
 export * from "./KnownPayloadsBoard"
-export * from "./PayloadLoader"

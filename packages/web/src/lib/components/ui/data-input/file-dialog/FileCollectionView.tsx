@@ -1,110 +1,148 @@
 import {
-    EventHandlersFromMap, HasData
-    , HasPartialEventHandler
-    , HasPartialUrl,
+    HasData
+    , HasName
+    , HasUrl,
     PartialEventHandlersFromMap
-} from "@ns-lab-knx/types";
-import { _cn, FileWithPartialUrlAndFileID, PickHtmlAttributes } from "../../../../utils";
-import { Renderer } from "../../../../types";
-import { CloseButton, CloseButtonRef, HasCloseButtonRef, NoData, ObjectView } from "../../_basic";
-import { HTMLAttributes, MouseEvent, ReactNode, RefCallback, RefObject, useRef } from "react";
+} from "@ns-world-lab-knx/types";
+import { _cn, OmitHtmlAttributes, PickHtmlAttributes } from "../../../../utils";
+import { CloseButton, NoData } from "../../_basic";
+import { HTMLAttributes, MouseEvent, ReactNode, useId } from "react";
 import { ButtonRS } from "../../rs";
-import { FileWithUrlRenderer, HasFileWithUrlRenderer } from "./FileRenderer";
+import {
+    FileWithUrlRenderer
+    , HasFileWithUrlRenderer
+    , FileWithUrlRendererDataItem
+} from "./FileWithUrlRenderer";
+
+
 
 
 
 // ======================================== props
-export type FileCollectionViewProps =
-    & HasData<FileWithPartialUrlAndFileID[]>
+export type FileCollectionViewProps<
+    TDataItem extends FileWithUrlRendererDataItem = FileWithUrlRendererDataItem
+> =
+    & HasData<TDataItem[]>
     & Partial<
         & HasFileWithUrlRenderer
         & {
             placeholder: ReactNode
+            headerProps: OmitHtmlAttributes<"children">
         }
+        & PickHtmlAttributes<"className">
     >
 
     & PartialEventHandlersFromMap<{
-        itemCloseButtonClick: HasData<FileWithPartialUrlAndFileID>
+        itemCloseButtonClick: HasData<TDataItem>
         click: MouseEvent<HTMLElement>
         clearButtonClick: MouseEvent<HTMLElement>
     }>
 
 
+
+
 // ======================================== component
-export const FileCollectionView = (
-    {
-        data: data
-        , placeholder
-        , fileRenderer: R = FileWithUrlRenderer.DEFAULT
-        , onClick
-        , onClearButtonClick
-        , onItemCloseButtonClick
-        , ...rest
-    }: FileCollectionViewProps
+export const FileCollectionView = <
+    TDataItem extends FileWithUrlRendererDataItem = FileWithUrlRendererDataItem
+>({
+    data
+    , placeholder
+    , headerProps
+    , fileRenderer: R = FileWithUrlRenderer.DEFAULT
+    , onClick
+    , onClearButtonClick
+    , onItemCloseButtonClick
+    , ...rest
+}: FileCollectionViewProps<TDataItem>
 ) => {
 
-    const _handleClick: HTMLAttributes<any>["onClick"] = (
-        ev
-    ) => {
-        if (!onClick
-            || ev.target !== ev.currentTarget
-        ) {
-            return
+    const id = useId()
+        , _handleClick: HTMLAttributes<any>["onClick"] = (
+            ev
+        ) => {
+            const target = (ev.target as HTMLElement)
+                , isFileItem = !!target.closest(`[data-file-collection-items-container="${id}"]`)
+                , isClearButton = target.hasAttribute("data-clear-button")
+            if (!onClick
+                || isFileItem
+                || isClearButton
+            ) {
+                return
+            }
+            ev.preventDefault()
+            ev.stopPropagation()
+            onClick(ev)
         }
-        ev.preventDefault()
-        ev.stopPropagation()
-        onClick(ev)
-    }
 
     return (
         <div
             {...rest}
-            data-selected-files-render-container
-            className="border border-gray-200 rounded-[10px] p-0 m-1"
+            data-file-collection-view={id}
+
+            className={_cn(`
+                border border-gray-200 rounded-[10px] p-0 m-1
+                overflow-hidden
+                cursor-default
+                `
+                , rest.className
+            )}
+            onPointerDown={_handleClick}
         >
             <div
-                data-file-collection-header
-                className="p-2 bg-gray-100 relative flex items-center"
-                onClick={_handleClick}
+                {...headerProps}
+                data-file-collection-header={id}
+
+                className={_cn(`
+                    p-2 bg-gray-100 relative flex items-center
+                    `
+                    , headerProps?.className
+                )}
             >
                 <div
                     data-header-text
+
                     className={`
                         whitespace-nowrap flex-none
-                        border border-gray-200
+                        ---border 
+                        ---border-gray-200
                         py-1 px-3
                         rounded-[5px]
                         `}
-                    onClick={_handleClick}
                 >
                     Files: {data.length}
                 </div>
                 {placeholder && !!data.length && (
                     <div
-                        data-placeholder-container
+                        data-file-collection-placeholder
+
                         className={`
-                            ml-auto flex items-center 
-                            whitespace-nowrap
-                            border border-gray-100
+                            ml-auto
+                            flex items-center
+                            min-w-0
+                            flex-1
+                            whitespace-normal
+                            break-words
+                            ---border 
+                            ---border-gray-100
                             text-gray-400
                             p-2
-                            `}
-                        onClick={_handleClick}
+                        `}
                     >
                         {placeholder}
                     </div>
                 )}
                 {onClearButtonClick && (
                     <div
-                        data-placeholder-container
+                        data-buttons-container
                         className={`
                             ml-auto flex items-center whitespace-nowrap
                             `}
-                        onClick={_handleClick}
                     >
                         <ButtonRS
+                            data-clear-button
                             disabled={!data.length}
                             onClick={onClearButtonClick}
+                            appearance="default"
                         >Clear</ButtonRS>
                     </div>
                 )}
@@ -112,18 +150,17 @@ export const FileCollectionView = (
             </div>
             {!data.length
                 ? <NoData
-                    onClick={_handleClick}
                 >
                     {placeholder}
                 </NoData>
                 : (
                     <div
-                        data-file-items-collection-container
+                        data-file-collection-items-container={id}
                     >
                         {data.map(data => (
                             <div
-                                data-file-item-render-container
                                 key={data.url ?? data.name}
+                                data-file-item-render-container
                                 className={_cn(
                                     "m-1 flex"
                                 )}
@@ -134,7 +171,7 @@ export const FileCollectionView = (
                                 />
                                 <CloseButton
                                     data-file-item-close-button
-                                    onClick={() => onItemCloseButtonClick?.({ data: data })}
+                                    onClick={() => onItemCloseButtonClick?.({ data })}
                                 />
                             </div>
                         ))}

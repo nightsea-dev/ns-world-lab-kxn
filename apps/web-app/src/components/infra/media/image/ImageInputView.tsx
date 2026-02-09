@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasMimeType, HasType, IMAGE_MIME } from "@ns-lab-knx/types"
+import { EventHandlersFromMap, HasData, HasMimeType, HasType, IMAGE_MIME } from "@ns-world-lab-knx/types"
 import {
     _cn, _effect, _isValidUrl, _memo, _tw, _use_state
     , Box
@@ -14,8 +14,9 @@ import {
     FileItemWithPartialUrlAndPartialFileID,
     FileItemWithUrlAndFileID,
     ToggleRS,
-    ImageCardDisplayMode
-} from "@ns-lab-knx/web"
+    ImageCardDisplayMode,
+    ImageUploaderRS
+} from "@ns-world-lab-knx/web"
 import { useRef } from "react"
 
 
@@ -145,12 +146,15 @@ export const ImageInputView = ({
                 , infoData: state as any
             }}
         >
-            <ToggleRS
-                checked={state.displayMode === "card"}
-                onChange={({ value }) => {
-                    _set_state({ displayMode: value ? "card" : "row" })
-                }}
-            />
+            {!!state.loadedFileItems.length
+                && <ToggleRS
+                    checked={state.displayMode === "card"}
+                    onChange={({ value }) => {
+                        _set_state({ displayMode: value ? "card" : "row" })
+                    }}
+                    label={<div>displayMode <b>{state.displayMode}</b></div>}
+                />
+            }
             <FileDialogInput
                 multiple
                 fileDialogRef={ref => {
@@ -173,6 +177,6 @@ export const ImageInputView = ({
             // onClick={_handle_FileDialogInput_Click}
             // placeholder={placeholder}
             />
-        </InputViewLayout >
+        </InputViewLayout>
     )
 }

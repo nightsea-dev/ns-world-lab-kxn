@@ -1,16 +1,16 @@
 import {
     IdeaWithAuthor,
     ImageWithKind
-} from '@ns-lab-knx/types'
+} from '@ns-world-lab-knx/types'
 import {
     _cn,
     _memo,
     PayloadRendererProps,
     PickCssProperties,
-} from '@ns-lab-knx/web'
+} from '@ns-world-lab-knx/web'
 import {
     getRandomColour
-} from '@ns-lab-knx/logic'
+} from '@ns-world-lab-knx/logic'
 
 // ======================================== props
 export type ImagePayloadRendererProps =

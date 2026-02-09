@@ -1,30 +1,25 @@
 import {
     IFrameWithKind,
     ImageWithKind
-} from "@ns-lab-knx/types";
+} from "@ns-world-lab-knx/types";
 import {
-    createID, createImageWithKind
-} from "@ns-lab-knx/logic";
+    createID
+} from "@ns-world-lab-knx/logic";
 import {
     _getFileUrl
     , DrawerInfo
-    , ImageUploaderRS
     , Renderer
-    , ImageUploaderRS_Props
-    , ImageUploaderRS_EventsMap
-    , LoadedFileItemWithID,
-    _getMimeType,
-    getImageDimensionsFromFile,
-    FileDialogInput,
-    FileDialogInputProps,
-    FileLoaderProps,
-    FileLoaderEventsMap,
-    LoadedFileItem
-} from "@ns-lab-knx/web";
-import { KnownPayloadKind, KnownPayloadOf } from "./KnownPayloadRenderer";
-import { PayloadLoaderProps } from "./PayloadLoader";
+    , LoadedFileItemWithID
+    , _getMimeType
+    , getImageDimensionsFromFile
+    , LoadedFileItem
+    , PayloadLoaderProps
+} from "@ns-world-lab-knx/web";
+import {
+    KnownPayloadKind
+    , KnownPayloadOf
+} from "./KnownPayload.renderers";
 import { IFrameDataItem, IFrameInputView, IFrameInputViewProps, ImageInputView, ImageInputViewProps } from "../../../components";
-import { FileType } from "rsuite";
 
 
 // ======================================== transformations/helpers
@@ -165,8 +160,6 @@ export const ImagePayloadLoader
         const _handleImageInput
             : ImageInputViewProps["onDone"]
             = async ({ data }) => {
-
-                debugger
 
                 if (!data.length || !onDone) {
                     return

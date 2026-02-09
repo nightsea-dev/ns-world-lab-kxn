@@ -1,7 +1,7 @@
 import { HTMLAttributes, ImgHTMLAttributes } from "react";
 import { _cn, _effect, _use_state, PickHtmlAttributes } from "../../../../utils";
 import { ImageInfo, ImageInfoWithPartialDimensions, ImageRendererProps } from "./ImageRenderer";
-import { HasData, HasDimentions, Size } from "@ns-lab-knx/types";
+import { HasData, HasDimentions, Size } from "@ns-world-lab-knx/types";
 
 
 export type ImageNSProps

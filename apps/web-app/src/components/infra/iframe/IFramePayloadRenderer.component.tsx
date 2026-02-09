@@ -1,6 +1,6 @@
 import {
     IFrameWithKind
-} from '@ns-lab-knx/types'
+} from '@ns-world-lab-knx/types'
 import {
     _cn,
     _layoutEffect,
@@ -8,7 +8,7 @@ import {
     ObjectView,
     PayloadRendererProps,
     ShowInfoToggle,
-} from '@ns-lab-knx/web'
+} from '@ns-world-lab-knx/web'
 import { useRef } from 'react'
 
 // ======================================== props

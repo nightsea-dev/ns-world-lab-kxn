@@ -1,17 +1,17 @@
 import {
-    EventHandlersFromMap, HasData
-    , HasPartialEventHandler
-    , HasPartialUrl,
-    PartialEventHandlersFromMap
-} from "@ns-lab-knx/types";
+    HasData
+} from "@ns-world-lab-knx/types";
 import { _memo, PickHtmlAttributes } from "../../../../utils";
-import { FileItemWithPartialUrlAndPartialFileID, Renderer } from "../../../../types";
+import { FileItemWithUrlAndFileID, Renderer } from "../../../../types";
 import { ObjectView } from "../../_basic";
-import { pickFrom } from "@ns-lab-knx/logic";
+import { pickFrom } from "@ns-world-lab-knx/logic";
 
+// ======================================== types
+export type FileWithUrlRendererDataItem
+    = FileItemWithUrlAndFileID
 // ======================================== types/props
 export type FileWithUrlRendererProps =
-    & HasData<FileItemWithPartialUrlAndPartialFileID>
+    & HasData<FileItemWithUrlAndFileID>
     & PickHtmlAttributes<"className">
 
 // ======================================== types/renderer
@@ -28,7 +28,7 @@ export type HasFileWithUrlRenderer =
 export namespace FileWithUrlRenderer {
 
     export const DEFAULT: FileWithUrlRenderer = ({
-        data: data
+        data
         , ...rest
     }) => {
         // const {

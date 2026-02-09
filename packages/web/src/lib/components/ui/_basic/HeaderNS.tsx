@@ -7,7 +7,7 @@ import {
     HasChildren,
     HasData,
     XOR
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 
 export type HeaderNSProps =
     & XOR<
@@ -43,6 +43,7 @@ export const HeaderNS = ({
             px-2
             text-[14px]
             font-normal
+            cursor-default
             `
             , _memo([bgColour], () => {
                 if (!bgColour) {

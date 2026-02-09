@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasId, KeyOf } from "@ns-lab-knx/types"
+import { EventHandlersFromMap, HasData, HasId, KeyOf } from "@ns-world-lab-knx/types"
 import { ButtonRS } from "../rs"
 import { ReactNode } from "react"
 import { HasRenderer } from "../../../types"
@@ -33,10 +33,10 @@ export type ListNSProps<
     & Omit<
         Pick<
             BoxProps,
-            // | "header"
             | "className"
             | "childrenContainerProps"
             | "bordered"
+            | "header"
         >
         , KeyOf<BaseListNSProps<TData>>
     >

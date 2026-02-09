@@ -1,4 +1,4 @@
-import { KeyOf, ValueOf } from "@ns-lab-knx/types";
+import { KeyOf, ValueOf } from "@ns-world-lab-knx/types";
 
 export const keysOf = <
     T extends object

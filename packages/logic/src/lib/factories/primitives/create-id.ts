@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { HasId, HasPartialId, ID } from "@ns-lab-knx/types";
+import { HasId, HasPartialId, ID } from "@ns-world-lab-knx/types";
 
 
 /**

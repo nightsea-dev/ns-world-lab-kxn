@@ -16,6 +16,7 @@ export const _isIterable = <
     ): v is T => !_isEmpty(v)
 
     , _isNumber = (v: unknown): v is number => typeof (v) === "number"
+    , _isString = (v: unknown): v is string => typeof (v) === "string"
 
 
     , _isStringArray = (v: unknown): v is string[] =>

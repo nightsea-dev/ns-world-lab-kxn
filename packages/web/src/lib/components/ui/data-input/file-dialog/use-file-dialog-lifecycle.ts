@@ -1,11 +1,11 @@
 import { ChangeEvent, useRef } from "react"
 import {
     _effect, _filterFiles, _getFileKeySets
-    , _normaliseFiles, _revokeUrls, _use_state
+    , _transform_AnyFileItemType_to_FileItemWithUrlAndFileIDAndID, _revokeUrls, _use_state
 } from "../../../../utils"
 import {
 
-} from "@ns-lab-knx/types"
+} from "@ns-world-lab-knx/types"
 import {
     HasFileLoaderEventHandlers
     , InputFileItemList
@@ -68,7 +68,7 @@ export const useFileDialogLifecycle = ({
             inputFileItem: InputFileItemList
         ) => {
 
-            const loadedFileItems = _normaliseFiles(inputFileItem)
+            const loadedFileItems = _transform_AnyFileItemType_to_FileItemWithUrlAndFileIDAndID(inputFileItem)
             let latestAction = ""
             if (loadedFileItems.length) {
                 onLoad?.({ loadedFileItems })

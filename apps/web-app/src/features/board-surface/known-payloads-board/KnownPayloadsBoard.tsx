@@ -1,27 +1,27 @@
 import {
     _effect
-    , BoardSurfaceComponent
     , _memo,
     _use_state,
     PayloadRenderer,
     DrawerInfo,
     _getFileUrl,
-    BoardSurface_Props,
-    BoardSurface_EventsMap,
-    BoardSurfaceRef,
-} from '@ns-lab-knx/web'
+    BoardSurface,
+} from '@ns-world-lab-knx/web'
 import {
     createIdeaWithAuthor,
     pickFromAsArray,
     pickFromAsTuple,
-} from "@ns-lab-knx/logic"
-import { HasPayloads, PickRequired } from '@ns-lab-knx/types'
+} from "@ns-world-lab-knx/logic"
+import { PickRequired } from '@ns-world-lab-knx/types'
 import {
     KNOWN_PAYLOAD_RENDERERS_BY_KIND
     , KnownPayload
     , KnownPayloadKind
-} from './KnownPayloadRenderer'
-import { KNOWN_PAYLOAD_LOADER_DRAWER_INFOS_MAP, KnownPayloadLoaderProps } from './KnownPayloadLoader'
+} from './KnownPayload.renderers'
+import {
+    KNOWN_PAYLOAD_LOADER_DRAWER_INFOS_MAP
+    , KnownPayloadLoaderProps
+} from './KnownPayload.loaders'
 import { useRef } from 'react'
 
 // ======================================== helpers
@@ -56,7 +56,7 @@ type State =
 export type KnownPayloadsBoardProps =
     & Partial<
         & Pick<
-            BoardSurface_Props<KnownPayload>,
+            BoardSurface.Props<KnownPayload>,
             | "data"
             | "onPayloadsAdded"
             | "onPayloadsRemoved"
@@ -79,7 +79,7 @@ export const KnownPayloadsBoard = ({
         , {
             current: _refs
         } = useRef({} as {
-            boardSurfaceRef?: BoardSurfaceRef<KnownPayload> | null
+            boardSurfaceRef?: BoardSurface.Ref<KnownPayload> | null
         })
 
 
@@ -122,7 +122,7 @@ export const KnownPayloadsBoard = ({
             , onPayloadsRemoved({ payloads }) {
                 _set_state({ payloads })
             }
-        } as PickRequired<BoardSurface_Props<KnownPayload>, "onInputViewClose" | "onPayloadsAdded" | "onPayloadsRemoved">
+        } as PickRequired<BoardSurface.Props<KnownPayload>, "onInputViewClose" | "onPayloadsAdded" | "onPayloadsRemoved">
 
         , inputViewHanders = {
             onCancel() {
@@ -154,8 +154,7 @@ export const KnownPayloadsBoard = ({
             }
         } as Pick<KnownPayloadLoaderProps<KnownPayloadKind>, "onCancel" | "onClear" | "onDone">
 
-
-        , _handleButtonClick = (
+        , _handle_ButtonClick = (
             payloadKind: KnownPayloadKind
         ) => {
 
@@ -208,6 +207,19 @@ export const KnownPayloadsBoard = ({
             }
 
         }
+        , _handle_ControlPanelNumberOfItemsEnterKey: BoardSurface.Props<KnownPayload>["onControlPanelNumberOfItemsEnterKey"]
+            = ({
+                numberOfItems
+                , showInfo
+            }) => {
+                if (!confirm(
+                    `Sure to Add ${numberOfItems} Idea${numberOfItems === 1 ? "" : "s"}?`
+                )) {
+                    return
+                }
+
+                _handle_ButtonClick("idea")
+            }
 
 
 
@@ -285,25 +297,27 @@ export const KnownPayloadsBoard = ({
                 `}
             data-known-payload-board
         >
-            <BoardSurfaceComponent<KnownPayload>
+            <BoardSurface.Component<KnownPayload>
                 {...rest}
 
                 data={state.payloads}
 
-                additionalButtonsMap={{
+                additionalControlPanelButtonsMap={{
                     "Add Idea": {
-                        onClick: () => _handleButtonClick("idea")
+                        onClick: () => _handle_ButtonClick("idea")
                         // , disabled: state.m_state.name !== "IDLE"
                     }
                     , "Add IFrame": {
-                        onClick: () => _handleButtonClick("iframe")
+                        onClick: () => _handle_ButtonClick("iframe")
                         // , disabled: state.m_state.name !== "IDLE"
                     }
                     , "Add Image": {
-                        onClick: () => _handleButtonClick("image")
+                        onClick: () => _handle_ButtonClick("image")
                         // , disabled: state.m_state.name !== "IDLE"
                     }
                 }}
+
+                onControlPanelNumberOfItemsEnterKey={_handle_ControlPanelNumberOfItemsEnterKey}
 
                 boardSurfaceRef={ref => {
                     _refs.boardSurfaceRef = ref
@@ -335,7 +349,7 @@ export const KnownPayloadsBoard = ({
                         payload={payload}
                     />
                 }}
-            </BoardSurfaceComponent>
+            </BoardSurface.Component>
         </div>
     )
 

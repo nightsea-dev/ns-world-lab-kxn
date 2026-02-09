@@ -1,5 +1,5 @@
 import { ToggleProps } from "rsuite"
-import { KeyOf } from "@ns-lab-knx/types"
+import { KeyOf } from "@ns-world-lab-knx/types"
 import { _cn, PickHtmlAttributes } from "../../../utils"
 import { ReactNode } from "react"
 

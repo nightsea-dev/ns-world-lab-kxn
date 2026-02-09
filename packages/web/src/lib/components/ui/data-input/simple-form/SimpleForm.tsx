@@ -1,18 +1,25 @@
-import { EventHandlersFromMap, EventHandlersWithKindFromMap, EventsWithKindFromMap, HasData, KeyOf, PartialOrFull, ValueOf } from "@ns-lab-knx/types"
-import { FormValueInput, FormValueInputProps, ValidFormValue } from "./FormValueInput"
-import { _effect, _use_state } from "../../../utils"
+import {
+    EventHandlersFromMap
+    , HasData, KeyOf, PartialOrFull
+} from "@ns-world-lab-knx/types"
+import {
+    FormValueInput
+    , ValidInputValue
+} from "./FormValueInput"
+import { _effect, _use_state } from "../../../../utils"
 import { useRef } from "react"
-import { _capitalise, _isNumber, entriesOf, keysOf, pickFromAsArray, valuesOf } from "@ns-lab-knx/logic"
-import { ButtonGroupRS, ShowInfoToggle } from "../rs"
-import { Box, ObjectView } from "../_basic"
-import { ControlButton_EventKind, ControlButton_EventMapFor, ControlButtons, ControlButtonsProps } from "../buttons"
+import { _capitalise, _isNumber, entriesOf, keysOf, pickFromAsArray, valuesOf } from "@ns-world-lab-knx/logic"
+import { Box, ObjectView } from "../../_basic"
+import {
+    ControlButton_EventKind, ControlButton_EventMapFor, ControlButtons
+} from "../../buttons"
 
 
 
 
 // ======================================== helpers
 const _eqData = <
-    TData extends FormData
+    TData extends ValidFormData
 >(
     ...[a, b]: [TData, TData]
 ) => {
@@ -31,16 +38,14 @@ const _eqData = <
 
 }
 // ======================================== types
-
-
-export type FormData =
-    & Record<string, ValidFormValue>
+export type ValidFormData =
+    & Record<string, ValidInputValue>
 
 
 
-// ======================================== events - TextNumberFormView
-export type FormEventsMap<
-    TData extends FormData
+// ======================================== events
+export type SimpleFormEventsMap<
+    TData extends ValidFormData
 > =
     & {
         change:
@@ -57,27 +62,27 @@ export type FormEventsMap<
     >
 
 type ButtonEventKind
-    = Extract<KeyOf<FormEventsMap<any>>, ControlButton_EventKind>
+    = Extract<KeyOf<SimpleFormEventsMap<any>>, ControlButton_EventKind>
 
-export type FormEventHandlersWithKindMap<
-    TData extends FormData
-> = EventHandlersFromMap<FormEventsMap<TData>>
+export type SimpleFormEventHandlersWithKindMap<
+    TData extends ValidFormData
+> = EventHandlersFromMap<SimpleFormEventsMap<TData>>
 
 
-// ======================================== props - TextNumberFormView
-export type TextNumberFormProps<
-    TData extends FormData
+// ======================================== props
+export type SimpleFormProps<
+    TData extends ValidFormData
 > =
     & HasData<TData>
     & Partial<
         & {
             hideButtons: ButtonEventKind[] | boolean
         }
-        & FormEventHandlersWithKindMap<TData>
+        & SimpleFormEventHandlersWithKindMap<TData>
     >
 
 const _isValidData = <
-    TData extends FormData
+    TData extends ValidFormData
 >(
     data: TData
 ) =>
@@ -85,18 +90,18 @@ const _isValidData = <
         .every(v => _isNumber(v) || (v as string ?? "").trim().length)
 
 
-// ======================================== component 
+// ======================================== component
 /**
- * * TextNumberFormView
+ * * TextNumberForm
  */
-export const TextNumberForm = <
-    TData extends FormData
+export const SimpleForm = <
+    TData extends ValidFormData
 >({
     data: data_IN
     , hideButtons
     , onChange
     , onDone
-}: TextNumberFormProps<TData>
+}: SimpleFormProps<TData>
 ) => {
 
     const [state, _set_state] = _use_state({
@@ -154,8 +159,8 @@ export const TextNumberForm = <
 
         }
 
-        , _handleClear = () => _clear_current_data()
-        , _handleDone = () => {
+        , _handle_Clear = () => _clear_current_data()
+        , _handle_Done = () => {
             if (!_isValidData(state.currentData)
                 || !onDone) {
                 return
@@ -214,10 +219,10 @@ export const TextNumberForm = <
                         done: !_isValidData(state.currentData)
                     }}
 
-                    onClear={_handleClear}
-                    onDone={_handleDone}
+                    onClear={_handle_Clear}
+                    onDone={_handle_Done}
 
-                    showInfoName={TextNumberForm.name}
+                    showInfoName={SimpleForm.name}
                     onShowInfoChange={_set_state}
 
                 />

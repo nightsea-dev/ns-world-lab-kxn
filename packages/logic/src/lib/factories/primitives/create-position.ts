@@ -1,4 +1,4 @@
-import { Position } from "@ns-lab-knx/types";
+import { Position } from "@ns-world-lab-knx/types";
 
 export const EMPTY_Position
     = Object.freeze({

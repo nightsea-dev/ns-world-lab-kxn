@@ -47,9 +47,9 @@ npm run serve:web-app
 
 - Layout and scrolling concerns belong to layout primitives
   (not feature components).
-- Runtime logic must come from `@ns-lab-knx/logic`.
-- Type contracts must come from `@ns-lab-knx/types`.
-- Shared UI components come from `@ns-lab-knx/web`.
+- Runtime logic must come from `@ns-world-lab-knx/logic`.
+- Type contracts must come from `@ns-world-lab-knx/types`.
+- Shared UI components come from `@ns-world-lab-knx/web`.
 
 ---
 

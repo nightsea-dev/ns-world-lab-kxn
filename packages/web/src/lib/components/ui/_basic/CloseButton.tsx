@@ -39,9 +39,6 @@ export const CloseButton = ({
         , _handleClick = (
             ev: MouseEvent<HTMLElement>
         ) => {
-            if (debugMode) {
-                debugger
-            }
             ev.preventDefault()
             ev.stopPropagation()
             onClick?.(ev)

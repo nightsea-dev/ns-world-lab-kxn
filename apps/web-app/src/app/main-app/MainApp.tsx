@@ -1,6 +1,6 @@
 import { ComponentProps, FunctionComponent, ReactElement, ReactNode, useId, useRef } from "react"
-import { KeyOf, SuffixedString, User } from "@ns-lab-knx/types"
-import { createIdeaWithAuthor, createUser, keysOf } from "@ns-lab-knx/logic"
+import { KeyOf, SuffixedString, User } from "@ns-world-lab-knx/types"
+import { createIdeaWithAuthor, createUser, keysOf } from "@ns-world-lab-knx/logic"
 import {
     _cb, _effect, _memo, _use_state
     , HasSurfaceNode, ObjectView
@@ -8,7 +8,7 @@ import {
     , ShowInfoToggle, SurfaceNode
     , ToggleRS
     , WorkspaceView
-} from "@ns-lab-knx/web"
+} from "@ns-world-lab-knx/web"
 import { Nav } from "rsuite"
 import { IdeasBoard, IdeasBoardProps, KnownPayloadsBoard, KnownPayloadsBoardProps, UserAdmin, UserAdminProps } from "../../features"
 
@@ -25,7 +25,7 @@ type FeatureKey = KeyOf<FEATURES_MAP>
 
 
 // ========================================
-const APP_NAME = "@ns-lab-knx/web-app"
+const APP_NAME = "@ns-world-lab-knx/web-app"
 // ========================================
 export const MainApp = ({
     initialFeatureKey = "KnownPayloadsBoard"

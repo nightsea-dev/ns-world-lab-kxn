@@ -1,10 +1,10 @@
 import React, { type CSSProperties, FunctionComponent, isValidElement, type ReactNode, useRef } from "react"
 import { NoData } from "./NoData"
-import { HasData, HasDepth, HasHeader, PickAndPrefixKeys, PickAndSuffixKeys, PrefixKeys, PrimitiveValue } from "@ns-lab-knx/types"
+import { HasData, HasDepth, HasHeader, PickAndPrefixKeys, PickAndSuffixKeys, PrefixKeys, PrimitiveValue } from "@ns-world-lab-knx/types"
 import {
     _colours, _isEmpty, _isIterable, entriesOf, EntriesOfOptions
     , _isStringArray
-} from "@ns-lab-knx/logic"
+} from "@ns-world-lab-knx/logic"
 import { _memo, CssPosition, PickCssProperties, PickHtmlAttributes } from "../../../utils"
 import { Renderer } from "../../../types"
 import { TagGroupNS, TagGroupNSProps } from "./TagGroupNS"

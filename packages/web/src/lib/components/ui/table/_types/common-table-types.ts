@@ -1,6 +1,6 @@
 import { MouseEvent, ReactNode } from "react"
-import { EventHandlersFromMap, HasData, KeyOf } from "@ns-lab-knx/types"
-import { _capitalise, keysOf } from "@ns-lab-knx/logic"
+import { EventHandlersFromMap, HasData, KeyOf } from "@ns-world-lab-knx/types"
+import { _capitalise, keysOf } from "@ns-world-lab-knx/logic"
 import { _memo } from "../../../../utils"
 
 // ======================================== DEFAULTS
