@@ -181,7 +181,8 @@ export const BoardSurface_Component = <
             if (!payloadsToAdd.length) {
                 return
             }
-            // debugger
+            
+             debugger
             const {
                 payloads: current_payloads
                 , m_state
