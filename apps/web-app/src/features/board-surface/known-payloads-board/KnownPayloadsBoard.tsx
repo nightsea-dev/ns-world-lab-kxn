@@ -4,25 +4,32 @@ import {
     _use_state,
     PayloadRenderer,
     DrawerInfo,
-    _getFileUrl,
     BoardSurface,
-} from '@ns-world-lab-knx/web'
+} from '@ns-world-lab-kxn/web'
 import {
+    _capitalise,
     createIdeaWithAuthor,
     pickFromAsArray,
     pickFromAsTuple,
-} from "@ns-world-lab-knx/logic"
-import { PickRequired } from '@ns-world-lab-knx/types'
+} from "@ns-world-lab-kxn/logic"
+import { PickRequired } from '@ns-world-lab-kxn/types'
 import {
     KNOWN_PAYLOAD_RENDERERS_BY_KIND
     , KnownPayload
     , KnownPayloadKind
 } from './KnownPayload.renderers'
 import {
+    IFramePayloadLoader,
+    ImagePayloadLoader,
     KNOWN_PAYLOAD_LOADER_DRAWER_INFOS_MAP
     , KnownPayloadLoaderProps
 } from './KnownPayload.loaders'
 import { useRef } from 'react'
+import {
+    IdeaPayloadRenderer
+    , IFrameInputView, IFramePayloadRenderer
+    , ImageInputView, ImagePayloadRenderer
+} from '../../../components'
 
 // ======================================== helpers
 
@@ -60,6 +67,7 @@ export type KnownPayloadsBoardProps =
             | "data"
             | "onPayloadsAdded"
             | "onPayloadsRemoved"
+            | "onChange"
         >
     >
 // ======================================== component
@@ -111,18 +119,41 @@ export const KnownPayloadsBoard = ({
         }
 
         , surfaceBoardHandlers = {
+
             onInputViewClose() {
                 _setTo_IDLE("surfaceBoardHandlers.onInputViewClose")
             }
-            , onPayloadsAdded({
-                payloads
-            }) {
-                _set_state({ payloads })
+
+            , onChange: ({
+                eventKind
+                , payloads
+                , surfaceNodes
+            }) => _set_state({ payloads })
+
+            , onControlPanelNumberOfItemsEnterKey: ({
+                numberOfItems
+                , showInfo
+                , cb
+            }) => {
+
+                const payloadKind = "idea" as KnownPayloadKind
+
+                cb({
+                    payloadKind
+                    , doContinue:
+                        numberOfItems <= 1
+                        || confirm(
+                            `Sure to Add ${numberOfItems} ${_capitalise(payloadKind)}${numberOfItems === 1 ? "" : "s"}?`
+                        )
+                })
+
             }
-            , onPayloadsRemoved({ payloads }) {
-                _set_state({ payloads })
-            }
-        } as PickRequired<BoardSurface.Props<KnownPayload>, "onInputViewClose" | "onPayloadsAdded" | "onPayloadsRemoved">
+        } as PickRequired<
+            BoardSurface.Props<KnownPayload>,
+            | "onInputViewClose"
+            | "onChange"
+            | "onControlPanelNumberOfItemsEnterKey"
+        >
 
         , inputViewHanders = {
             onCancel() {
@@ -154,72 +185,7 @@ export const KnownPayloadsBoard = ({
             }
         } as Pick<KnownPayloadLoaderProps<KnownPayloadKind>, "onCancel" | "onClear" | "onDone">
 
-        , _handle_ButtonClick = (
-            payloadKind: KnownPayloadKind
-        ) => {
 
-            if (state.m_state.name !== "IDLE") {
-                return
-            }
-
-            switch (payloadKind) {
-                case "idea": {
-
-                    const {
-                        payloads: current_payloads
-                    } = state
-                        , next_payloads = [...current_payloads]
-                        , {
-                            // current: {
-                            numberOfItems = 1
-                            // } = {}
-                        } = _refs.boardSurfaceRef ?? {}
-                    next_payloads.push(
-                        ...(
-                            Array.from({
-                                length: Math.max(1, numberOfItems)
-                            })
-                                .map(() => createIdeaWithAuthor())
-                        ))
-                    _set_state({
-                        payloads: next_payloads
-                    })
-                    break
-                }
-                case "iframe": {
-                    _set_state({
-                        m_state: {
-                            name: "SHOWING DRAWER"
-                            , payloadKind
-                        }
-                    })
-                    break
-                }
-                case "image": {
-                    _set_state({
-                        m_state: {
-                            name: "SHOWING DRAWER"
-                            , payloadKind
-                        }
-                    })
-                    break;
-                }
-            }
-
-        }
-        , _handle_ControlPanelNumberOfItemsEnterKey: BoardSurface.Props<KnownPayload>["onControlPanelNumberOfItemsEnterKey"]
-            = ({
-                numberOfItems
-                , showInfo
-            }) => {
-                if (!confirm(
-                    `Sure to Add ${numberOfItems} Idea${numberOfItems === 1 ? "" : "s"}?`
-                )) {
-                    return
-                }
-
-                _handle_ButtonClick("idea")
-            }
 
 
 
@@ -302,35 +268,80 @@ export const KnownPayloadsBoard = ({
 
                 data={state.payloads}
 
-                additionalControlPanelButtonsMap={{
-                    "Add Idea": {
-                        onClick: () => _handle_ButtonClick("idea")
-                        // , disabled: state.m_state.name !== "IDLE"
+                payloadInfosMap={{
+                    idea: {
+                        factory: ({ numberOfItems }) =>
+                            Array.from({ length: numberOfItems })
+                                .map(() => createIdeaWithAuthor())
+                        , buttonLabel: "Add Idea"
+                        , payloadRenderer: IdeaPayloadRenderer
                     }
-                    , "Add IFrame": {
-                        onClick: () => _handle_ButtonClick("iframe")
-                        // , disabled: state.m_state.name !== "IDLE"
+                    , iframe: {
+                        buttonLabel: "Add IFrame"
+                        , inputView: ({
+                            onCancel
+                            , onDone
+                        }) => <IFrameInputView
+                                onCancel={onCancel}
+                                onDone={({ data }) => {
+                                    // transformation
+                                    onDone({
+                                        data: data.map(({
+                                            id
+                                            , name
+                                            , url: src
+                                        }) => ({
+                                            kind: "iframe"
+                                            , id
+                                            , name
+                                            , src
+                                        }))
+                                    })
+                                }}
+                            />
+                        , payloadRenderer: IFramePayloadRenderer
                     }
-                    , "Add Image": {
-                        onClick: () => _handle_ButtonClick("image")
-                        // , disabled: state.m_state.name !== "IDLE"
+                    , image: {
+                        buttonLabel: "Add Image"
+                        , inputView: ({
+                            onCancel
+                            , onDone
+                        }) => <ImageInputView
+                                onCancel={onCancel}
+                                onDone={({
+                                    data
+                                }) => {
+                                    // transformation
+                                    onDone({
+                                        data: data.map(
+                                            loadedFileItem => ({
+                                                kind: "image"
+                                                , file: loadedFileItem
+                                                , name: loadedFileItem.name
+                                                , size: loadedFileItem.size
+
+                                                , src: loadedFileItem.url
+                                                , id: loadedFileItem.fileID
+                                                , mimeType: loadedFileItem.type
+                                                // , extent: loadedFileItem.
+                                            }))
+                                    })
+
+                                }}
+                            />
+                        , payloadRenderer: ImagePayloadRenderer
                     }
                 }}
-
-                onControlPanelNumberOfItemsEnterKey={_handle_ControlPanelNumberOfItemsEnterKey}
 
                 boardSurfaceRef={ref => {
                     _refs.boardSurfaceRef = ref
                 }}
 
-                inputViewInfo={{
-                    content: inputViewDrawerInfo
-                    , isOpen: openInputView
-                }}
-
                 {...surfaceBoardHandlers}
+
+
             >
-                {({
+                {/* {({
                     payload
                     , payload: {
                         kind
@@ -348,7 +359,7 @@ export const KnownPayloadsBoard = ({
                     return <R
                         payload={payload}
                     />
-                }}
+                }} */}
             </BoardSurface.Component>
         </div>
     )

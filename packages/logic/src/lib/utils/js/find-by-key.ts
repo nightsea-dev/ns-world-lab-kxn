@@ -1,4 +1,4 @@
-import { HasId, KeyOf } from "@ns-world-lab-knx/types"
+import { HasId, KeyOf } from "@ns-world-lab-kxn/types"
 
 type KeyFn<
     K extends PropertyKey

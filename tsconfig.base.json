@@ -23,25 +23,25 @@
         "strict": true,
         "target": "es2022",
         "customConditions": [
-            "@ns-world-lab-knx/source"
+            "@ns-world-lab-kxn/source"
         ],
         "paths": {
-            "@ns-world-lab-knx/logic": [
+            "@ns-world-lab-kxn/logic": [
                 "./packages/logic/src/index.ts"
             ],
-            "@ns-world-lab-knx/logic/*": [
+            "@ns-world-lab-kxn/logic/*": [
                 "./packages/logic/src/*"
             ],
-            "@ns-world-lab-knx/types": [
+            "@ns-world-lab-kxn/types": [
                 "./packages/types/src/index.ts"
             ],
-            "@ns-world-lab-knx/types/*": [
+            "@ns-world-lab-kxn/types/*": [
                 "./packages/types/src/*"
             ],
-            "@ns-world-lab-knx/web": [
+            "@ns-world-lab-kxn/web": [
                 "./packages/web/src/index.ts"
             ],
-            "@ns-world-lab-knx/web/*": [
+            "@ns-world-lab-kxn/web/*": [
                 "./packages/web/src/*"
             ]
         }

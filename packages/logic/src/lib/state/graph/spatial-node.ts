@@ -6,7 +6,7 @@ import {
     , EventHandlersFromMap
     , KeyOf
     , Size
-} from "@ns-world-lab-knx/types"
+} from "@ns-world-lab-kxn/types"
 import {
     createID
     , createTransform

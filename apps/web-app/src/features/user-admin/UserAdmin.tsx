@@ -1,18 +1,18 @@
 import {
     _cn,
-    _effect, _use_state, ButtonGroupRS, ClockWithShowToggle, Page, TailwindSanity_02, useElementHeight
+    _effect, _use_state, ButtonGroupRS, ClockWithShowToggle, MainPage, TailwindSanity_02, useElementHeight
 
-} from '@ns-world-lab-knx/web'
-import { API, createUser } from "@ns-world-lab-knx/logic"
+} from '@ns-world-lab-kxn/web'
+import { API, createUser } from "@ns-world-lab-kxn/logic"
 import { UsersTable } from '../../components'
 import {
     EventHandlersFromMap, HasData, User
 
-} from "@ns-world-lab-knx/types"
+} from "@ns-world-lab-kxn/types"
 import { useId, useRef } from 'react'
 import { Input, Loader } from 'rsuite'
 
-const APP_NAME = '@ns-world-lab-knx/admin'
+const APP_NAME = '@ns-world-lab-kxn/admin'
 // ======================================== types
 type M_Status = "IDLE" | "LOADING USERS"
 

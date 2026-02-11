@@ -1,9 +1,7 @@
-import { EventHandlersFromMap, HasData, HasMimeType, HasType, IMAGE_MIME } from "@ns-world-lab-knx/types"
+import { EventHandlersFromMap, HasData, HasMimeType, HasType, IMAGE_MIME } from "@ns-world-lab-kxn/types"
 import {
     _cn, _effect, _isValidUrl, _memo, _tw, _use_state
-    , Box
     , ControlButton_EventMapFor
-    , ControlButtons
     , FileDialogInput
     , LoadedFileItem
     , FileDialogInputProps
@@ -11,50 +9,18 @@ import {
     FileDialogRef,
     ImageCard,
     ImageInfo,
-    FileItemWithPartialUrlAndPartialFileID,
-    FileItemWithUrlAndFileID,
     ToggleRS,
     ImageCardDisplayMode,
-    ImageUploaderRS
-} from "@ns-world-lab-knx/web"
-import { useRef } from "react"
+    ImageCard_Props,
+    FileItemRenderer,
+    FileItemRenderer_Props,
+    Image_FileItemRenderer,
+    LoadedFileItemWithPartialError,
+} from "@ns-world-lab-kxn/web"
+import { ComponentProps, useRef } from "react"
 
 
-const {
-    fileID
-    , name
-    , lastModified
-    , type
-} = {} as LoadedFileItem
 
-type ImageFileWithDimensions
-    = & Omit<LoadedFileItem, "type">
-    & HasType<IMAGE_MIME>
-
-const _transform_FileItemWithPartialUrlAndPartialFileID_to_ImageInfo
-    = ({
-        url: src
-        , fileID: id
-        , name
-    }: FileItemWithUrlAndFileID
-    ): ImageInfo => ({
-        id
-        , src
-        , name
-    })
-
-
-const _transform_loadedFileItem_to_ImageInfo
-    = ({
-        url: src
-        , fileID: id
-        , name
-    }: LoadedFileItem
-    ): ImageInfo => ({
-        id
-        , src
-        , name
-    })
 
 
 
@@ -80,7 +46,7 @@ export const ImageInputView = ({
 ) => {
 
     const [state, _set_state] = _use_state({
-        loadedFileItems: [] as LoadedFileItem[]
+        loadedFileItems: [] as LoadedFileItemWithPartialError[]
         , displayMode: "card" as ImageCardDisplayMode
     })
 
@@ -88,18 +54,7 @@ export const ImageInputView = ({
             fileDialogRef?: FileDialogRef | null
         })
 
-        , { imageInfosMapByFileId } = _memo([state.loadedFileItems], () => {
-            return {
-                imageInfosMapByFileId: Object.fromEntries(
-                    state.loadedFileItems.map(o => [
-                        o.fileID
-                        , _transform_loadedFileItem_to_ImageInfo(o)
-                    ])
-                )
-            }
-        })
-
-        , _handleFileDialogChange: FileDialogInputProps["onChange"]
+        , _handle_FileDialogChange: FileDialogInputProps["onChange"]
             = ev => {
                 const {
                     eventKind
@@ -122,16 +77,20 @@ export const ImageInputView = ({
 
             }
 
-        , _handleControlClear = () => {
+        , _handle_ControlButton_Clear = () => {
             debugger
             _refs.fileDialogRef?.clear()
         }
 
 
-        , _handleControlDone = () => {
-            const { loadedFileItems: data } = state
-            onDone({ data })
+        , _handle_ControlButton_Done = () => {
+            const { loadedFileItems } = state
+            onDone({
+                data: loadedFileItems.filter(o => !o.error)
+            })
         }
+
+
 
     return (
         <InputViewLayout
@@ -140,9 +99,9 @@ export const ImageInputView = ({
                     done: !state.loadedFileItems.length
                     , clear: !state.loadedFileItems.length
                 }
-                , onDone: _handleControlDone
+                , onDone: _handle_ControlButton_Done
+                , onClear: _handle_ControlButton_Clear
                 , onCancel: onCancel
-                , onClear: _handleControlClear
                 , infoData: state as any
             }}
         >
@@ -160,22 +119,16 @@ export const ImageInputView = ({
                 fileDialogRef={ref => {
                     _refs.fileDialogRef = ref
                 }}
-                onChange={_handleFileDialogChange}
-                fileRenderer={({ data }) => {
-                    const {
-                        fileID
-                    } = data as Required<typeof data>
-                    return (
-                        <ImageCard
-                            data={imageInfosMapByFileId[fileID]}
-                            width={200}
-                            displayMode={state.displayMode}
-                        />
-                    )
 
-                }}
-            // onClick={_handle_FileDialogInput_Click}
-            // placeholder={placeholder}
+                onChange={_handle_FileDialogChange}
+
+                fileItemRenderer={props => (
+                    <Image_FileItemRenderer
+                        {...props}
+                        displayMode={state.displayMode}
+                    />
+                )}
+
             />
         </InputViewLayout>
     )

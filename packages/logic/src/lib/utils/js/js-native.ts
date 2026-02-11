@@ -17,6 +17,7 @@ export const _isIterable = <
 
     , _isNumber = (v: unknown): v is number => typeof (v) === "number"
     , _isString = (v: unknown): v is string => typeof (v) === "string"
+    , _isBoolean = (v: unknown): v is boolean => typeof (v) === "boolean"
 
 
     , _isStringArray = (v: unknown): v is string[] =>

@@ -1,4 +1,4 @@
-import { SuffixedKey, SuffixedString } from "../ts";
+import { KindBase } from "./has-kind"
 
 export type HasPayload<
     P extends any = unknown
@@ -10,4 +10,11 @@ export type HasPayloads<
     P extends any = unknown
 > = {
     payloads: P[]
+}
+
+
+export type HasPayloadKind<
+    K extends KindBase
+> = {
+    payloadKind: K
 }

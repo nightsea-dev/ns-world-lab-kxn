@@ -1,4 +1,4 @@
-import { Position, Position_KEYS } from "@ns-world-lab-knx/types";
+import { Position, Position_KEYS } from "@ns-world-lab-kxn/types";
 
 
 export const areEqualPositions = (

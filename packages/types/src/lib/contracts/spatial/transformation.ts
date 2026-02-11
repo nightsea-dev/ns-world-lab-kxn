@@ -19,6 +19,10 @@ export type HasTransformation = {
     transformation: Transformation
 }
 
+export type HasTransformations = {
+    transformations: Transformation[]
+}
+
 
 // capability/behaviour
 export type HasTransformationMutators

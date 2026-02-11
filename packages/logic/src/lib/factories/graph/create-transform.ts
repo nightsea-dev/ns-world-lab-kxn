@@ -1,6 +1,6 @@
 import {
     Transformation
-} from "@ns-world-lab-knx/types";
+} from "@ns-world-lab-kxn/types";
 import { createPosition, createSize } from "../primitives";
 
 export const createTransform = (

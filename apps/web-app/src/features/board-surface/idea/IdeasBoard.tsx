@@ -1,17 +1,18 @@
 import {
     _effect
-    , BoardSurfaceComponent,
+    , BoardSurface_Component,
     HasCreatePayloadFn,
     _memo,
     _use_state,
     BoardSurface_Props
-} from '@ns-world-lab-knx/web'
+} from '@ns-world-lab-kxn/web'
 import {
-    createIdeaWithAuthor
-} from "@ns-world-lab-knx/logic"
+    createIdeaWithAuthor,
+    createIdeaWithAuthorCollection
+} from "@ns-world-lab-kxn/logic"
 import {
-    IdeaWithAuthor
-} from '@ns-world-lab-knx/types'
+    IdeaWithKindAndAuthor
+} from '@ns-world-lab-kxn/types'
 import { IdeaPayloadRenderer } from '../../../components'
 
 // ======================================== CONST
@@ -19,10 +20,11 @@ import { IdeaPayloadRenderer } from '../../../components'
 export type IdeasBoardProps =
     & Partial<
         & Pick<
-            BoardSurface_Props<IdeaWithAuthor>,
+            BoardSurface_Props<IdeaWithKindAndAuthor>,
             | "data"
             | "onPayloadsAdded"
             | "onPayloadsRemoved"
+            | "onChange"
         >
     >
 // ======================================== component
@@ -35,7 +37,7 @@ export const IdeasBoard = ({
 ) => {
 
     const [state, _set_state] = _use_state({
-        data: [] as IdeaWithAuthor[]
+        data: [] as IdeaWithKindAndAuthor[]
         , isFirstRender: true
     })
 
@@ -61,22 +63,28 @@ export const IdeasBoard = ({
     })
 
     return (
-        <BoardSurfaceComponent
+        <BoardSurface_Component
             {...rest}
             data={state.data}
             // children={children}
-            createPayloadFnMap={{
-                "Add Idea": createIdeaWithAuthor
+            // createPayloadFnMap={{
+            //     "Add Idea": createIdeaWithAuthor
+            // }}
+            payloadInfosMap={{
+                idea: {
+                    factory: createIdeaWithAuthorCollection
+                    , payloadRenderer: IdeaPayloadRenderer
+                }
             }}
 
         >
-            {IdeaPayloadRenderer}
+            {/* {IdeaPayloadRenderer} */}
             {/* {({ payload }) => {
                 return <IdeaPayloadRenderer
                     payload={payload}
                 />
             }} */}
-        </BoardSurfaceComponent>
+        </BoardSurface_Component>
     )
 
 }

@@ -1,5 +1,5 @@
 {
-    "name": "@ns-world-lab-knx/web-app",
+    "name": "@ns-world-lab-kxn/web-app",
     "tags": [
         "layer:app"
     ],
@@ -9,15 +9,15 @@
             "executor": "@nx/vite:dev-server",
             "defaultConfiguration": "development",
             "options": {
-                "buildTarget": "@ns-world-lab-knx/web-app:build"
+                "buildTarget": "@ns-world-lab-kxn/web-app:build"
             },
             "configurations": {
                 "development": {
-                    "buildTarget": "@ns-world-lab-knx/web-app:build:development",
+                    "buildTarget": "@ns-world-lab-kxn/web-app:build:development",
                     "hmr": true
                 },
                 "production": {
-                    "buildTarget": "@ns-world-lab-knx/web-app:build:production",
+                    "buildTarget": "@ns-world-lab-kxn/web-app:build:production",
                     "hmr": false
                 }
             }
@@ -47,14 +47,14 @@
             "executor": "@nx/vite:preview-server",
             "defaultConfiguration": "development",
             "options": {
-                "buildTarget": "@ns-world-lab-knx/web-app:build"
+                "buildTarget": "@ns-world-lab-kxn/web-app:build"
             },
             "configurations": {
                 "development": {
-                    "buildTarget": "@ns-world-lab-knx/web-app:build:development"
+                    "buildTarget": "@ns-world-lab-kxn/web-app:build:development"
                 },
                 "production": {
-                    "buildTarget": "@ns-world-lab-knx/web-app:build:production"
+                    "buildTarget": "@ns-world-lab-kxn/web-app:build:production"
                 }
             }
         }

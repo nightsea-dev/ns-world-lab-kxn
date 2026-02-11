@@ -1,4 +1,4 @@
-import { Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-world-lab-knx/types"
+import { Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-world-lab-kxn/types"
 import { createID, createSize } from "../primitives"
 import { faker } from "@faker-js/faker"
 
@@ -43,11 +43,11 @@ export const createSeed = (): string => {
         , mimeType = "image/jpeg" as MIME_TYPE
         , name = faker.animal.petName()
         , size
-        , dimensions
-        , src = createImageSource(dimensions = {
+        , extent
+        , src = createImageSource(extent = {
             width: 400
             , height: 300
-            , ...dimensions
+            , ...extent
         })
         , file
     }: Partial<Omit<ImageWithKind, "kind">>
@@ -57,6 +57,6 @@ export const createSeed = (): string => {
         , name
         , size
         , src
-        , dimensions
+        , extent
         , file
     })

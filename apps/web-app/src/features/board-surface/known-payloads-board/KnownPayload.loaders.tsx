@@ -1,20 +1,20 @@
 import {
     IFrameWithKind,
     ImageWithKind
-} from "@ns-world-lab-knx/types";
+} from "@ns-world-lab-kxn/types";
 import {
     createID
-} from "@ns-world-lab-knx/logic";
+} from "@ns-world-lab-kxn/logic";
 import {
     _getFileUrl
     , DrawerInfo
     , Renderer
     , LoadedFileItemWithID
     , _getMimeType
-    , getImageDimensionsFromFile
+    , getImageExtentFromFile
     , LoadedFileItem
     , PayloadLoaderProps
-} from "@ns-world-lab-knx/web";
+} from "@ns-world-lab-kxn/web";
 import {
     KnownPayloadKind
     , KnownPayloadOf
@@ -36,38 +36,6 @@ const _transform_IFrameDataItem_to_IFrameWithKind = ({
         , src
     } as IFrameWithKind)
 }
-    , _transform_LoadedFileItemWithID_to_ImageWithKind = async (
-        loadedFileItemWithID: LoadedFileItemWithID
-    ): Promise<ImageWithKind> => {
-        const {
-            arrayBuffer
-            , bytes
-            , fileID
-            , id
-            , lastModified
-            , name
-            , size
-            , type
-            , url: src
-            , webkitRelativePath
-        } = loadedFileItemWithID
-
-            , {
-                dimensions
-            } = await getImageDimensionsFromFile(loadedFileItemWithID)
-
-        return {
-            dimensions
-            , file: loadedFileItemWithID
-            , id
-            , kind: "image"
-            , mimeType: _getMimeType(loadedFileItemWithID)!
-            , name
-            , size
-            , src
-        }
-    }
-
     , _transform_LoadedFileItem_to_ImageWithKind = async (
         loadedFileItem: LoadedFileItem
     ): Promise<ImageWithKind> => {
@@ -83,13 +51,12 @@ const _transform_IFrameDataItem_to_IFrameWithKind = ({
             , webkitRelativePath
         } = loadedFileItem
 
-            , {
-                dimensions
-            } = await getImageDimensionsFromFile(loadedFileItem)
+        // , {
+        //     extent
+        // } = await getImageExtentFromFile(loadedFileItem)
 
         return {
-            dimensions
-            , file: loadedFileItem
+            file: loadedFileItem
             , id
             , kind: "image"
             , mimeType: _getMimeType(loadedFileItem)!

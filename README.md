@@ -1,4 +1,4 @@
-# NS-WORLD-LAB-knx
+# ns-world-lab-kxn
 
 Nx-based monorepo containing frontend applications and shared libraries
 for spatial graph / board-style UI experimentation.
@@ -31,16 +31,16 @@ packages/
 
 ### 1. Types vs runtime are strictly separated
 
-- `@ns-world-lab-knx/types`
+- `@ns-world-lab-kxn/types`
   - Types only
   - Never used at runtime
 
-- `@ns-world-lab-knx/logic`
+- `@ns-world-lab-kxn/logic`
   - Runtime library
   - Emits JavaScript + types
   - Contains graph state, factories, utilities
 
-- `@ns-world-lab-knx/web`
+- `@ns-world-lab-kxn/web`
   - Runtime React components and hooks
   - Depends on `logic` and `types`
 
@@ -60,7 +60,7 @@ Never rely on TS-only path mapping for runtime imports.
 ### 3. No self-imports inside a package
 
 Inside a package:
-- ❌ `import { X } from "@ns-world-lab-knx/web"` (from within `packages/web`)
+- ❌ `import { X } from "@ns-world-lab-kxn/web"` (from within `packages/web`)
 - ✅ relative imports only
 
 Each package must be buildable in isolation.

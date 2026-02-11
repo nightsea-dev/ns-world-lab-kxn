@@ -1,6 +1,6 @@
 # web-app
 
-Primary React application for the NS-WORLD-LAB-knx workspace.
+Primary React application for the ns-world-lab-kxn workspace.
 
 This app integrates the shared graph logic and UI components to render
 interactive board-style surfaces and related admin features.
@@ -47,9 +47,9 @@ npm run serve:web-app
 
 - Layout and scrolling concerns belong to layout primitives
   (not feature components).
-- Runtime logic must come from `@ns-world-lab-knx/logic`.
-- Type contracts must come from `@ns-world-lab-knx/types`.
-- Shared UI components come from `@ns-world-lab-knx/web`.
+- Runtime logic must come from `@ns-world-lab-kxn/logic`.
+- Type contracts must come from `@ns-world-lab-kxn/types`.
+- Shared UI components come from `@ns-world-lab-kxn/web`.
 
 ---
 

@@ -1,25 +1,55 @@
 import {
-    IdeaWithAuthor,
-    ImageWithKind
-} from '@ns-world-lab-knx/types'
+    HasError,
+    HasPartialError,
+    IdeaWithKindAndAuthor,
+    ImageWithKind,
+    XOR
+} from '@ns-world-lab-kxn/types'
 import {
     _cn,
     _memo,
+    _use_state,
+    HasImageInfo,
+    ImageErrorPlaceholder,
+    ImageRenderer,
+    ImageRendererProps,
     PayloadRendererProps,
     PickCssProperties,
-} from '@ns-world-lab-knx/web'
+    useImageExtent,
+    UseImageExtentInput,
+    UseImageExtentOutput,
+} from '@ns-world-lab-kxn/web'
 import {
     getRandomColour
-} from '@ns-world-lab-knx/logic'
+} from '@ns-world-lab-kxn/logic'
+import { FunctionComponent } from 'react'
+
+export type ImagePayloadRendererDisplayType
+    = "img" | "bg" | "card"
 
 // ======================================== props
 export type ImagePayloadRendererProps =
     & PayloadRendererProps<ImageWithKind>
     & Partial<
         & {
-            inBg: boolean
+            //displayType: ImagePayloadRendererDisplayType
             useRandomColour: boolean
+            displayType: ImagePayloadRendererDisplayType
         }
+    // & XOR<
+    //     & {
+    //         displayType: ImagePayloadRendererDisplayType
+    //     }
+    //     , {
+    //         imageRenderer: ImageRenderer<
+    //             & ImageRendererProps
+    //             & Partial<
+    //                 & HasError
+    //                 & Pick<UseImageExtentInput, "onError">
+    //             >
+    //         >
+    //     }
+    // >
     >
 
 // ======================================== component
@@ -28,10 +58,16 @@ export type ImagePayloadRendererProps =
  */
 export const ImagePayloadRenderer = ({
     payload
-    , inBg
     , useRandomColour
+    , displayType = "img"
+    // , imageRenderer: R
+    , ...rest
 }: ImagePayloadRendererProps
 ) => {
+
+    const [state, _set_state] = _use_state({} as {
+        error?: Error
+    })
 
     const {
         id
@@ -39,7 +75,7 @@ export const ImagePayloadRenderer = ({
         , mimeType
         , name
         , src
-        , dimensions
+        , extent
         , file
         , size
     } = payload
@@ -51,43 +87,81 @@ export const ImagePayloadRenderer = ({
             } as PickCssProperties<"backgroundColor">
         })
 
-    console.log({
-        bgColour: backgroundColor
-    })
+        , { commonProps } = _memo([id, name, mimeType, extent], () => ({
+            commonProps: {
+                "data-image-payload-renderer": id
+                , title: `${name} ${!extent ? undefined : `( ${[extent.width, extent.height].join(" x ")} )`}`
+                , "data-name": name
+                , "data-mime-type": mimeType
+            }
+        }))
+
+        , _handle_Error: UseImageExtentInput["onError"]
+            = ({
+                error
+                , data: imageInfo
+            }) => {
+                const {
+                    name
+                    , message
+                    , stack
+                } = error
+
+                _set_state({ error })
+
+
+            }
+
+        , imageExtentHandlers = useImageExtent({
+            data: payload
+            , onError: _handle_Error
+        })
+
+
+    // console.log({
+    //     bgColour: backgroundColor
+    // })
 
     if (!src) {
         throw new Error(`[payload.src] is required.`)
     }
 
     return (
-        inBg
-            ? <div
-                title={name}
-                data-name={name}
-                data-mime-type={mimeType}
-                style={{
-                    backgroundImage: `url("${src}")`
-                    , width: "100%"
-                    , height: "100%"
-                    , backgroundSize: "contain"
-                    , backgroundRepeat: "no-repeat"
-                    , backgroundPosition: "50% 50%"
-                    , backgroundColor
-                }}
-            />
-            : <img
-                src={src}
-                title={name}
-                data-name={name}
-                data-mime-type={mimeType}
-                className={`
+        state.error
+            ? (
+                <ImageErrorPlaceholder
+                    data={payload}
+                    error={state.error}
+                />
+            )
+            : displayType === "img"
+                ? (
+                    <img
+                        src={src}
+                        {...commonProps}
+                        className={`
                     pointer-events-none w-full h-full 
                     object-contain
                     `}
-                style={{
-                    backgroundColor
-                }}
-            />
+                        style={{
+                            backgroundColor
+                        }}
+                        {...imageExtentHandlers}
+                    />
+                )
+                : <div
+                    {...commonProps}
+                    style={{
+                        backgroundImage: `url("${src}")`
+                        , width: "100%"
+                        , height: "100%"
+                        , backgroundSize: "contain"
+                        , backgroundRepeat: "no-repeat"
+                        , backgroundPosition: "50% 50%"
+                        , backgroundColor
+                    }}
+                />
+
 
     )
 

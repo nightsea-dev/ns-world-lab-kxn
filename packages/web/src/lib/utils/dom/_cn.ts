@@ -19,7 +19,9 @@ export const _cn = (...args: CnInput[]): string => {
 
         if (typeof arg === "string") {
             const s = arg.trim()
-            if (s) out.push(s)
+            if (s) {
+                out.push(s)
+            }
             continue
         }
 
@@ -27,7 +29,9 @@ export const _cn = (...args: CnInput[]): string => {
             for (const v of arg) {
                 if (typeof v === "string") {
                     const s = v.trim()
-                    if (s) out.push(s)
+                    if (s) {
+                        out.push(s)
+                    }
                 }
             }
             continue

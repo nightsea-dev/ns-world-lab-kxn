@@ -1,5 +1,5 @@
 import { Children, ComponentProps, FunctionComponent, isValidElement, ReactElement, ReactNode } from "react";
-import { EventHandlersFromMap } from "@ns-world-lab-knx/types";
+import { EventHandlersFromMap } from "@ns-world-lab-kxn/types";
 
 export type FilterElementsOfTypeInput<
     FC extends FunctionComponent

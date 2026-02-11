@@ -1,5 +1,5 @@
 import { HasKind, HasName, HasSource } from "../../../capabilities"
-import { HasId, HasSize, Size } from "../../../primitives"
+import { HasId, HasPartialExtent, HasSize, Size } from "../../../primitives"
 import { HasMimeType } from "./mime-type"
 
 
@@ -10,10 +10,10 @@ export type Image =
     & HasName
     & HasSource
     & HasMimeType
+    & HasPartialExtent
     & {
         size: number
         file: File
-        dimensions: Size
     }
 
 

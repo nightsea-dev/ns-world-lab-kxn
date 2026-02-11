@@ -1,6 +1,6 @@
 {
-    "name": "@ns-world-lab-knx/source",
-    "version": "0.4.2",
+    "name": "@ns-world-lab-kxn/source",
+    "version": "0.5.0",
     "license": "MIT",
     "scripts": {
         "serve:web-app": "npm run clean && nx serve web-app --host=lab36 --port=8090 --watch",
@@ -10,10 +10,10 @@
         "__build:admin": "cls && nx build admin --watch",
         "---------- tsc": "----------------------------------------",
         "clean": "tsc -b tsconfig.build.json --clean",
-        "b:types:w": "tsc -b packages/types -w",
-        "b:logic:w": "tsc -b packages/logic -w",
-        "b:web:w": "tsc -b packages/web -w",
-        "b:web-app:w": "tsc -b apps/web-app -w",
+        "tsc:types:w": "tsc -b packages/types -w",
+        "tsc:logic:w": "tsc -b packages/logic -w",
+        "tsc:web:w": "tsc -b packages/web -w",
+        "tsc:web-app:w": "tsc -b apps/web-app -w",
         "__b:admin:w": "tsc -b apps/admin -w",
         "---------- nx": "----------------------------------------",
         "nx:types:w": "cls && nx run-many -t build --projects=types --verbose",

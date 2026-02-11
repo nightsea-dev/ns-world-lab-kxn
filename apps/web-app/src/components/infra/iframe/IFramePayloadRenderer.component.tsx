@@ -1,15 +1,15 @@
 import {
     IFrameWithKind
-} from '@ns-world-lab-knx/types'
+} from '@ns-world-lab-kxn/types'
 import {
     _cn,
     _layoutEffect,
     _use_state,
     ObjectView,
+    ObjectViewWithToggle,
     PayloadRendererProps,
     ShowInfoToggle,
-} from '@ns-world-lab-knx/web'
-import { useRef } from 'react'
+} from '@ns-world-lab-kxn/web'
 
 // ======================================== props
 export type IFramePayloadRendererProps =
@@ -42,10 +42,13 @@ export const IFramePayloadRenderer = ({
     return (
         <div
             className={`
-                block w-full h-full border-8 bg-green-500
+                block 
+                w-full 
+                h-full 
+                ---border-8 
+                ---bg-green-500
                 `}
         >
-
             <iframe
                 data-iframe-payload
                 title={[name, src].join(" | ")}
@@ -56,40 +59,8 @@ export const IFramePayloadRenderer = ({
                 block w-full h-full border-2 bg-blue-500
                 `}
             />
-            <div
-                className={`
-                ---absolute
-                top-[-10px]
-                left-[10px]
-                z-50
-                `}
-                style={{
-                    transform:"translate(0, -30px)"
-                }}
-            >
-                <ShowInfoToggle
-                    checked={state.showInfo}
-                    onClickCapture={ev => {
-                        debugger
 
-                    }}
-                    onClick={ev => {
-                        debugger
-                    }}
-                    onChange={({
-                        showInfo
-                    }) => {
-                        debugger
-
-                        _set_state({
-                            showInfo
-                        })
-                    }}
-                />
-                {state.showInfo && <ObjectView
-                    data={payload}
-                />}
-            </div>        </div>
+        </div>
     )
 
 }

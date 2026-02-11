@@ -4,15 +4,20 @@ import {
 } from "../utils"
 
 
-export type useOnPointerDownInput =
+export type UseOnPointerDownInput =
     & PickHtmlAttributes<"onPointerDown">
+
+export type UseOnPointerDownOutput =
+    & PickHtmlAttributes<"onPointerDown" | "onPointerUp">
+    & {
+        pointerIsDown: boolean
+    }
 
 export const useOnPointerDown = ({
     onPointerDown
-} = {} as useOnPointerDownInput
-) => {
+} = {} as UseOnPointerDownInput
+): UseOnPointerDownOutput => {
 
-    type State = typeof state
     const [state, _set_state] = _use_state({
         pointerIsDown: false
     })
@@ -31,7 +36,5 @@ export const useOnPointerDown = ({
                 pointerIsDown: false
             })
         }
-    } as
-        & PickHtmlAttributes<"onPointerDown" | "onPointerUp">
-        & State
+    }
 }

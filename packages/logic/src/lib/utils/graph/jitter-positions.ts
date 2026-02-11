@@ -1,4 +1,4 @@
-import { Position, Size, Transformation, XOR } from "@ns-world-lab-knx/types";
+import { HasPositions, HasTransformations, Position, Size, Transformation, XOR } from "@ns-world-lab-kxn/types";
 
 
 
@@ -27,24 +27,39 @@ export type JitterPositionsOptions =
     >
 
 
-export type JitterPositionsInputBase = {
+type JitterPositionsInputBase = {
     containerSize: Size
     options?: JitterPositionsOptions
 }
 
 
-export type JitterPositionsInput =
+type JitterPositionsInput_A =
     & JitterPositionsInputBase
-    & {
-        positions: Position[]
-    }
+    & HasPositions
 
 export type JitterTransformationsInput =
     & JitterPositionsInputBase
-    & {
-        transformations: Transformation[]
+    & HasTransformations
+
+export type JitterPositionsInput =
+    JitterPositionsInputBase
+    & Omit<
+        XOR<JitterPositionsInput_A, JitterTransformationsInput>,
+        keyof JitterPositionsInputBase
+    >
+
+export type JitterPositionsOutput
+    = {
+        originalPositions: Position[]
+        scatteredPositions: Position[]
     }
 
+const DEFAULT_JitterPositionsOptions: Required<JitterPositionsOptions> = {
+    padding: 16
+    , gap: 16
+    , jitter: 0.35
+    , seed: 1
+}
 // ======================================== func
 
 /**
@@ -56,24 +71,27 @@ export type JitterTransformationsInput =
  * unless your points represent top-left corners of same-size nodes and gap is sufficient.
  */
 export const _jitterPositions = ({
-    containerSize: { width: W0, height: H0 },
-    positions,
-    transformations,
-    options: {
-        padding = 16,
-        gap = 16,
-        jitter = 0.35,
-        seed = 1
-    } = {}
-}: JitterPositionsInputBase
-    & Omit<
-        XOR<JitterPositionsInput, JitterTransformationsInput>,
-        keyof JitterPositionsInputBase
-    >
-): {
-    originalPositions: Position[]
-    jiterredPositions: Position[]
-} => {
+    containerSize: { width: W0, height: H0 }
+    , positions
+    , transformations
+    , options
+    // , options: {
+    //     padding = 16
+    //     , gap = 16
+    //     , jitter = 0.35
+    //     , seed = 1
+    // } = {}
+}: JitterPositionsInput
+): JitterPositionsOutput => {
+    const {
+        gap = DEFAULT_JitterPositionsOptions.gap
+        , jitter = DEFAULT_JitterPositionsOptions.jitter
+        , padding = DEFAULT_JitterPositionsOptions.padding
+        , seed = DEFAULT_JitterPositionsOptions.seed
+    } = {
+        ...DEFAULT_JitterPositionsOptions
+        , ...options
+    }
     const W = Math.max(0, W0)
         , H = Math.max(0, H0)
 
@@ -89,7 +107,7 @@ export const _jitterPositions = ({
     if (N === 0 || W === 0 || H === 0) {
         return {
             originalPositions: originals,
-            jiterredPositions: originals.map(p => ({ ...p }))
+            scatteredPositions: originals.map(p => ({ ...p }))
         };
     }
 
@@ -177,6 +195,6 @@ export const _jitterPositions = ({
 
     return {
         originalPositions: originals
-        , jiterredPositions: scattered
+        , scatteredPositions: scattered
     };
 };

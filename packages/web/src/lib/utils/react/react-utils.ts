@@ -46,12 +46,32 @@ export const _use_state = <
                     reducerFn: ReducerFn
                 ]
         ) => {
+
             const isReducerFn = typeof (arg_0) === "function"
 
-                , reducerFn: ReducerFn = p => ({
-                    ...p
-                    , ...(isReducerFn ? arg_0(p) : arg_0)
-                })
+                , reducerFn: ReducerFn = p => {
+                    const next_or_partial = isReducerFn ? arg_0(p) : arg_0
+                    if (!next_or_partial) {
+                        console.warn([_use_state.name, reducerFn.name].join(".")
+                            , "Did you forget to return the [state]?"
+                        )
+                        return p
+                    }
+                    type K = StateKey & (keyof typeof next_or_partial)
+                    let changed = false
+                    for (const k in next_or_partial) {
+                        if (next_or_partial[k as K] !== p[k as K]) {
+                            changed = true
+                            break
+                        }
+                    }
+                    return changed
+                        ? {
+                            ...p
+                            , ...next_or_partial
+                        }
+                        : p
+                }
 
             _set_state_0(reducerFn)
 
@@ -69,7 +89,8 @@ export const _use_state = <
                             ...p
                             , ...partial
                         }
-                        setTimeout(() => res(p))
+                        res(p)
+                        //setTimeout(() => res(p))
                         return p
                     })
                 })

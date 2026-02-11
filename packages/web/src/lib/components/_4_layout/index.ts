@@ -1,0 +1,5 @@
+export * from "./footer"
+export * from "../_4_layout/header"
+export * from "../_4_layout/main"
+export * from "./page"
+export * from "../_4_layout/view"

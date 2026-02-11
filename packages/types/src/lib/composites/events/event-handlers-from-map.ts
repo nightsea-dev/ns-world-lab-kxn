@@ -96,8 +96,40 @@ export type PartialEventHandlersWithKindFromMap<
 
 
 
+// ======================================== extract handlers
+//type AnyEventHandler = EventHandler<any>
+type AnyFn = (...args: any[]) => any;
+type OnKeyToKind<K> =
+    K extends `on${infer Name extends string}`
+    ? Uncapitalize<Name>
+    : never
+
+type HandlerEvent<F>
+    =
+    F extends (ev: infer Ev) => any
+    ? (
+        Ev extends object
+        ? Ev
+        : {}
+    )
+    : (
+        F extends () => any
+        ? {}
+        : never
+    )
+
+export type ExtractEventHandlersMap<T extends object> = {
+    [k in KeyOf<T> as
+    k extends `on${string}`
+    ? (
+        NonNullable<T[k]> extends AnyFn ? k : never
+    )
+    : never
+    ]: Extract<NonNullable<T[k]>, AnyFn>
+}
 
 
-
-
-
+export type ExtractEventsMap<T extends object> = {
+    [K in keyof ExtractEventHandlersMap<T> as OnKeyToKind<K>]
+    : HandlerEvent<ExtractEventHandlersMap<T>[K]>
+}

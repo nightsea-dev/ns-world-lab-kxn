@@ -1,15 +1,15 @@
 import {
-    IdeaWithAuthor
-} from '@ns-world-lab-knx/types'
+    IdeaWithKindAndAuthor
+} from '@ns-world-lab-kxn/types'
 import {
     _cn,
     PayloadRendererProps,
     PayloadWithContentRenderer,
-} from '@ns-world-lab-knx/web'
+} from '@ns-world-lab-kxn/web'
 
 // ======================================== props
 export type IdeaPayloadRendererProps =
-    & PayloadRendererProps<IdeaWithAuthor>
+    & PayloadRendererProps<IdeaWithKindAndAuthor>
 
 // ======================================== component
 /**

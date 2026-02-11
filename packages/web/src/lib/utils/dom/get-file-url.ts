@@ -1,4 +1,4 @@
-import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-world-lab-knx/types"
+import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-world-lab-kxn/types"
 import {
     AnyFileItemType
     , FileItemWithPartialUrl
@@ -16,7 +16,7 @@ import {
 
 
 
-export const _getFileUrl = <
+export const _getUrl_fromFile = <
     F extends FileItemWithPartialUrl
 >(
     file?: F
@@ -24,7 +24,7 @@ export const _getFileUrl = <
         ? undefined
         : ((file as FileItemWithPartialUrl).url ?? URL.createObjectURL(file as File))
 
-    , _getFileID = <
+    , _getFileID_fromFile = <
         F extends File
     >(
         file?: F
@@ -54,11 +54,11 @@ export const _getFileUrl = <
         [...(inputFileItems ?? [])]
             .filter(Boolean)
             .map((file): FileItemWithUrlAndFileIDAndID => {
-                const fileID = _getFileID(file)
+                const fileID = _getFileID_fromFile(file)
                 return Object.assign(
                     file
                     , {
-                        url: _getFileUrl(file)
+                        url: _getUrl_fromFile(file)
                         , fileID
                         , id: fileID
                     }

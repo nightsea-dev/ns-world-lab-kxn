@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { createID } from '../primitives'
-import { Idea, IdeaWithAuthor, IdeaWithKind } from '@ns-world-lab-knx/types'
+import { Idea, IdeaWithKindAndAuthor, IdeaWithKind, HasNumberOfItems } from '@ns-world-lab-kxn/types'
 import { createUser } from './create-user'
 import { getRandomColour } from '../../utils'
 
@@ -32,8 +32,8 @@ export const createIdeaWithKind = (
     } as IdeaWithKind)
 }
     , createIdeaWithAuthor = (
-        o = {} as Partial<IdeaWithAuthor>
-    ): IdeaWithAuthor => {
+        o = {} as Partial<IdeaWithKindAndAuthor>
+    ): IdeaWithKindAndAuthor => {
         // const id = String(Date.now())
         return ({
             ...createIdeaWithKind()
@@ -51,5 +51,9 @@ export const createIdeaWithKind = (
             // ,        title: 'Idea',
             //         content: faker.lorem.paragraph(1),
             //         color: getRandomColor(),
-        } as IdeaWithAuthor)
+        } as IdeaWithKindAndAuthor)
     }
+    , createIdeaWithAuthorCollection = ({
+        numberOfItems
+    }: HasNumberOfItems
+    ) => Array.from({ length: numberOfItems }).map(() => createIdeaWithAuthor())

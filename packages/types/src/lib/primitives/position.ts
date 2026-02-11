@@ -9,3 +9,7 @@ export type Position
 export type HasPosition = {
     position: Position
 }
+
+export type HasPositions = {
+    positions: Position[]
+}

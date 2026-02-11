@@ -1,4 +1,4 @@
-import { ID } from "@ns-world-lab-knx/types";
+import { ID } from "@ns-world-lab-kxn/types";
 
 
 export const _getById = (

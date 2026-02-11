@@ -3,9 +3,9 @@
 <title>dependency-cruiser output</title>
 <polygon fill="#eeeeee" stroke="none" points="-4,4 -4,-3641.25 1686.57,-3641.25 1686.57,4 -4,4"></polygon>
 <g id="clust1" class="cluster">
-<title>cluster_@ns-world-lab-knx</title>
+<title>cluster_@ns-world-lab-kxn</title>
 <path fill="#eeeeee" stroke="#808080" stroke-opacity="0.250980" d="M1257.28,-1363.25C1257.28,-1363.25 1303.28,-1363.25 1303.28,-1363.25 1309.28,-1363.25 1315.28,-1369.25 1315.28,-1375.25 1315.28,-1375.25 1315.28,-1478.25 1315.28,-1478.25 1315.28,-1484.25 1309.28,-1490.25 1303.28,-1490.25 1303.28,-1490.25 1257.28,-1490.25 1257.28,-1490.25 1251.28,-1490.25 1245.28,-1484.25 1245.28,-1478.25 1245.28,-1478.25 1245.28,-1375.25 1245.28,-1375.25 1245.28,-1369.25 1251.28,-1363.25 1257.28,-1363.25"></path>
-<text text-anchor="middle" x="1280.28" y="-1478.15" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">@ns-world-lab-knx</text>
+<text text-anchor="middle" x="1280.28" y="-1478.15" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">@ns-world-lab-kxn</text>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_node_modules</title>
@@ -154,7 +154,7 @@
 </g>
 <!-- @ns&#45;lab&#45;knx/logic -->
 <g id="node1" class="node">
-<title>@ns-world-lab-knx/logic</title>
+<title>@ns-world-lab-kxn/logic</title>
 <g id="a_node1"><a xlink:title="logic">
 <path fill="#ffffcc" stroke="black" d="M1301.02,-1463.65C1301.02,-1463.65 1259.55,-1463.65 1259.55,-1463.65 1256.42,-1463.65 1253.28,-1460.52 1253.28,-1457.39 1253.28,-1457.39 1253.28,-1451.12 1253.28,-1451.12 1253.28,-1447.99 1256.42,-1444.85 1259.55,-1444.85 1259.55,-1444.85 1301.02,-1444.85 1301.02,-1444.85 1304.15,-1444.85 1307.28,-1447.99 1307.28,-1451.12 1307.28,-1451.12 1307.28,-1457.39 1307.28,-1457.39 1307.28,-1460.52 1304.15,-1463.65 1301.02,-1463.65"></path>
 <text text-anchor="start" x="1271.03" y="-1451.55" font-family="Helvetica,sans-Serif" font-size="9.00">logic</text>
@@ -163,7 +163,7 @@
 </g>
 <!-- @ns&#45;lab&#45;knx/types -->
 <g id="node2" class="node">
-<title>@ns-world-lab-knx/types</title>
+<title>@ns-world-lab-kxn/types</title>
 <g id="a_node2"><a xlink:title="types">
 <path fill="#ffffcc" stroke="black" d="M1301.02,-1426.65C1301.02,-1426.65 1259.55,-1426.65 1259.55,-1426.65 1256.42,-1426.65 1253.28,-1423.52 1253.28,-1420.39 1253.28,-1420.39 1253.28,-1414.12 1253.28,-1414.12 1253.28,-1410.99 1256.42,-1407.85 1259.55,-1407.85 1259.55,-1407.85 1301.02,-1407.85 1301.02,-1407.85 1304.15,-1407.85 1307.28,-1410.99 1307.28,-1414.12 1307.28,-1414.12 1307.28,-1420.39 1307.28,-1420.39 1307.28,-1423.52 1304.15,-1426.65 1301.02,-1426.65"></path>
 <text text-anchor="start" x="1269.53" y="-1414.55" font-family="Helvetica,sans-Serif" font-size="9.00">types</text>
@@ -172,7 +172,7 @@
 </g>
 <!-- @ns&#45;lab&#45;knx/web -->
 <g id="node3" class="node">
-<title>@ns-world-lab-knx/web</title>
+<title>@ns-world-lab-kxn/web</title>
 <g id="a_node3"><a xlink:title="web">
 <path fill="#ffffcc" stroke="black" d="M1301.02,-1389.65C1301.02,-1389.65 1259.55,-1389.65 1259.55,-1389.65 1256.42,-1389.65 1253.28,-1386.52 1253.28,-1383.39 1253.28,-1383.39 1253.28,-1377.12 1253.28,-1377.12 1253.28,-1373.99 1256.42,-1370.85 1259.55,-1370.85 1259.55,-1370.85 1301.02,-1370.85 1301.02,-1370.85 1304.15,-1370.85 1307.28,-1373.99 1307.28,-1377.12 1307.28,-1377.12 1307.28,-1383.39 1307.28,-1383.39 1307.28,-1386.52 1304.15,-1389.65 1301.02,-1389.65"></path>
 <text text-anchor="start" x="1272.03" y="-1377.55" font-family="Helvetica,sans-Serif" font-size="9.00">web</text>
@@ -331,19 +331,19 @@
 </g>
 <!-- packages/web/src/lib/components/board&#45;surface/BoardSurface.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge3" class="edge">
-<title>packages/web/src/lib/components/board-surface/BoardSurface.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/board-surface/BoardSurface.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M385.78,-2376.39C385.87,-2220.78 388.49,-275.82 467.56,-189.25 524.1,-127.37 570.81,-165.25 654.63,-165.25 654.63,-165.25 654.63,-165.25 918.45,-165.25 1121.75,-165.25 1160.02,-305.21 1237.28,-493.25 1247.23,-517.46 1231.95,-1412.74 1245.28,-1435.25 1245.56,-1435.72 1245.85,-1436.17 1246.16,-1436.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.61,-1439.02 1253.23,-1443.45 1248.47,-1433.99 1243.61,-1439.02"></polygon>
 </g>
 <!-- packages/web/src/lib/components/board&#45;surface/BoardSurface.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge4" class="edge">
-<title>packages/web/src/lib/components/board-surface/BoardSurface.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/board-surface/BoardSurface.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M385.78,-2376.68C385.72,-2221.76 386.53,-237.09 467.56,-149.25 524.33,-87.73 570.92,-127.25 654.63,-127.25 654.63,-127.25 654.63,-127.25 1055.74,-127.25 1147.86,-127.25 1190.15,-148.11 1237.28,-227.25 1253.93,-255.2 1228.73,-1370.25 1245.28,-1398.25 1245.56,-1398.72 1245.85,-1399.18 1246.16,-1399.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.6,-1402.02 1253.22,-1406.46 1248.47,-1396.99 1243.6,-1402.02"></polygon>
 </g>
 <!-- packages/web/src/lib/components/board&#45;surface/BoardSurface.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge5" class="edge">
-<title>packages/web/src/lib/components/board-surface/BoardSurface.tsx-&gt;@ns-world-lab-knx/web</title>
+<title>packages/web/src/lib/components/board-surface/BoardSurface.tsx-&gt;@ns-world-lab-kxn/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M385.77,-2376.52C385.59,-2218.88 384.91,-199.43 467.56,-110.25 524.44,-48.9 570.97,-89.25 654.63,-89.25 654.63,-89.25 654.63,-89.25 1055.74,-89.25 1138.09,-89.25 1184.13,-63.36 1237.28,-126.25 1278.74,-175.31 1279.46,-1198.5 1279.31,-1359.12"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1275.81,-1359.06 1279.3,-1369.07 1282.81,-1359.07 1275.81,-1359.06"></polygon>
 </g>
@@ -376,13 +376,13 @@
 </g>
 <!-- packages/web/src/lib/components/board&#45;surface/BoardSurfaceControlPanel.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge10" class="edge">
-<title>packages/web/src/lib/components/board-surface/BoardSurfaceControlPanel.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/board-surface/BoardSurfaceControlPanel.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M537.18,-2376.68C538.51,-2236.63 555.34,-605.31 620.63,-531.25 662.17,-484.14 697.09,-507.25 759.9,-507.25 759.9,-507.25 759.9,-507.25 918.45,-507.25 1092.39,-507.25 1233.46,-1082.27 1237.28,-1101.25 1240.95,-1119.45 1235.7,-1419.36 1245.28,-1435.25 1245.56,-1435.72 1245.86,-1436.17 1246.17,-1436.61"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.63,-1439.03 1253.27,-1443.43 1248.48,-1433.98 1243.63,-1439.03"></polygon>
 </g>
 <!-- packages/web/src/lib/components/board&#45;surface/BoardSurfaceControlPanel.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge11" class="edge">
-<title>packages/web/src/lib/components/board-surface/BoardSurfaceControlPanel.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/board-surface/BoardSurfaceControlPanel.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M537.18,-2376.51C538.5,-2233.97 555.23,-573.61 620.63,-497.25 661.7,-449.3 696.76,-469.25 759.9,-469.25 759.9,-469.25 759.9,-469.25 1055.74,-469.25 1147.86,-469.25 1190.04,-490.17 1237.28,-569.25 1260.9,-608.79 1221.78,-1358.64 1245.28,-1398.25 1245.56,-1398.72 1245.85,-1399.17 1246.16,-1399.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.61,-1402.02 1253.23,-1406.45 1248.47,-1396.99 1243.61,-1402.02"></polygon>
 </g>
@@ -610,7 +610,7 @@
 </g>
 <!-- packages/web/src/lib/components/graph/ContentRenderer.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge15" class="edge">
-<title>packages/web/src/lib/components/graph/ContentRenderer.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/graph/ContentRenderer.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M434.69,-2438.48C440.5,-2435.5 445.71,-2431.53 449.56,-2426.25 484.96,-2377.77 427.72,-310.16 467.56,-265.25 523.2,-202.56 570.81,-241.25 654.63,-241.25 654.63,-241.25 654.63,-241.25 1055.74,-241.25 1141,-241.25 1187.43,-234.09 1237.28,-303.25 1255.07,-327.93 1229.79,-1372.08 1245.28,-1398.25 1245.56,-1398.72 1245.85,-1399.18 1246.16,-1399.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.6,-1402.02 1253.23,-1406.46 1248.47,-1396.99 1243.6,-1402.02"></polygon>
 </g>
@@ -631,7 +631,7 @@
 </g>
 <!-- packages/web/src/lib/components/graph/PayloadRenderer.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge18" class="edge">
-<title>packages/web/src/lib/components/graph/PayloadRenderer.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/graph/PayloadRenderer.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M586.52,-2443.15C596.66,-2439.94 606.19,-2434.69 612.63,-2426.25 627.96,-2406.17 604.31,-626.54 620.63,-607.25 661.2,-559.31 697.09,-583.25 759.9,-583.25 759.9,-583.25 759.9,-583.25 1055.74,-583.25 1147.86,-583.25 1189.98,-604.21 1237.28,-683.25 1257.68,-717.34 1224.99,-1364.1 1245.28,-1398.25 1245.56,-1398.72 1245.85,-1399.17 1246.16,-1399.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.61,-1402.02 1253.24,-1406.45 1248.47,-1396.99 1243.61,-1402.02"></polygon>
 </g>
@@ -658,13 +658,13 @@
 </g>
 <!-- packages/web/src/lib/components/graph/SpatialNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge23" class="edge">
-<title>packages/web/src/lib/components/graph/SpatialNode.component.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/graph/SpatialNode.component.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M599.5,-2476.19C604.53,-2473.41 609.04,-2469.83 612.63,-2465.25 627.24,-2446.6 605.32,-777.34 620.63,-759.25 661.21,-711.31 697.09,-735.25 759.9,-735.25 759.9,-735.25 759.9,-735.25 918.45,-735.25 979.64,-735.25 1217.76,-1126.26 1237.28,-1184.25 1246.18,-1210.7 1230.78,-1411.42 1245.28,-1435.25 1245.56,-1435.72 1245.86,-1436.17 1246.17,-1436.61"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.65,-1439.04 1253.3,-1443.42 1248.48,-1433.98 1243.65,-1439.04"></polygon>
 </g>
 <!-- packages/web/src/lib/components/graph/SpatialNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge24" class="edge">
-<title>packages/web/src/lib/components/graph/SpatialNode.component.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/graph/SpatialNode.component.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M599.5,-2476.19C604.53,-2473.41 609.04,-2469.83 612.63,-2465.25 627.53,-2446.23 605.27,-743.92 620.63,-725.25 660.74,-676.5 696.76,-697.25 759.9,-697.25 759.9,-697.25 759.9,-697.25 1055.74,-697.25 1147.86,-697.25 1189.9,-718.26 1237.28,-797.25 1254.46,-825.89 1228.19,-1369.57 1245.28,-1398.25 1245.56,-1398.72 1245.85,-1399.17 1246.16,-1399.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.62,-1402.03 1253.24,-1406.45 1248.47,-1396.99 1243.62,-1402.03"></polygon>
 </g>
@@ -739,13 +739,13 @@
 </g>
 <!-- packages/web/src/lib/components/graph/SurfaceNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge30" class="edge">
-<title>packages/web/src/lib/components/graph/SurfaceNode.component.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/graph/SurfaceNode.component.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M438.57,-2474.52C442.74,-2472.07 446.51,-2469.02 449.56,-2465.25 486.19,-2420.1 591.79,-429.74 620.63,-379.25 629.8,-363.19 636.13,-355.25 654.63,-355.25 654.63,-355.25 654.63,-355.25 918.45,-355.25 1133.18,-355.25 1160.45,-517.74 1237.28,-718.25 1244.41,-736.85 1235.11,-1418.13 1245.28,-1435.25 1245.56,-1435.72 1245.85,-1436.17 1246.16,-1436.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.61,-1439.02 1253.24,-1443.45 1248.47,-1433.99 1243.61,-1439.02"></polygon>
 </g>
 <!-- packages/web/src/lib/components/graph/SurfaceNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge31" class="edge">
-<title>packages/web/src/lib/components/graph/SurfaceNode.component.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/graph/SurfaceNode.component.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M439.44,-2474.39C443.32,-2471.95 446.78,-2468.95 449.56,-2465.25 483.68,-2419.91 438.67,-471.1 467.56,-422.25 516.1,-340.19 559.29,-317.25 654.63,-317.25 654.63,-317.25 654.63,-317.25 1055.74,-317.25 1160.69,-317.25 1192.32,-373.43 1237.28,-468.25 1248.35,-491.6 1232.11,-1376.03 1245.28,-1398.25 1245.56,-1398.72 1245.85,-1399.17 1246.16,-1399.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.61,-1402.02 1253.23,-1406.45 1248.47,-1396.99 1243.61,-1402.02"></polygon>
 </g>
@@ -985,13 +985,13 @@
 </g>
 <!-- packages/web/src/lib/components/layout/header/Header.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge44" class="edge">
-<title>packages/web/src/lib/components/layout/header/Header.component.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/layout/header/Header.component.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M766.6,-2959.48C778.73,-2933.7 810.87,-2861.45 822.17,-2797.25 829.24,-2757.09 810.16,-1357.92 839.17,-1329.25 902.87,-1266.29 1156.94,-1352.65 1237.28,-1392.25 1241.27,-1394.22 1241.56,-1395.83 1245.28,-1398.25 1247.11,-1399.44 1249.02,-1400.63 1250.96,-1401.81"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.95,-1404.69 1259.36,-1406.68 1252.46,-1398.64 1248.95,-1404.69"></polygon>
 </g>
 <!-- packages/web/src/lib/components/layout/header/Header.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge45" class="edge">
-<title>packages/web/src/lib/components/layout/header/Header.component.tsx-&gt;@ns-world-lab-knx/web</title>
+<title>packages/web/src/lib/components/layout/header/Header.component.tsx-&gt;@ns-world-lab-kxn/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M766.6,-2959.48C778.73,-2933.7 810.87,-2861.45 822.17,-2797.25 829.37,-2756.35 809.63,-1331.45 839.17,-1302.25 885.51,-1256.44 1236.21,-1337.71 1237.28,-1338.25 1248.09,-1343.77 1257.84,-1353.09 1265.22,-1361.56"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1262.5,-1363.76 1271.52,-1369.32 1267.94,-1359.35 1262.5,-1363.76"></polygon>
 </g>
@@ -1060,7 +1060,7 @@
 </g>
 <!-- packages/web/src/lib/components/layout/page/Page.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge59" class="edge">
-<title>packages/web/src/lib/components/layout/page/Page.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/layout/page/Page.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M539.29,-2987.57C549.71,-2941 594.54,-2735.38 612.63,-2564.25 633.17,-2369.87 564.43,-811.25 759.9,-811.25 759.9,-811.25 759.9,-811.25 1055.74,-811.25 1172.54,-811.25 1192.73,-893.29 1237.28,-1001.25 1245.7,-1021.65 1233.93,-1379.34 1245.28,-1398.25 1245.56,-1398.72 1245.86,-1399.17 1246.16,-1399.61"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.63,-1402.03 1253.26,-1406.44 1248.48,-1396.98 1243.63,-1402.03"></polygon>
 </g>
@@ -1132,13 +1132,13 @@
 </g>
 <!-- packages/web/src/lib/components/sanity/tw/ButtonTw.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge66" class="edge">
-<title>packages/web/src/lib/components/sanity/tw/ButtonTw.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/sanity/tw/ButtonTw.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M1280.28,-2843.42C1280.28,-2387.37 1280.28,-1931.32 1280.28,-1475.27"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1283.78,-1475.33 1280.28,-1465.33 1276.78,-1475.33 1283.78,-1475.33"></polygon>
 </g>
 <!-- packages/web/src/lib/components/sanity/tw/ButtonTw.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge67" class="edge">
-<title>packages/web/src/lib/components/sanity/tw/ButtonTw.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/sanity/tw/ButtonTw.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M1279.26,-2843.41C1273.91,-2791.21 1249.01,-2541.34 1241.28,-2336.25 1240.35,-2311.52 1236.15,-1469.47 1241.28,-1445.25 1242.19,-1440.97 1242.31,-1439.47 1245.28,-1436.25 1246.1,-1435.37 1246.98,-1434.51 1247.89,-1433.69"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1249.64,-1436.74 1255.68,-1428.03 1245.53,-1431.07 1249.64,-1436.74"></polygon>
 </g>
@@ -1180,7 +1180,7 @@
 </g>
 <!-- packages/web/src/lib/components/ui/ClockWithShowToggle.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge78" class="edge">
-<title>packages/web/src/lib/components/ui/ClockWithShowToggle.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/ui/ClockWithShowToggle.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M810.26,-2475.48C814.72,-2473.05 818.81,-2470.02 822.17,-2466.25 841.5,-2444.56 998,-1458.52 1019.74,-1439.25 1037.26,-1423.73 1214.93,-1427.98 1237.28,-1433.25 1242.84,-1434.57 1248.5,-1436.73 1253.8,-1439.19"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1252.15,-1442.28 1262.64,-1443.76 1255.37,-1436.06 1252.15,-1442.28"></polygon>
 </g>
@@ -1210,13 +1210,13 @@
 </g>
 <!-- packages/web/src/lib/components/ui/Timer.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge90" class="edge">
-<title>packages/web/src/lib/components/ui/Timer.component.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/ui/Timer.component.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M918.77,-2420.42C921.92,-2324.11 949.35,-1551.46 1019.74,-1481.25 1078.41,-1422.74 1185.73,-1434.06 1242.23,-1445.29"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1241.17,-1448.64 1251.67,-1447.28 1242.61,-1441.79 1241.17,-1448.64"></polygon>
 </g>
 <!-- packages/web/src/lib/components/ui/Timer.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge91" class="edge">
-<title>packages/web/src/lib/components/ui/Timer.component.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/Timer.component.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M918.71,-2420.6C921.4,-2322.74 945.86,-1512.43 1019.74,-1439.25 1078.51,-1381.05 1185.78,-1394.79 1242.26,-1407.37"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1241.16,-1410.71 1251.7,-1409.59 1242.76,-1403.9 1241.16,-1410.71"></polygon>
 </g>
@@ -1234,7 +1234,7 @@
 </g>
 <!-- packages/web/src/lib/components/ui/CloseButton.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge80" class="edge">
-<title>packages/web/src/lib/components/ui/CloseButton.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/CloseButton.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M800.77,-2406.65C809.09,-2403.8 816.94,-2399.3 822.17,-2392.25 844.82,-2361.77 812.15,-1051.94 839.17,-1025.25 902.4,-962.8 1179.09,-996.08 1237.28,-1063.25 1249.47,-1077.33 1235.67,-1382.31 1245.28,-1398.25 1245.56,-1398.72 1245.86,-1399.17 1246.17,-1399.61"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.63,-1402.03 1253.27,-1406.43 1248.48,-1396.98 1243.63,-1402.03"></polygon>
 </g>
@@ -1258,13 +1258,13 @@
 </g>
 <!-- packages/web/src/lib/components/ui/ObjectView.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge86" class="edge">
-<title>packages/web/src/lib/components/ui/ObjectView.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/ui/ObjectView.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M798.89,-2444.26C807.89,-2441.45 816.54,-2436.83 822.17,-2429.25 842.93,-2401.35 814.41,-1201.68 839.17,-1177.25 917.97,-1099.51 990.88,-1124.58 1088.25,-1177.25 1194.73,-1234.86 1187.94,-1294.7 1237.28,-1405.25 1242.91,-1417.86 1236.81,-1424.36 1245.28,-1435.25 1245.81,-1435.94 1246.37,-1436.6 1246.96,-1437.23"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1244.64,-1439.86 1254.6,-1443.48 1249.07,-1434.44 1244.64,-1439.86"></polygon>
 </g>
 <!-- packages/web/src/lib/components/ui/ObjectView.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge87" class="edge">
-<title>packages/web/src/lib/components/ui/ObjectView.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/ObjectView.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M798.89,-2444.26C807.89,-2441.46 816.54,-2436.83 822.17,-2429.25 843.82,-2400.14 813.34,-1148.74 839.17,-1123.25 902.86,-1060.38 1182.37,-1113.58 1237.28,-1184.25 1251.88,-1203.04 1232.86,-1377.96 1245.28,-1398.25 1245.57,-1398.72 1245.86,-1399.17 1246.18,-1399.61"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1243.66,-1402.04 1253.31,-1406.41 1248.49,-1396.98 1243.66,-1402.04"></polygon>
 </g>
@@ -1363,7 +1363,7 @@
 </g>
 <!-- packages/web/src/lib/components/ui/rs/ToggleRS.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge103" class="edge">
-<title>packages/web/src/lib/components/ui/rs/ToggleRS.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/rs/ToggleRS.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M952.89,-2566.48C973.15,-2567.43 997.51,-2564.48 1011.74,-2548.25 1029.9,-2527.56 1005.54,-1580.84 1019.74,-1557.25 1068.65,-1476.05 1182.58,-1439.08 1241.89,-1424.83"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1242.55,-1428.27 1251.52,-1422.62 1240.99,-1421.45 1242.55,-1428.27"></polygon>
 </g>
@@ -1387,19 +1387,19 @@
 </g>
 <!-- packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge108" class="edge">
-<title>packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M972.93,-2621.98C987.72,-2619.06 1002.25,-2613.01 1011.74,-2601.25 1026.65,-2582.8 1006.31,-1766.81 1019.74,-1747.25 1078.6,-1661.56 1170.53,-1740.96 1237.28,-1661.25 1260.85,-1633.12 1273.24,-1522.41 1277.52,-1475.47"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1281.01,-1475.82 1278.39,-1465.56 1274.03,-1475.21 1281.01,-1475.82"></polygon>
 </g>
 <!-- packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge109" class="edge">
-<title>packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M972.93,-2621.98C987.72,-2619.06 1002.25,-2613.01 1011.74,-2601.25 1027.46,-2581.78 1006.07,-1721.22 1019.74,-1700.25 1042.79,-1664.93 1066.67,-1675.83 1106.25,-1661.25 1163.15,-1640.3 1199.84,-1670.95 1237.28,-1623.25 1250.13,-1606.9 1234.38,-1453.96 1245.28,-1436.25 1245.57,-1435.79 1245.87,-1435.34 1246.18,-1434.9"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.49,-1437.54 1253.33,-1428.11 1243.67,-1432.46 1248.49,-1437.54"></polygon>
 </g>
 <!-- packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge110" class="edge">
-<title>packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx-&gt;@ns-world-lab-knx/web</title>
+<title>packages/web/src/lib/components/ui/table/ScrollableHtmlTable.tsx-&gt;@ns-world-lab-kxn/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M972.94,-2621.98C987.73,-2619.06 1002.26,-2613.01 1011.74,-2601.25 1028.12,-2580.95 1010.59,-1686.68 1019.74,-1662.25 1073.8,-1518.07 1126.11,-1496.77 1245.28,-1399.25 1246.59,-1398.18 1247.97,-1397.14 1249.39,-1396.13"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1251.24,-1399.1 1257.83,-1390.8 1247.5,-1393.18 1251.24,-1399.1"></polygon>
 </g>
@@ -1450,13 +1450,13 @@
 </g>
 <!-- packages/web/src/lib/components/ui/table/TableRS.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge115" class="edge">
-<title>packages/web/src/lib/components/ui/table/TableRS.tsx-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/ui/table/TableRS.tsx-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M950.38,-2699.07C971.24,-2698.99 997.22,-2694.84 1011.74,-2677.25 1024.83,-2661.4 1008.09,-1954.19 1019.74,-1937.25 1078.67,-1851.6 1174.38,-1934.03 1237.28,-1851.25 1260.22,-1821.07 1274.63,-1552.43 1278.33,-1475.04"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1281.81,-1475.63 1278.78,-1465.47 1274.82,-1475.3 1281.81,-1475.63"></polygon>
 </g>
 <!-- packages/web/src/lib/components/ui/table/TableRS.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge116" class="edge">
-<title>packages/web/src/lib/components/ui/table/TableRS.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/table/TableRS.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M950.39,-2699.08C971.25,-2698.99 997.22,-2694.85 1011.74,-2677.25 1025.64,-2660.42 1010.24,-1910.91 1019.74,-1891.25 1073.88,-1779.29 1182.11,-1826.71 1237.28,-1715.25 1251.04,-1687.46 1229.21,-1462.78 1245.28,-1436.25 1245.56,-1435.79 1245.86,-1435.34 1246.17,-1434.9"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.48,-1437.53 1253.29,-1428.09 1243.64,-1432.47 1248.48,-1437.53"></polygon>
 </g>
@@ -1492,7 +1492,7 @@
 </g>
 <!-- packages/web/src/lib/components/ui/table/TableRow.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge120" class="edge">
-<title>packages/web/src/lib/components/ui/table/TableRow.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/table/TableRow.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M953.14,-2662.04C973.49,-2661.61 997.86,-2657.08 1011.74,-2640.25 1026.19,-2622.75 1009.61,-1843.56 1019.74,-1823.25 1074.17,-1714.2 1181.41,-1764.58 1237.28,-1656.25 1248.5,-1634.52 1232.52,-1457.12 1245.28,-1436.25 1245.57,-1435.79 1245.86,-1435.34 1246.17,-1434.9"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.49,-1437.53 1253.31,-1428.1 1243.66,-1432.47 1248.49,-1437.53"></polygon>
 </g>
@@ -1510,13 +1510,13 @@
 </g>
 <!-- packages/web/src/lib/components/ui/table/_types/common&#45;table&#45;types.ts&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge123" class="edge">
-<title>packages/web/src/lib/components/ui/table/_types/common-table-types.ts-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/components/ui/table/_types/common-table-types.ts-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M1163.49,-2649.56C1174.9,-2608.52 1219.06,-2444.89 1237.28,-2307.25 1280.91,-1977.72 1280.34,-1571.16 1279.52,-1475.22"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1283.02,-1475.48 1279.42,-1465.51 1276.02,-1475.55 1283.02,-1475.48"></polygon>
 </g>
 <!-- packages/web/src/lib/components/ui/table/_types/common&#45;table&#45;types.ts&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge124" class="edge">
-<title>packages/web/src/lib/components/ui/table/_types/common-table-types.ts-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/table/_types/common-table-types.ts-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M1163.4,-2649.41C1174.99,-2605.47 1221.63,-2422.67 1237.28,-2269.25 1239.63,-2246.23 1233.48,-1456.16 1245.28,-1436.25 1245.56,-1435.79 1245.85,-1435.33 1246.16,-1434.89"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.47,-1437.52 1253.23,-1428.06 1243.61,-1432.49 1248.47,-1437.52"></polygon>
 </g>
@@ -1534,7 +1534,7 @@
 </g>
 <!-- packages/web/src/lib/components/ui/tw/ToggleTW.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge131" class="edge">
-<title>packages/web/src/lib/components/ui/tw/ToggleTW.tsx-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/components/ui/tw/ToggleTW.tsx-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M953.67,-2759.21C973.95,-2758.26 998.06,-2753.16 1011.74,-2736.25 1023.72,-2721.46 1013.37,-2069.19 1019.74,-2051.25 1071.8,-1904.73 1184.37,-1923.47 1237.28,-1777.25 1250.18,-1741.62 1225.72,-1468.72 1245.28,-1436.25 1245.56,-1435.79 1245.86,-1435.34 1246.17,-1434.9"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.48,-1437.53 1253.27,-1428.08 1243.63,-1432.48 1248.48,-1437.53"></polygon>
 </g>
@@ -1588,13 +1588,13 @@
 </g>
 <!-- packages/web/src/lib/hooks/graph/use&#45;rerender&#45;on&#45;position&#45;change.ts&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge138" class="edge">
-<title>packages/web/src/lib/hooks/graph/use-rerender-on-position-change.ts-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/hooks/graph/use-rerender-on-position-change.ts-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M996.2,-3408.62C1002.1,-3405.52 1007.43,-3401.48 1011.74,-3396.25 1025.8,-3379.22 1013.32,-2622.38 1019.74,-2601.25 1071.04,-2432.47 1182.5,-2436.94 1237.28,-2269.25 1262.59,-2191.78 1276.34,-1595.07 1278.86,-1475.19"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1282.35,-1475.62 1279.06,-1465.55 1275.35,-1475.47 1282.35,-1475.62"></polygon>
 </g>
 <!-- packages/web/src/lib/hooks/graph/use&#45;rerender&#45;on&#45;position&#45;change.ts&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge139" class="edge">
-<title>packages/web/src/lib/hooks/graph/use-rerender-on-position-change.ts-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/hooks/graph/use-rerender-on-position-change.ts-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M996.21,-3408.63C1002.11,-3405.53 1007.43,-3401.48 1011.74,-3396.25 1019.89,-3386.37 1017.15,-2486.8 1019.74,-2474.25 1069.83,-2232.14 1185.91,-2204.1 1237.28,-1962.25 1243.36,-1933.67 1230.3,-1461.35 1245.28,-1436.25 1245.56,-1435.79 1245.85,-1435.34 1246.16,-1434.89"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.47,-1437.52 1253.25,-1428.07 1243.62,-1432.48 1248.47,-1437.52"></polygon>
 </g>
@@ -1606,13 +1606,13 @@
 </g>
 <!-- packages/web/src/lib/hooks/graph/use&#45;spatial&#45;node.ts&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge141" class="edge">
-<title>packages/web/src/lib/hooks/graph/use-spatial-node.ts-&gt;@ns-world-lab-knx/logic</title>
+<title>packages/web/src/lib/hooks/graph/use-spatial-node.ts-&gt;@ns-world-lab-kxn/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M922.69,-3368.41C938.38,-3331.3 993.31,-3196 1011.74,-3078.25 1015.5,-3054.24 1005.98,-2223.29 1019.74,-2203.25 1078.59,-2117.55 1176.13,-2201.34 1237.28,-2117.25 1275.87,-2064.2 1279.04,-1581.8 1279.27,-1475.09"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1282.77,-1475.27 1279.29,-1465.27 1275.77,-1475.26 1282.77,-1475.27"></polygon>
 </g>
 <!-- packages/web/src/lib/hooks/graph/use&#45;spatial&#45;node.ts&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge142" class="edge">
-<title>packages/web/src/lib/hooks/graph/use-spatial-node.ts-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/hooks/graph/use-spatial-node.ts-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M922.69,-3368.41C938.39,-3331.3 993.33,-3196 1011.74,-3078.25 1019.65,-3027.7 1003.35,-2205.73 1019.74,-2157.25 1071.36,-2004.63 1184.91,-2019.63 1237.28,-1867.25 1245.07,-1844.61 1232.97,-1456.8 1245.28,-1436.25 1245.56,-1435.79 1245.85,-1435.34 1246.16,-1434.89"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1248.48,-1437.52 1253.26,-1428.07 1243.62,-1432.48 1248.48,-1437.52"></polygon>
 </g>
@@ -1744,7 +1744,7 @@
 </g>
 <!-- packages/web/src/lib/utils/react/pick&#45;html&#45;attributes.ts&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge161" class="edge">
-<title>packages/web/src/lib/utils/react/pick-html-attributes.ts-&gt;@ns-world-lab-knx/types</title>
+<title>packages/web/src/lib/utils/react/pick-html-attributes.ts-&gt;@ns-world-lab-kxn/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M1475.97,-3249.47C1474.67,-3112.89 1457.59,-1589.25 1338.29,-1436.25 1333.32,-1429.88 1326.14,-1425.62 1318.53,-1422.79"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="1319.73,-1419.49 1309.15,-1420.07 1317.78,-1426.21 1319.73,-1419.49"></polygon>
 </g>

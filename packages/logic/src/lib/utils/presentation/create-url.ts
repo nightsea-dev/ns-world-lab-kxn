@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { getRandom } from '../js'
 
 
 const REACHABLE_DOMAINS = [
@@ -36,3 +37,5 @@ export const createRandomReachableUrl = () => {
     return `https://${domain}/${path}`
 }
 
+
+    , getRandomUrl = () => getRandom(IFRAME_SAFE_URLS)!

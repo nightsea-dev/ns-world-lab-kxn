@@ -1,0 +1,59 @@
+import {
+    EventHandler,
+    EventHandlersFromMap,
+    ExtractEventHandlersMap,
+    ExtractEventsMap,
+    HasData,
+    HasError,
+    HasPartialError,
+    HasPartialErrorWithDataHandler,
+    PartialEventHandlersFromMap
+} from "@ns-world-lab-kxn/types";
+import { FileItemWithUrlAndFileID } from "./file-item";
+import { PickHtmlAttributes } from "../../../utils";
+import { Renderer } from "../../capabilities";
+
+// ======================================== types
+export type FileItemRenderer_DataItem
+    =
+    & FileItemWithUrlAndFileID
+    & HasPartialError
+// ======================================== types/props
+export type FileItemRenderer_Props<
+    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+> =
+    & HasData<TDataItem>
+    & PickHtmlAttributes<"className">
+    & HasPartialErrorWithDataHandler<TDataItem>
+
+// ======================================== types/eventHandlers
+export type FileItemRenderer_EventHandlers<
+    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+> = ExtractEventHandlersMap<FileItemRenderer_Props<TDataItem>>
+
+export type FileItemRenderer_EventsMap<
+    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+> = ExtractEventsMap<
+    FileItemRenderer_EventHandlers<
+        TDataItem
+    >
+>
+
+
+
+// ======================================== types/renderer
+export type FileItemRenderer<
+    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+> =
+    & Renderer<
+        FileItemRenderer_Props<TDataItem>
+    >
+
+// ======================================== capabilities
+export type HasFileItemRenderer<
+    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+> =
+    & {
+        fileItemRenderer: FileItemRenderer<TDataItem>
+    }
+
