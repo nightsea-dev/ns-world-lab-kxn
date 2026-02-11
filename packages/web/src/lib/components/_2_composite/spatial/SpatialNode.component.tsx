@@ -108,7 +108,7 @@ export type SpatialNodeRef =
 
 
 // ======================================== props
-export type SpatialNodeComponentProps =
+export type SpatialNode_Component_Props =
     & Partial<
         & Pick<
             UseSpatialNodeInput,
@@ -214,7 +214,7 @@ const SpatialNode_Body = ({
  * * depends on:
  *      * useSpatialNode
  */
-export const SpatialNodeComponent = ({
+export const SpatialNode_Component = ({
     initialSize
     , initialPosition
     , isObservable = true
@@ -236,7 +236,7 @@ export const SpatialNodeComponent = ({
 
     , ...rest
 
-}: SpatialNodeComponentProps
+}: SpatialNode_Component_Props
 ) => {
 
     const id = useId()
@@ -351,6 +351,38 @@ export const SpatialNodeComponent = ({
         }
     })
 
+    const elRef = useRef<HTMLElement | null>(undefined)
+    _effect([elRef.current], () => {
+        const el = elRef.current
+
+        if (!el) {
+            return
+        }
+
+        const iframes = [...el.querySelectorAll("iframe") ?? []].filter(Boolean) as HTMLElement[]
+
+        if (!iframes.length) {
+            return
+        }
+
+
+        const fn = () => {
+
+            debugger
+            _moveToFront({ id })
+        }
+
+        iframes.forEach(el => {
+            el.addEventListener("mousedown", fn)
+        })
+
+        return () => {
+            iframes.forEach(el => {
+                el.removeEventListener("mousedown", fn)
+            })
+        }
+
+    })
 
     return (
         <Rnd
@@ -381,9 +413,15 @@ export const SpatialNodeComponent = ({
                 , backgroundColor
             }}
             dragHandleClassName={DRAG_HANDLE_CLASS_NAME}
+            // onMouseDown={() => {
+            //     debugger
+            // }}
         >
             <div
                 data-spatial-node-content-container={id}
+                ref={el => {
+                    elRef.current = el
+                }}
                 className={_cn(`
                     flex h-full w-full flex-col
                     `
@@ -395,6 +433,9 @@ export const SpatialNodeComponent = ({
                     }
                     _moveToFront({ id })
                 }}
+                // onPointerUp={() => {
+                //     _moveToFront({ id })
+                // }}
             >
                 {onCloseButtonClick
                     && (
@@ -425,16 +466,16 @@ export const SpatialNodeComponent = ({
 
 
 
-    , DragabbleSpatialNode = SpatialNodeComponent
+    , DragabbleSpatialNode = SpatialNode_Component
 
 
 
 export namespace SpatialNode {
-    export const Component = SpatialNodeComponent
+    export const Component = SpatialNode_Component
     export const Header = SpatialNode_Header
     export const Body = SpatialNode_Body
     export const Class = SpatialNodeClass
-    export type Props = SpatialNodeComponentProps
+    export type Props = SpatialNode_Component_Props
 }
 
 

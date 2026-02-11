@@ -59,7 +59,7 @@ export const BoardSurface_ControlPanel = ({
 }: BoardSurface_ControlPanel_Props
 ) => {
     numberOfItems = Math.max(1, numberOfItems || 1)
-    console.log({ buttonsMap })
+
     const [state, _set_state] = _use_state({
         isPinned: true
     })
@@ -112,12 +112,9 @@ export const BoardSurface_ControlPanel = ({
 
             )}
         >
-            {/* <div>
-                state.isPinned: {String(state.isPinned)}
-            </div> */}
             <ShowInfoToggle
                 checked={showInfo}
-                name="BoardSurface"
+                // name="BoardSurface"
                 size="xs"
                 onChange={({ showInfo }) => onChange?.({
                     numberOfItems

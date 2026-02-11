@@ -13,13 +13,13 @@ import {
 } from "@ns-world-lab-kxn/types"
 import {
     SpatialNode,
-    SpatialNodeComponent
+    SpatialNode_Component
     , SpatialNodeComponentEventHandlers
-    , SpatialNodeComponentProps,
+    , SpatialNode_Component_Props,
     SpatialNodeRef
 } from "../../../_2_composite/spatial/SpatialNode.component"
 import { HasPartialPayloadRenderer, HasPayloadRenderer, ObjectViewPayloadRenderer, PayloadRenderer } from "../surface-payload"
-import { SurfaceNode_PayloadInfo } from "./SurfaceNode_PayloadInfo"
+import { SurfaceNode_PayloadInfo_Component } from "./SurfaceNodePayloadInfo.component"
 
 
 
@@ -89,7 +89,7 @@ export type SurfaceNode_Props<
     >
 
     & Omit<
-        SpatialNodeComponentProps,
+        SpatialNode_Component_Props,
         | "children"
         | "content"
         | "contentContainer"
@@ -171,7 +171,7 @@ export const SurfaceNode_Component = <
 
             }}
         >
-            <SurfaceNode_PayloadInfo
+            <SurfaceNode_PayloadInfo_Component
                 payload={payload}
             />
 

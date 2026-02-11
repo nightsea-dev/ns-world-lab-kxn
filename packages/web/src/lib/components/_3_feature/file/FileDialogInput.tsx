@@ -45,7 +45,7 @@ type DragEventHandlerKey
 
 // ======================================== handle
 
-export type FileDialogRef =
+export type FileDialogInput_Ref =
     & {
         inputElement?: HTMLInputElement | null
         clear: () => void
@@ -53,7 +53,7 @@ export type FileDialogRef =
 
 
 // ======================================== props
-export type FileDialogInputProps =
+export type FileDialogInput_Props =
     & Partial<
         & HasLabel<ReactNode>
         & {
@@ -65,7 +65,7 @@ export type FileDialogInputProps =
             placeholder: ReactNode
             beforeFileItemListChildren: ReactNode
 
-            fileDialogRef: RefCallback<FileDialogRef>
+            fileDialogRef: RefCallback<FileDialogInput_Ref>
             fileItemRenderer: FileItemRenderer
         }
         & XOR<
@@ -116,7 +116,7 @@ export const FileDialogInput = ({
     , reverseListAdding = true
     , onChange
     , ...rest_01
-}: FileDialogInputProps
+}: FileDialogInput_Props
 ) => {
 
     const [state, _set_state] = _use_state({
@@ -140,7 +140,7 @@ export const FileDialogInput = ({
                 state.loadedFileItems.map(o => [o.fileID, o])
             )
         }))
-        , { current: _refs } = useRef({} as Pick<FileDialogRef, "inputElement">)
+        , { current: _refs } = useRef({} as Pick<FileDialogInput_Ref, "inputElement">)
         , _openDialog = () => _refs.inputElement?.click()
 
         , { placeholder } = _memo([placeholder_IN, isDroppable], () => {
@@ -154,7 +154,7 @@ export const FileDialogInput = ({
             }
         })
 
-        , _emit_Change: FileDialogInputProps["onChange"]
+        , _emit_Change: FileDialogInput_Props["onChange"]
             = ev => onChange?.(ev)
 
         , _add_Files = ({

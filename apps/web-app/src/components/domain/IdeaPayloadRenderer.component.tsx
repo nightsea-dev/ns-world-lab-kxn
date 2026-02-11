@@ -3,13 +3,13 @@ import {
 } from '@ns-world-lab-kxn/types'
 import {
     _cn,
-    PayloadRendererProps,
+    PayloadRenderer_Props,
     PayloadWithContentRenderer,
 } from '@ns-world-lab-kxn/web'
 
 // ======================================== props
 export type IdeaPayloadRendererProps =
-    & PayloadRendererProps<IdeaWithKindAndAuthor>
+    & PayloadRenderer_Props<IdeaWithKindAndAuthor>
 
 // ======================================== component
 /**

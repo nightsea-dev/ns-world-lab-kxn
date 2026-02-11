@@ -28,8 +28,12 @@ const PageHeaderContentWithUser = ({
         avatarSrc: user?.uuid ? `https://i.pravatar.cc/150?u=${user.uuid}` : undefined
     }))
     return user && (
-        <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500">
+        <div
+            className="flex items-center gap-3"
+        >
+            <span
+                className="text-sm text-gray-500"
+            >
                 {user.name}
             </span>
             <Avatar
@@ -51,10 +55,14 @@ export const PageHeader = ({
 
     return (
         <header
-            className="flex justify-between items-center px-8 py-4 bg-white border-b border-gray-200 shadow-sm"
+            className={`
+                flex justify-between items-center 
+                px-4 py-4 
+                bg-white border-b border-gray-200 shadow-sm
+                `}
         >
             <div
-                className="text-2xl font-bold text-gray-800"
+                className="text-[20px] font-bold text-gray-800"
             >
                 {title}
             </div>

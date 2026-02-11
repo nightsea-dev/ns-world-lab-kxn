@@ -6,7 +6,7 @@ import {
 } from "@ns-world-lab-kxn/logic"
 import { _memo, CssPosition, PickCssProperties, PickHtmlAttributes } from "../../utils"
 import { Renderer } from "../../types"
-import { BoxHeader, NoData, TagGroupNS, TagGroupNSProps } from "../_1_primitive"
+import { BoxHeader, BoxHeaderProps, NoData, TagGroupNS, TagGroupNSProps } from "../_1_primitive"
 
 
 
@@ -48,6 +48,7 @@ export type ObjectViewProps<
             relative: boolean
             absolute: boolean
             grayHeader: boolean
+            headerProps: Omit<BoxHeaderProps,"children">
         }
         & PickAndSuffixKeys<"Keys", EntriesOfOptions, "sorted">
         & PickCssProperties<"maxWidth" | "maxHeight"
@@ -175,6 +176,7 @@ export const ObjectView = <
     , showOnlyArrayLength
     , showEmptyProperties = true
     , stringTags_withRandomColour
+    , headerProps
     , ...rest
 }: ObjectViewProps<T>
 ) => {
@@ -208,8 +210,6 @@ export const ObjectView = <
     }
 
     return (
-        isHidden
-        ||
         <table
             {...rest}
             data-object-view
@@ -221,6 +221,7 @@ export const ObjectView = <
                 , maxWidth
                 , maxHeight
                 , zIndex: 100
+                , display: isHidden ? "none" : undefined
             }}
             className={`
                     border
@@ -245,11 +246,12 @@ export const ObjectView = <
                             colSpan={2}
                         >
                             <BoxHeader
-                                data={header}
+                                {...headerProps as any}
+                                data={header ?? headerProps?.data}
                                 bgColour={
-                                    grayHeader
-                                        ? "gray-200"
-                                        : undefined}
+                                    (grayHeader ? "gray-200" : undefined)
+                                    ?? headerProps?.bgColour
+                                }
                             />
                         </th>
                     </tr>

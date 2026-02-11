@@ -13,7 +13,7 @@ import {
     ImageErrorPlaceholder,
     ImageRenderer,
     ImageRendererProps,
-    PayloadRendererProps,
+    PayloadRenderer_Props,
     PickCssProperties,
     useImageExtent,
     UseImageExtentInput,
@@ -29,7 +29,7 @@ export type ImagePayloadRendererDisplayType
 
 // ======================================== props
 export type ImagePayloadRendererProps =
-    & PayloadRendererProps<ImageWithKind>
+    & PayloadRenderer_Props<ImageWithKind>
     & Partial<
         & {
             //displayType: ImagePayloadRendererDisplayType

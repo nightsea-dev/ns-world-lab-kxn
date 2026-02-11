@@ -4,9 +4,9 @@ import {
     , ControlButton_EventMapFor
     , FileDialogInput
     , LoadedFileItem
-    , FileDialogInputProps
+    , FileDialogInput_Props
     , InputViewLayout,
-    FileDialogRef,
+    FileDialogInput_Ref,
     ImageCard,
     ImageInfo,
     ToggleRS,
@@ -16,6 +16,8 @@ import {
     FileItemRenderer_Props,
     Image_FileItemRenderer,
     LoadedFileItemWithPartialError,
+    InputView_EventsMap,
+    InputView_Props,
 } from "@ns-world-lab-kxn/web"
 import { ComponentProps, useRef } from "react"
 
@@ -25,24 +27,19 @@ import { ComponentProps, useRef } from "react"
 
 
 // ======================================== events - IFrameInputView
-export type ImageInputViewEventsMap =
-    ControlButton_EventMapFor<{
-        done: HasData<LoadedFileItem[]>
-    }
-        , "clear"
-    >
+// export type Image_InputView_EventsMap
+//     = InputView_EventsMap<LoadedFileItem>
 
 // ======================================== props - IFrameInputView
-export type ImageInputViewProps =
-    & EventHandlersFromMap<ImageInputViewEventsMap>
-
+export type Image_InputView_Props =
+    & InputView_Props<LoadedFileItem>
 
 
 // ======================================== component
-export const ImageInputView = ({
+export const Image_InputView = ({
     onDone
     , onCancel
-}: ImageInputViewProps
+}: Image_InputView_Props
 ) => {
 
     const [state, _set_state] = _use_state({
@@ -51,10 +48,10 @@ export const ImageInputView = ({
     })
 
         , { current: _refs } = useRef({} as {
-            fileDialogRef?: FileDialogRef | null
+            fileDialogRef?: FileDialogInput_Ref | null
         })
 
-        , _handle_FileDialogChange: FileDialogInputProps["onChange"]
+        , _handle_FileDialogChange: FileDialogInput_Props["onChange"]
             = ev => {
                 const {
                     eventKind

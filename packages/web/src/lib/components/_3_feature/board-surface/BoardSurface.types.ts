@@ -28,10 +28,9 @@ import {
     , SurfaceNode
     , SurfaceNode_Props
 } from './surface-node'
-import { CreatePayloadFn, PayloadRenderer } from './surface-payload'
+import { CreatePayloadFn, PayloadRenderer, SurfaceBoard_PayloadInfos_Map } from './surface-payload'
 import { ButtonsMap, DrawerInfo } from '../../_2_composite'
 import { BoardSurface_ControlPanel_EventsMap, BoardSurface_ControlPanel_Props } from './control-panel'
-import { SurfaceBoardPayload_Info, SurfaceBoardPayload_InfosMap } from './surface-board-payload-info'
 
 
 /**
@@ -156,7 +155,7 @@ export type BoardSurface_Props<
 > =
     & XOR<
         & {
-            payloadInfosMap: SurfaceBoardPayload_InfosMap<P>
+            payloadInfosMap: SurfaceBoard_PayloadInfos_Map<P>
         }
         , & Pick<
             SurfaceNode_Props<P>,

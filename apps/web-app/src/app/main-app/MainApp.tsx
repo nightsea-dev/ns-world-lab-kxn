@@ -1,39 +1,38 @@
 import { ImportMetaEnv, ObjectViewWithToggle } from "@ns-world-lab-kxn/web";
-import { ComponentProps, FunctionComponent, ReactElement, ReactNode, useId, useRef } from "react"
-import { IdeaWithKind, IdeaWithKindAndAuthor, KeyOf, SuffixedString, User } from "@ns-world-lab-kxn/types"
-import { createIdeaWithAuthor, createUser, keysOf } from "@ns-world-lab-kxn/logic"
+import { ComponentProps, useId, useRef } from "react"
+import { ExtractEventHandlersMap, ExtractEventsMap, IdeaWithKindAndAuthor, KeyOf, User } from "@ns-world-lab-kxn/types"
+import { _t, createIdeaWithAuthor, createUser, keysOf } from "@ns-world-lab-kxn/logic"
 import {
     _cb, _effect, _memo, _use_state
-    , HasSurfaceNode, ObjectView
     , MainPage
-    , ShowInfoToggle, SurfaceNode
-    , ToggleRS
+    , SurfaceNode
     , WorkspaceView
 } from "@ns-world-lab-kxn/web"
-import { Nav } from "rsuite"
-import {
-    IdeasBoard, IdeasBoardProps, KnownPayload, KnownPayloadsBoard
-    , KnownPayloadsBoardProps
-    , UserAdmin, UserAdminProps
-} from "../../features"
+import { Nav, NavProps } from "rsuite"
+import { IdeasBoard_Page } from "../../pages";
+import { KnownPayload_Type, KnownPayloadsBoard_Page } from "../../pages/board-surface/payloads-board";
+import { UserAdmin_Page } from "../../pages/user-admin";
 
 const PAGES_MAP = {
-    IdeasBoard
-    , KnownPayloadsBoard
-    , UserAdmin
+    IdeasBoard: IdeasBoard_Page
+    , KnownPayloadsBoard: KnownPayloadsBoard_Page
+    , UserAdmin: UserAdmin_Page
 }
 
     , PAGE_KEYS = keysOf(PAGES_MAP).sort((a, b) => a.localeCompare(b))
 
 type PAGES_MAP = typeof PAGES_MAP
 type PageKey = KeyOf<PAGES_MAP>
+type PageProps = ComponentProps<PAGES_MAP[PageKey]>
+type PageEventsMap = ExtractEventHandlersMap<PageProps>
+
 
 type PageStates = {
     IdeasBoard: {
         surfaceNodes: SurfaceNode<IdeaWithKindAndAuthor>[]
     }
     KnownPayloadsBoard: {
-        surfaceNodes: SurfaceNode<KnownPayload>[]
+        surfaceNodes: SurfaceNode<KnownPayload_Type>[]
     }
     UserAdmin: {
         loadedUsers: User[]
@@ -43,11 +42,13 @@ type PageStates = {
 // ========================================
 
 const {
-    APP_NAME: APP_NAME
-    , IS_IN_DEBUG_MODE: IS_IN_DEBUG_MODE
+    APP_NAME
+    , IS_IN_DEBUG_MODE
+    , MAX_NUMBER_OF_PAYLOADS
+    , MAX_PAYLOAD_FACTORY_ADD
 } = ImportMetaEnv
 
-console.log({ APP_NAME, IS_IN_DEBUG_MODE })
+
 
 // ========================================
 export const MainApp = ({
@@ -70,7 +71,7 @@ export const MainApp = ({
         } as PageStates)
 
         , [state, _set_state] = _use_state({
-            currentPageKey: initialPageKey
+            selectedPageKey: initialPageKey
             , currentUser: createUser() as User
 
             // , surfaceNodes: [] as SurfaceNode<any>[]
@@ -84,9 +85,9 @@ export const MainApp = ({
 
         , _refs = useRef({
 
-            IdeasBoardProps: {
-                createDataItemFn: createIdeaWithAuthor
-                , data: [createIdeaWithAuthor()]
+            IdeasBoard_Props: {
+                // createDataItemFn: createIdeaWithAuthor
+                data: [createIdeaWithAuthor()]
                 , onChange: ({
                     eventKind
                     , payloads
@@ -101,7 +102,7 @@ export const MainApp = ({
                 }
             }
 
-            , KnownPayloadsBoardProps: {
+            , KnownPayloadsBoard_Props: {
                 onChange: ({
                     eventKind
                     , payloads
@@ -116,8 +117,8 @@ export const MainApp = ({
                 }
             }
 
-            , UserAdminProps: {
-                onUsersChange: ({ users: loadedUsers }) => {
+            , UserAdmin_Props: {
+                onChange: ({ users: loadedUsers }) => {
                     _set_pagesStates(p => ({
                         ...p
                         , UserAdmin: {
@@ -128,27 +129,32 @@ export const MainApp = ({
             }
 
         } as {
-                [k in PageKey as `${k}Props`]: ComponentProps<PAGES_MAP[k]>
+                [k in PageKey as `${k}_Props`]: ComponentProps<PAGES_MAP[k]>
             })
 
-        , _handle_NavButtonClick = _cb((
-            selectedFeatureKey: PageKey
-        ) => {
-            _set_state(p => ({
-                ...p
-                , currentPageKey: selectedFeatureKey
-            }))
-        })
+        ,
+        /**
+         * [_cb]
+         */
+        _handle_NavSelect: NonNullable<NavProps<PageKey>["onSelect"]> = _cb((
+            selectedPageKey
+            , ev
+        ) => _set_state(p => ({
+            ...p
+            , selectedPageKey
+        }))
+        )
+    // , _handle_onChange: ExtractEventHandlersMap<PAGES_MAP[Key]>
 
-    _effect([], () => {
-        document.title = APP_NAME
+    _effect([state.selectedPageKey], () => {
+        document.title = [state.selectedPageKey, APP_NAME].join(" - ")
     })
 
     return (
         <MainPage
             id={id}
             data-main-app
-            headerTitle={state.currentPageKey}
+            headerTitle={state.selectedPageKey}
             headerUser={state.currentUser}
             headerMidContent={(
                 <div
@@ -167,13 +173,8 @@ export const MainApp = ({
                     />
                     <Nav
                         appearance="subtle"
-                        activeKey={state.currentPageKey}
-                        onSelect={(eventKey) => {
-                            if (!eventKey) {
-                                return
-                            }
-                            _handle_NavButtonClick(eventKey as PageKey)
-                        }}
+                        activeKey={state.selectedPageKey}
+                        onSelect={_handle_NavSelect}
                     >
                         {PAGE_KEYS.map((k) => (
                             <Nav.Item
@@ -193,27 +194,30 @@ export const MainApp = ({
         >
             {/* <TailwindSanity_02 /> */}
             <WorkspaceView
-                isActive={state.currentPageKey === "IdeasBoard"}
+                isActive={state.selectedPageKey === "IdeasBoard"}
             >
-                <IdeasBoard
-                    {..._refs.current.IdeasBoardProps}
+                <IdeasBoard_Page
+                    {..._refs.current.IdeasBoard_Props}
                 />
             </WorkspaceView>
             <WorkspaceView
-                isActive={state.currentPageKey === "UserAdmin"}
+                isActive={state.selectedPageKey === "UserAdmin"}
             >
-                <UserAdmin
-                    {..._refs.current.UserAdminProps}
+                <UserAdmin_Page
+                    {..._refs.current.UserAdmin_Props}
                 />
             </WorkspaceView>
             <WorkspaceView
-                isActive={state.currentPageKey === "KnownPayloadsBoard"}
+                isActive={state.selectedPageKey === "KnownPayloadsBoard"}
             >
-                <KnownPayloadsBoard
-                    {..._refs.current.KnownPayloadsBoardProps}
+                <KnownPayloadsBoard_Page
+                    {..._refs.current.KnownPayloadsBoard_Props}
                 />
             </WorkspaceView>
         </MainPage>
     )
 
 }
+
+
+console.log(_t(MainApp.name), ImportMetaEnv)

@@ -6,7 +6,7 @@ import {
     HasPartialErrorWithDataHandler,
 } from "@ns-world-lab-kxn/types";
 import { FileItemWithUrlAndFileID } from "./file-item";
-import { HasClassName, Renderer } from "../../capabilities";
+import { HasClassName, HasPartialClassName, Renderer } from "../../capabilities";
 
 // ======================================== types
 export type FileItemRenderer_DataItem
@@ -18,7 +18,7 @@ export type FileItemRenderer_Props<
     TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
 > =
     & HasData<TDataItem>
-    & HasClassName
+    & HasPartialClassName
     & HasPartialErrorWithDataHandler<TDataItem>
 
 // ======================================== types/eventHandlers

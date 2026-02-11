@@ -7,10 +7,11 @@ import {
     , ButtonRS
     , SimpleForm
     , SimpleFormProps
-    , ControlButton_EventMapFor
     , ButtonGroupRS,
     InputViewLayout,
-    InputViewLayoutProps,
+    InputViewLayout_Props,
+    InputView_EventsMap,
+    InputView_Props,
 } from "@ns-world-lab-kxn/web"
 import {
     createIFrameDataItem,
@@ -40,16 +41,12 @@ const _isValidData = <
 
 
 // ======================================== events - IFrameInputView
-export type IFrameInputViewEventsMap =
-    ControlButton_EventMapFor<{
-        done: HasData<IFrameDataItem[]>
-    }
-        , "clear"
-    >
+// export type IFrame_InputView_EventsMap
+//     = InputView_EventsMap<IFrameDataItem>
 
 // ======================================== props - IFrameInputView
-export type IFrameInputViewProps =
-    & EventHandlersFromMap<IFrameInputViewEventsMap>
+export type IFrame_InputView_Props =
+    & InputView_Props<IFrameDataItem>
 
 
 // ======================================== types/consts
@@ -68,10 +65,11 @@ const EMPTY_CURRENT_DATA = (): CurrentData => ({
     })
 
 // ======================================== component
-export const IFrameInputView = ({
+export const IFrame_InputView = ({
     onDone
     , onCancel
-}: IFrameInputViewProps) => {
+}: IFrame_InputView_Props
+) => {
 
     const [state, _set_state] = _use_state({
         dataCollection: [] as IFrameDataItem[]
@@ -140,7 +138,7 @@ export const IFrameInputView = ({
         , controlButtonHandlers = {
             onClear: () => _set_state(RESET_STATE())
             , onDone: () => onDone({ data: state.dataCollection })
-        } as Pick<InputViewLayoutProps["controlButtonsProps"], "onDone" | "onClear">
+        } as Pick<InputViewLayout_Props["controlButtonsProps"], "onDone" | "onClear">
 
 
 

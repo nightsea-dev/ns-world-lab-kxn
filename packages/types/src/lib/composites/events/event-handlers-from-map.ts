@@ -1,5 +1,5 @@
 import { HasKind } from "../../capabilities"
-import { KeyOf } from "../../ts"
+import { AnyFn, KeyOf } from "../../ts"
 
 
 /**
@@ -97,8 +97,6 @@ export type PartialEventHandlersWithKindFromMap<
 
 
 // ======================================== extract handlers
-//type AnyEventHandler = EventHandler<any>
-type AnyFn = (...args: any[]) => any;
 type OnKeyToKind<K> =
     K extends `on${infer Name extends string}`
     ? Uncapitalize<Name>
@@ -118,15 +116,17 @@ type HandlerEvent<F>
         : never
     )
 
-export type ExtractEventHandlersMap<T extends object> = {
-    [k in KeyOf<T> as
-    k extends `on${string}`
-    ? (
-        NonNullable<T[k]> extends AnyFn ? k : never
-    )
-    : never
-    ]: Extract<NonNullable<T[k]>, AnyFn>
-}
+export type ExtractEventHandlersMap<
+    T extends object
+> = {
+        [k in KeyOf<T> as
+        k extends `on${string}`
+        ? (
+            NonNullable<T[k]> extends AnyFn ? k : never
+        )
+        : never
+        ]: Extract<NonNullable<T[k]>, AnyFn>
+    }
 
 
 export type ExtractEventsMap<T extends object> = {

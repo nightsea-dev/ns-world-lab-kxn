@@ -8,7 +8,7 @@ const avatarStyles = css`
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #e5e7eb;   
 `
 
 // ========================================

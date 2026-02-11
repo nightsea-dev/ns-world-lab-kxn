@@ -16,6 +16,11 @@ export type HasUser<
 > = {
     user: U
 }
+export type HasUsers<
+    U extends User = User
+> = {
+    users: U[]
+}
 
 export type HasAuthor<
     U extends User = User

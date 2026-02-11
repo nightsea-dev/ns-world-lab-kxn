@@ -7,13 +7,15 @@ import {
     _use_state,
     ObjectView,
     ObjectViewWithToggle,
-    PayloadRendererProps,
+    PayloadRenderer_Props,
+    PickHtmlAttributes,
     ShowInfoToggle,
 } from '@ns-world-lab-kxn/web'
 
 // ======================================== props
 export type IFramePayloadRendererProps =
-    & PayloadRendererProps<IFrameWithKind>
+    & PayloadRenderer_Props<IFrameWithKind>
+// & PickHtmlAttributes<"onMouseDown">
 
 // ======================================== component
 /**
@@ -21,6 +23,7 @@ export type IFramePayloadRendererProps =
  */
 export const IFramePayloadRenderer = ({
     payload
+    // , onMouseDown
 }: IFramePayloadRendererProps
 ) => {
 
@@ -48,6 +51,9 @@ export const IFramePayloadRenderer = ({
                 ---border-8 
                 ---bg-green-500
                 `}
+        // onPointerDownCapture={()=>{
+        //     debugger
+        // }}
         >
             <iframe
                 data-iframe-payload
@@ -56,8 +62,23 @@ export const IFramePayloadRenderer = ({
                 name={name}
                 data-kind={kind}
                 className={`
-                block w-full h-full border-2 bg-blue-500
+                block 
+                w-full 
+                h-full 
+                ---border-2 
+                ---bg-blue-500
+                bg-white
                 `}
+            // onMouseDown={(ev) => {
+            //     debugger
+            //     onMouseDown?.(ev)
+            // }}
+            // onClick={() => {
+            //     debugger
+            // }}
+            // onPointerDown={() => {
+            //     debugger
+            // }}
             />
 
         </div>
