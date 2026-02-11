@@ -35,7 +35,7 @@ import {
     useSpatialNode
     , UseSpatialNodeInput
 } from "../../../hooks"
-import { CloseButton, CloseButtonProps, ObjectViewWithToggle } from ".."
+import { CloseButton, CloseButtonProps } from "../controls"
 
 type H = HTMLElement | undefined
 
