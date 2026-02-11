@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasPayload, PayloadWithKind } from "../../../../../../../types/src"
+import { EventHandlersFromMap, HasData, HasPayload, PayloadWithKind } from "@ns-world-lab-kxn/types"
 import { _cn, _use_state, OmitHtmlAttributes } from "../../../../utils"
 import { ObjectView } from "../../../_2_composite"
 
