@@ -1,7 +1,7 @@
-import { HasData } from "@ns-world-lab-kxn/types"
+import { HasData } from "@ns-world-lab/types"
 import { _memo } from "../../utils"
 import { ReactNode } from "react"
-import { _colours } from "@ns-world-lab-kxn/logic"
+import { _colours } from "@ns-world-lab/logic"
 
 // ======================================== props
 export type TagGroupNSProps<

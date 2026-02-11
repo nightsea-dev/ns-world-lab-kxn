@@ -4,7 +4,7 @@ import {
     IdeaWithKindAndAuthor,
     ImageWithKind,
     XOR
-} from '@ns-world-lab-kxn/types'
+} from '@ns-world-lab/types'
 import {
     _cn,
     _memo,
@@ -18,10 +18,10 @@ import {
     useImageExtent,
     UseImageExtentInput,
     UseImageExtentOutput,
-} from '@ns-world-lab-kxn/web'
+} from '@ns-world-lab/web'
 import {
     getRandomColour
-} from '@ns-world-lab-kxn/logic'
+} from '@ns-world-lab/logic'
 import { FunctionComponent } from 'react'
 
 export type ImagePayloadRendererDisplayType

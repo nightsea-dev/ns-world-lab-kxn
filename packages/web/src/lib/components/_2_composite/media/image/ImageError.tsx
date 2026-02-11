@@ -1,4 +1,4 @@
-import { HasChildren, HasData, HasError, HasUrl } from "@ns-world-lab-kxn/types"
+import { HasChildren, HasData, HasError, HasUrl } from "@ns-world-lab/types"
 import { HasImageInfo, ImageInfo } from "../../../../types"
 import { ReactNode } from "react"
 

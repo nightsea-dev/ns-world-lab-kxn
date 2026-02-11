@@ -3,7 +3,7 @@ import {
     _capitalise, _jitterPositions, _t
     , keysOf, pickFromAsArray, pickFrom,
     pickFromAsTuple
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import {
     HasData
     , Position
@@ -20,7 +20,7 @@ import {
     KindBase,
     EventHandler,
     HasPayloadKind
-} from '@ns-world-lab-kxn/types'
+} from '@ns-world-lab/types'
 
 
 import {

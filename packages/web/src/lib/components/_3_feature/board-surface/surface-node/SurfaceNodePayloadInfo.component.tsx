@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasPayload, PayloadWithKind } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData, HasPayload, PayloadWithKind } from "@ns-world-lab/types"
 import { _cn, _effect, _use_state, OmitHtmlAttributes } from "../../../../utils"
 import { ObjectView } from "../../../_2_composite"
 import React, { CSSProperties, useRef } from "react"

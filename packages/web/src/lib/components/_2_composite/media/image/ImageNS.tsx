@@ -1,6 +1,6 @@
 import { HTMLAttributes, ImgHTMLAttributes } from "react";
 import { _cn, _effect, _use_state, PickHtmlAttributes } from "../../../../utils";
-import { HasData, HasExtent, Size } from "@ns-world-lab-kxn/types";
+import { HasData, HasExtent, Size } from "@ns-world-lab/types";
 import { ImageInfo } from "../../../../types";
 
 

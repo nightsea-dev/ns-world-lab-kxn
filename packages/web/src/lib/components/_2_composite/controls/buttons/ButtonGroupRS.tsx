@@ -1,6 +1,6 @@
 import { ButtonGroup, ButtonProps, ButtonGroupProps, Button } from "rsuite"
-import { _capitalise, entriesOf } from "@ns-world-lab-kxn/logic"
-import { EntryItem, KeyOf, PickRequiredRestPartial, XOR, XOR_3 } from "@ns-world-lab-kxn/types"
+import { _capitalise, entriesOf } from "@ns-world-lab/logic"
+import { EntryItem, KeyOf, PickRequiredRestPartial, XOR, XOR_3 } from "@ns-world-lab/types"
 import React, {
     Children, ComponentProps, ComponentType, FunctionComponent
     , HTMLAttributes, isValidElement, ReactElement, ReactNode

@@ -1,10 +1,10 @@
-import { EventHandlersFromMap, HasChildren, HasData, HasEventHandler, HasId, HasName, HasUrl, IFrameWithKind, KeyOf } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasChildren, HasData, HasEventHandler, HasId, HasName, HasUrl, IFrameWithKind, KeyOf } from "@ns-world-lab/types"
 import {
     _cn, _effect, _isValidUrl
     , _memo, _tw, _use_state
     , Box, ButtonRS, CloseButton, HasClassName, HasPartialClassName, ListNS, ListNSProps, NoData
-} from "@ns-world-lab-kxn/web"
-import { createID, createImageSource, createRandomReachableUrl, getRandomUrl } from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/web"
+import { createID, createImageSource, createRandomReachableUrl, getRandomUrl } from "@ns-world-lab/logic"
 import { faker } from "@faker-js/faker"
 import { BoxProps, List } from "rsuite"
 

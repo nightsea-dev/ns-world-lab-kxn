@@ -3,9 +3,9 @@ import {
     EventHandlersFromMap
     , KeyOf,
     OverrideMap
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import { FunctionComponent, ReactNode } from "react"
-import { _capitalise, _isEmpty, entriesOf } from "@ns-world-lab-kxn/logic"
+import { _capitalise, _isEmpty, entriesOf } from "@ns-world-lab/logic"
 import { BasicSize } from "rsuite/esm/internals/types"
 import { ButtonGroupRS, ButtonGroupRSProps, ButtonIsDisabledFn, ButtonRSProps } from "./ButtonGroupRS"
 import { ObjectViewProps, ObjectViewValue } from "../../ObjectView"

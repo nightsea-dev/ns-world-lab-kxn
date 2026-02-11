@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "react"
 import { Input } from "rsuite"
-import { _capitalise } from "@ns-world-lab-kxn/logic"
-import { KeyOf } from "@ns-world-lab-kxn/types"
+import { _capitalise } from "@ns-world-lab/logic"
+import { KeyOf } from "@ns-world-lab/types"
 import { _memo } from "../../../utils"
 
 // ======================================== types

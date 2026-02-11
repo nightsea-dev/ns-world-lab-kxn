@@ -1,12 +1,12 @@
 import { ReactNode, useEffect, useId, useState } from 'react'
-import { EventHandlersFromMap, HasData, KeyOf, PartialEventHandlersFromMap, User } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData, KeyOf, PartialEventHandlersFromMap, User } from "@ns-world-lab/types"
 import {
     _cn, _effect, _memo, _use_state, CommonTableProps, NoData, ObjectView, PickHtmlAttributes
     , ScrollableHtmlTable
     , TableRS
     , useElementHeight
-} from "@ns-world-lab-kxn/web"
-import { _capitalise, entriesOf, keysOf } from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/web"
+import { _capitalise, entriesOf, keysOf } from "@ns-world-lab/logic"
 import { Toggle } from 'rsuite'
 
 const TABLE_RENDERERS = {

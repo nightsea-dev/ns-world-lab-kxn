@@ -1,4 +1,4 @@
-import { HasFile, HasId, HasPartialUrl, HasUrl } from "@ns-world-lab-kxn/types"
+import { HasFile, HasId, HasPartialUrl, HasUrl } from "@ns-world-lab/types"
 
 // ======================================== capabilities
 export type HasFileID = {

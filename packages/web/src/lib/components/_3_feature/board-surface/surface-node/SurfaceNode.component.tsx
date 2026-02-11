@@ -2,7 +2,7 @@ import { ReactNode, RefCallback, RefObject } from "react"
 import {
     _t,
     HasSpatialNode_UI,
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import {
     EventHandlersWithKindFromMap,
     HasPartialChildren
@@ -10,7 +10,7 @@ import {
     , HasPayloadWithKind, PartialEventHandlersWithKindFromMap
     , PayloadWithKind,
     XOR
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     SpatialNode,
     SpatialNode_Component

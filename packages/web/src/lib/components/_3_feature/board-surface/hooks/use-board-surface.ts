@@ -1,4 +1,4 @@
-import { PayloadWithKind, PickRequired } from "@ns-world-lab-kxn/types"
+import { PayloadWithKind, PickRequired } from "@ns-world-lab/types"
 import { BoardSurface_Props } from "../BoardSurface.types"
 
 export type useBoardSurfaceInput<

@@ -6,14 +6,14 @@ import {
     DrawerInfo,
     BoardSurface,
     PayloadLoader_Props,
-} from '@ns-world-lab-kxn/web'
+} from '@ns-world-lab/web'
 import {
     _capitalise,
     createIdeaWithAuthor,
     pickFromAsArray,
     pickFromAsTuple,
-} from "@ns-world-lab-kxn/logic"
-import { PickRequired } from '@ns-world-lab-kxn/types'
+} from "@ns-world-lab/logic"
+import { PickRequired } from '@ns-world-lab/types'
 import { useRef } from 'react'
 import { KNOWN_SURFACEBOARD_PAYLOAD_INFOS_MAP, KnownPayload_Type, KnownPayload_Kind } from './KnownPayloadInfo'
 

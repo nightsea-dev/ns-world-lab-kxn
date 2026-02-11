@@ -7,7 +7,7 @@ import {
     HasChildren,
     HasData,
     XOR
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 
 export type BoxHeaderProps =
     & XOR<

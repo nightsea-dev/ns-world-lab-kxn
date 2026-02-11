@@ -1,9 +1,9 @@
 import React, { type CSSProperties, FunctionComponent, isValidElement, type ReactNode, useRef } from "react"
-import { HasData, HasDepth, HasHeader, PickAndPrefixKeys, PickAndSuffixKeys, PrefixKeys, PrimitiveValue } from "@ns-world-lab-kxn/types"
+import { HasData, HasDepth, HasHeader, PickAndPrefixKeys, PickAndSuffixKeys, PrefixKeys, PrimitiveValue } from "@ns-world-lab/types"
 import {
     _colours, _isEmpty, _isIterable, entriesOf, EntriesOfOptions
     , _isStringArray
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import { _memo, CssPosition, PickCssProperties, PickHtmlAttributes } from "../../utils"
 import { Renderer } from "../../types"
 import { BoxHeader, BoxHeaderProps, NoData, TagGroupNS, TagGroupNSProps } from "../_1_primitive"

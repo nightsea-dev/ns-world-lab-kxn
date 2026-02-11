@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasNumberOfItems, HasPayloads, PayloadWithKind } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData, HasNumberOfItems, HasPayloads, PayloadWithKind } from "@ns-world-lab/types"
 import { FunctionComponent, ReactNode } from "react"
 import { HasPayloadRenderer } from "./PayloadRenderer.types"
 import { InputView_EventsMap } from "../../../../_4_layout"

@@ -2,7 +2,7 @@ import { FunctionComponent, isValidElement, ReactNode } from "react"
 import { Drawer, DrawerProps } from "rsuite"
 import { _cn, _memo } from "../../../utils"
 import { NoData } from "../../_1_primitive"
-import { HasBody, HasHeader, XOR } from "@ns-world-lab-kxn/types"
+import { HasBody, HasHeader, XOR } from "@ns-world-lab/types"
 
 
 

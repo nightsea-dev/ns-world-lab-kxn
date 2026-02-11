@@ -1,10 +1,10 @@
-# @ns-world-lab-kxn/web
+# @ns-world-lab/web
 
 Shared **runtime React library** providing UI components, layout primitives,
-and graph-related visual components for the ns-world-lab-kxn workspace.
+and graph-related visual components for the ns-world-lab workspace.
 
 This package contains **no application logic** and **no domain state**.
-It is a consumer of `@ns-world-lab-kxn/logic` and `@ns-world-lab-kxn/types`.
+It is a consumer of `@ns-world-lab/logic` and `@ns-world-lab/types`.
 
 ---
 
@@ -57,4 +57,4 @@ These components **render and interact** with graph state, but do not own it.
 
 - May import runtime logic from:
   ```ts
-  import { ... } from "@ns-world-lab-kxn/logic"
+  import { ... } from "@ns-world-lab/logic"

@@ -2,7 +2,7 @@ import { _cn, _effect, _use_state, PickHtmlAttributes } from "../../../../utils"
 import {
     PartialEventHandlersFromMap
     , PickRequired
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     Input,
     InputProps

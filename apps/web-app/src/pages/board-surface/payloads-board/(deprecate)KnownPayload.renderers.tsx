@@ -1,6 +1,6 @@
 import { ComponentProps, FunctionComponent } from "react"
 import { IdeaPayloadRenderer, IFramePayloadRenderer, ImagePayloadRenderer } from "../../../components"
-import { InputView_Props, SurfaceBoard_PayloadInfos_Map } from "@ns-world-lab-kxn/web"
+import { InputView_Props, SurfaceBoard_PayloadInfos_Map } from "@ns-world-lab/web"
 
 
 export const KNOWN_PAYLOAD_RENDERERS_MAP = {

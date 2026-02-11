@@ -1,4 +1,4 @@
-import { IFrameWithKind, Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-world-lab-kxn/types"
+import { IFrameWithKind, Image, ImageWithKind, MIME_TYPE, PickRequiredRestPartial, Size } from "@ns-world-lab/types"
 import { createID, createSize } from "../primitives"
 import { faker } from "@faker-js/faker"
 

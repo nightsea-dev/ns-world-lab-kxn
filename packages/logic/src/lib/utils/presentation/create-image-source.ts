@@ -1,4 +1,4 @@
-import { Size } from '@ns-world-lab-kxn/types'
+import { Size } from '@ns-world-lab/types'
 
 
 const IMG_SOURCES = [

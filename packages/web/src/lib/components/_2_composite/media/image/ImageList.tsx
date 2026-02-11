@@ -2,7 +2,7 @@ import { ReactNode, useReducer, useRef } from "react"
 import {
     HasData, HasEventKind
     , PartialEventHandlersFromMap
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     ImageCard
     , ImageCard_EventsMap

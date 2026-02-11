@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData } from "@ns-world-lab/types"
 import { FunctionComponent } from "react"
 
 

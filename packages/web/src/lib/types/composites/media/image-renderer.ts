@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasError, HasPartialErrorWithDataHandler, PartialEventHandlersFromMap } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData, HasError, HasPartialErrorWithDataHandler, PartialEventHandlersFromMap } from "@ns-world-lab/types"
 import { ImageInfo } from "../../contracts"
 import { Renderer } from "../../capabilities"
 

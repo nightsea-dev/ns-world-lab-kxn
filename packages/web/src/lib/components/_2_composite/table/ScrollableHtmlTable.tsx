@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
-import { EventHandlersFromMap, HasData, KeyOf } from "@ns-world-lab-kxn/types"
-import { _capitalise, keysOf } from "@ns-world-lab-kxn/logic"
+import { EventHandlersFromMap, HasData, KeyOf } from "@ns-world-lab/types"
+import { _capitalise, keysOf } from "@ns-world-lab/logic"
 import { CommonTableProps, DEFAULT_CommonTable, useTableKeys } from "./_types"
 import { _cn } from "../../../utils"
 import { NoData } from "../../_1_primitive"

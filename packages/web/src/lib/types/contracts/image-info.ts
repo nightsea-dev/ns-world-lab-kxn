@@ -1,4 +1,4 @@
-import { HasId, HasPartialError, HasPartialExtent, HasPartialName, HasSource } from "@ns-world-lab-kxn/types";
+import { HasId, HasPartialError, HasPartialExtent, HasPartialName, HasSource } from "@ns-world-lab/types";
 
 export type ImageInfo =
     & HasId

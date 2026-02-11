@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { User } from '@ns-world-lab-kxn/types'
+import { User } from '@ns-world-lab/types'
 
 /**
  * * depends on 

@@ -10,7 +10,7 @@ import {
     SIZE_KEYS,
     Transformation,
     XOR,
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     _cn, _effect, _getById, _layoutEffect, _memo, _use_state
     , HasBackgroundColor
@@ -20,7 +20,7 @@ import {
     _t,
     HasSpatialNode_UI,
     SpatialNodeClass,
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import {
     ComponentProps,
     MouseEvent,

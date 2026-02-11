@@ -1,6 +1,6 @@
-import { HasColor, HasContent, PayloadWithKind } from "@ns-world-lab-kxn/types"
+import { HasColor, HasContent, PayloadWithKind } from "@ns-world-lab/types"
 import { ReactNode, useRef, useState } from "react"
-import { _isString, getRandomColour } from "@ns-world-lab-kxn/logic"
+import { _isString, getRandomColour } from "@ns-world-lab/logic"
 import { _cn, _effect, _memo, PickHtmlAttributes } from "../../../../../utils"
 import { PayloadRenderer_Props } from "../_types"
 import { ObjectView } from "../../../../_2_composite"

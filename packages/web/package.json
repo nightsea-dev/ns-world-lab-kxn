@@ -1,11 +1,11 @@
 {
-  "name": "@ns-world-lab-kxn/web",
+  "name": "@ns-world-lab/web",
   "version": "0.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@ns-world-lab-kxn/types": "file:../types",
-    "@ns-world-lab-kxn/logic": "file:../logic"
+    "@ns-world-lab/types": "file:../types",
+    "@ns-world-lab/logic": "file:../logic"
   },
   "exports": {
     ".": {

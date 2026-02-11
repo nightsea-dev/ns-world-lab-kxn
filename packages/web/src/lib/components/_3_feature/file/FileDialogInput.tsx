@@ -6,12 +6,12 @@ import React, {
 } from "react"
 import {
     toRemoveByKey, pickFrom
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import {
     HasLabel
     , KeyOf
     , XOR
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     _cn, _memo, _revokeUrls, _transform_AnyFileItemType_to_FileItemWithUrlAndFileIDAndID
     , _use_state, PickHtmlAttributes

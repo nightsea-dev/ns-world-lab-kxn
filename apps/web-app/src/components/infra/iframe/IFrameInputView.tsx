@@ -1,6 +1,6 @@
 import {
     EventHandlersFromMap, HasData
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     _cn, _effect, _isValidUrl, _memo, _tw, _use_state
     , Box
@@ -12,7 +12,7 @@ import {
     InputViewLayout_Props,
     InputView_EventsMap,
     InputView_Props,
-} from "@ns-world-lab-kxn/web"
+} from "@ns-world-lab/web"
 import {
     createIFrameDataItem,
     IFRAME_DATA_ITEM_KEYS,

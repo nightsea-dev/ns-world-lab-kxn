@@ -1,13 +1,13 @@
-import { ImportMetaEnv, ObjectViewWithToggle } from "@ns-world-lab-kxn/web";
+import { ImportMetaEnv, ObjectViewWithToggle } from "@ns-world-lab/web";
 import { ComponentProps, useId, useRef } from "react"
-import { ExtractEventHandlersMap, ExtractEventsMap, IdeaWithKindAndAuthor, KeyOf, User } from "@ns-world-lab-kxn/types"
-import { _t, createIdeaWithAuthor, createUser, keysOf } from "@ns-world-lab-kxn/logic"
+import { ExtractEventHandlersMap, ExtractEventsMap, IdeaWithKindAndAuthor, KeyOf, User } from "@ns-world-lab/types"
+import { _t, createIdeaWithAuthor, createUser, keysOf } from "@ns-world-lab/logic"
 import {
     _cb, _effect, _memo, _use_state
     , MainPage
     , SurfaceNode
     , WorkspaceView
-} from "@ns-world-lab-kxn/web"
+} from "@ns-world-lab/web"
 import { Nav, NavProps } from "rsuite"
 import { IdeasBoard_Page } from "../../pages";
 import { KnownPayload_Type, KnownPayloadsBoard_Page } from "../../pages/board-surface/payloads-board";

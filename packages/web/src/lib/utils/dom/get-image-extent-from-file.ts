@@ -1,7 +1,7 @@
 import {
     HasExtent, HasError,
     XOR
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 
 
 type GetImageExtentFromFileOutput

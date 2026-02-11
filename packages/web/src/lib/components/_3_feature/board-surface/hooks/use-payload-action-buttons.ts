@@ -1,5 +1,5 @@
-import { _jitterPositions, JitterPositionsOptions, _shuffleInPlace, _capitalise } from "@ns-world-lab-kxn/logic"
-import { HasPayloads, PartialEventHandlersFromMap, PayloadWithKind, Position, Size } from "@ns-world-lab-kxn/types"
+import { _jitterPositions, JitterPositionsOptions, _shuffleInPlace, _capitalise } from "@ns-world-lab/logic"
+import { HasPayloads, PartialEventHandlersFromMap, PayloadWithKind, Position, Size } from "@ns-world-lab/types"
 import { _cb } from "../../../../utils"
 import { ButtonRSProps } from "../../../_2_composite"
 import { SurfaceNodesMap } from "../BoardSurface.types"

@@ -1,4 +1,4 @@
-import { EntryItemOf } from "@ns-world-lab-kxn/types"
+import { EntryItemOf } from "@ns-world-lab/types"
 
 export type EntriesOfOptions =
     & {

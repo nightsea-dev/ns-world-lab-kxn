@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, useId, useLayoutEffect, useRef } from "react"
 import { _cn, _effect, _layoutEffect, _memo, OmitHtmlAttributes } from "../../utils"
-import { PickRequiredRestPartial } from "@ns-world-lab-kxn/types"
+import { PickRequiredRestPartial } from "@ns-world-lab/types"
 import { BoxHeader, BoxHeaderProps } from "./BoxHeader"
 
 

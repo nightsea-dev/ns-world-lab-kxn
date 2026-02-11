@@ -1,11 +1,11 @@
-# @ns-world-lab-kxn/logic
+# @ns-world-lab/logic
 
 Runtime logic library.
 
 ## Purpose
 
 - Domain and graph logic
-- State and factories used by apps and by @ns-world-lab-kxn/web
+- State and factories used by apps and by @ns-world-lab/web
 
 ## Build output
 
@@ -14,5 +14,5 @@ Runtime logic library.
 
 ## Import rules
 
-- May import types from @ns-world-lab-kxn/types using import type only.
+- May import types from @ns-world-lab/types using import type only.
 - Must not depend on React or DOM APIs.

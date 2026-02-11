@@ -3,13 +3,13 @@ import {
     EventHandlersFromMap
     , PickAndPrefixKeysAndCapitalise
     , XOR
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     _t
     , SpatialNodeClass
     , SpatialNodeInput
     , HasSpatialNode_UI
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import { _effect, _memo } from "../../utils"
 
 // ========================================

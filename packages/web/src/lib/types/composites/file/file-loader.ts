@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasPartialError } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasPartialError } from "@ns-world-lab/types"
 import { FileItemWithUrlAndFileID } from "./file-item"
 
 // ======================================== types/loader

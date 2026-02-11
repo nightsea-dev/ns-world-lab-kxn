@@ -1,4 +1,4 @@
-import { HasPositions, HasTransformations, Position, Size, Transformation, XOR } from "@ns-world-lab-kxn/types";
+import { HasPositions, HasTransformations, Position, Size, Transformation, XOR } from "@ns-world-lab/types";
 
 
 

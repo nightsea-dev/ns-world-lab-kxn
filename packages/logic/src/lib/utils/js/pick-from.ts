@@ -1,4 +1,4 @@
-import { KeyOf, ValueOf } from "@ns-world-lab-kxn/types";
+import { KeyOf, ValueOf } from "@ns-world-lab/types";
 import { entriesOf } from "./entries-of.util";
 
 export const pickFromAsTuple = <

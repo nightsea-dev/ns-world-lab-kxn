@@ -4,7 +4,7 @@ import { _cb } from "../utils"
 import {
     HasData, HasError
     , HasErrorWithDataHandler, HasExtent, HasPartialErrorWithDataHandler, PartialEventHandlersFromMap
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 
 export type UseImageExtentInput =
     & HasData<ImageInfo>

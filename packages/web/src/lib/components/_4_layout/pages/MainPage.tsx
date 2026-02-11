@@ -1,4 +1,4 @@
-import { HasData, HasHeader, HasId, PrefixKeys, PrefixKeysAndCapitalisedAfter } from "@ns-world-lab-kxn/types"
+import { HasData, HasHeader, HasId, PrefixKeys, PrefixKeysAndCapitalisedAfter } from "@ns-world-lab/types"
 import { PageHeader, PageHeaderProps } from "../../_4_layout/header"
 import { PageFooter } from "../footer"
 import { _cn, _effect, PickHtmlAttributes } from "../../../utils"

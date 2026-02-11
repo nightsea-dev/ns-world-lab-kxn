@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { HasAuthor, HasTitle, HasUser, User } from "@ns-world-lab-kxn/types"
+import { HasAuthor, HasTitle, HasUser, User } from "@ns-world-lab/types"
 import { _memo, PickHtmlAttributes } from '../../../utils'
 import { Avatar } from '../../_1_primitive'
 

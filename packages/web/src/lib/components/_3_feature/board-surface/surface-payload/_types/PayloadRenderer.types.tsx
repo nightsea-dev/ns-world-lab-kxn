@@ -4,8 +4,8 @@ import {
     , HasContent
     , HasPayloadWithKind
     , PayloadWithKind
-} from "@ns-world-lab-kxn/types"
-import { _isString, getRandomColour } from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/types"
+import { _isString, getRandomColour } from "@ns-world-lab/logic"
 import { _cn, _effect, _memo, PickHtmlAttributes } from "../../../../../utils"
 
 // ======================================== types

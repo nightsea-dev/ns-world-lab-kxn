@@ -3,9 +3,9 @@
 <title>dependency-cruiser output</title>
 <polygon fill="#eeeeee" stroke="none" points="-4,4 -4,-847.24 1453.27,-847.24 1453.27,4 -4,4"></polygon>
 <g id="clust1" class="cluster">
-<title>cluster_@ns-world-lab-kxn</title>
+<title>cluster_@ns-world-lab</title>
 <path fill="#eeeeee" stroke="#808080" stroke-opacity="0.250980" d="M931.65,-169.24C931.65,-169.24 977.65,-169.24 977.65,-169.24 983.65,-169.24 989.65,-175.24 989.65,-181.24 989.65,-181.24 989.65,-284.24 989.65,-284.24 989.65,-290.24 983.65,-296.24 977.65,-296.24 977.65,-296.24 931.65,-296.24 931.65,-296.24 925.65,-296.24 919.65,-290.24 919.65,-284.24 919.65,-284.24 919.65,-181.24 919.65,-181.24 919.65,-175.24 925.65,-169.24 931.65,-169.24"></path>
-<text text-anchor="middle" x="954.65" y="-284.14" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">@ns-world-lab-kxn</text>
+<text text-anchor="middle" x="954.65" y="-284.14" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">@ns-world-lab</text>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_apps</title>
@@ -89,7 +89,7 @@
 </g>
 <!-- @ns&#45;lab&#45;knx/logic -->
 <g id="node1" class="node">
-<title>@ns-world-lab-kxn/logic</title>
+<title>@ns-world-lab/logic</title>
 <g id="a_node1"><a xlink:title="logic">
 <path fill="#ffffcc" stroke="black" d="M975.38,-232.64C975.38,-232.64 933.91,-232.64 933.91,-232.64 930.78,-232.64 927.65,-229.5 927.65,-226.37 927.65,-226.37 927.65,-220.1 927.65,-220.1 927.65,-216.97 930.78,-213.84 933.91,-213.84 933.91,-213.84 975.38,-213.84 975.38,-213.84 978.51,-213.84 981.65,-216.97 981.65,-220.1 981.65,-220.1 981.65,-226.37 981.65,-226.37 981.65,-229.5 978.51,-232.64 975.38,-232.64"></path>
 <text text-anchor="start" x="945.39" y="-220.54" font-family="Helvetica,sans-Serif" font-size="9.00">logic</text>
@@ -98,7 +98,7 @@
 </g>
 <!-- @ns&#45;lab&#45;knx/types -->
 <g id="node2" class="node">
-<title>@ns-world-lab-kxn/types</title>
+<title>@ns-world-lab/types</title>
 <g id="a_node2"><a xlink:title="types">
 <path fill="#ffffcc" stroke="black" d="M975.38,-195.64C975.38,-195.64 933.91,-195.64 933.91,-195.64 930.78,-195.64 927.65,-192.5 927.65,-189.37 927.65,-189.37 927.65,-183.1 927.65,-183.1 927.65,-179.97 930.78,-176.84 933.91,-176.84 933.91,-176.84 975.38,-176.84 975.38,-176.84 978.51,-176.84 981.65,-179.97 981.65,-183.1 981.65,-183.1 981.65,-189.37 981.65,-189.37 981.65,-192.5 978.51,-195.64 975.38,-195.64"></path>
 <text text-anchor="start" x="943.89" y="-183.54" font-family="Helvetica,sans-Serif" font-size="9.00">types</text>
@@ -107,7 +107,7 @@
 </g>
 <!-- @ns&#45;lab&#45;knx/web -->
 <g id="node3" class="node">
-<title>@ns-world-lab-kxn/web</title>
+<title>@ns-world-lab/web</title>
 <g id="a_node3"><a xlink:title="web">
 <path fill="#ffffcc" stroke="black" d="M975.38,-269.64C975.38,-269.64 933.91,-269.64 933.91,-269.64 930.78,-269.64 927.65,-266.5 927.65,-263.37 927.65,-263.37 927.65,-257.1 927.65,-257.1 927.65,-253.97 930.78,-250.84 933.91,-250.84 933.91,-250.84 975.38,-250.84 975.38,-250.84 978.51,-250.84 981.65,-253.97 981.65,-257.1 981.65,-257.1 981.65,-263.37 981.65,-263.37 981.65,-266.5 978.51,-269.64 975.38,-269.64"></path>
 <text text-anchor="start" x="946.39" y="-257.54" font-family="Helvetica,sans-Serif" font-size="9.00">web</text>
@@ -155,19 +155,19 @@
 </g>
 <!-- apps/web&#45;app/src/app/main&#45;app/MainApp.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge3" class="edge">
-<title>apps/web-app/src/app/main-app/MainApp.tsx-&gt;@ns-world-lab-kxn/logic</title>
+<title>apps/web-app/src/app/main-app/MainApp.tsx-&gt;@ns-world-lab/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M295.12,-314.39C305.56,-272.87 352.16,-114.24 454.55,-114.24 454.55,-114.24 454.55,-114.24 711.58,-114.24 803.45,-114.24 848.22,-99.77 911.65,-166.24 923.56,-178.72 909.42,-190.34 919.65,-204.24 920.16,-204.93 920.7,-205.6 921.27,-206.25"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="918.9,-208.83 928.82,-212.57 923.39,-203.47 918.9,-208.83"></polygon>
 </g>
 <!-- apps/web&#45;app/src/app/main&#45;app/MainApp.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge4" class="edge">
-<title>apps/web-app/src/app/main-app/MainApp.tsx-&gt;@ns-world-lab-kxn/types</title>
+<title>apps/web-app/src/app/main-app/MainApp.tsx-&gt;@ns-world-lab/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M292.68,-314.46C292.83,-282.68 297.49,-181.01 348.55,-122.24 382.24,-83.47 403.2,-76.24 454.55,-76.24 454.55,-76.24 454.55,-76.24 711.58,-76.24 801.7,-76.24 838.17,-57.06 911.65,-109.24 930.71,-122.78 942.02,-147.78 948.01,-165.62"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="944.65,-166.6 950.9,-175.15 951.35,-164.57 944.65,-166.6"></polygon>
 </g>
 <!-- apps/web&#45;app/src/app/main&#45;app/MainApp.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge5" class="edge">
-<title>apps/web-app/src/app/main-app/MainApp.tsx-&gt;@ns-world-lab-kxn/web</title>
+<title>apps/web-app/src/app/main-app/MainApp.tsx-&gt;@ns-world-lab/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M293.49,-314.43C296.78,-271.33 312.04,-99.22 348.55,-62.24 382.49,-27.86 406.25,-38.24 454.55,-38.24 454.55,-38.24 454.55,-38.24 711.58,-38.24 826.84,-38.24 851.96,-104.64 911.65,-203.24 920.58,-218 909.42,-227.34 919.65,-241.24 920.16,-241.93 920.7,-242.6 921.27,-243.25"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="918.9,-245.83 928.82,-249.57 923.39,-240.47 918.9,-245.83"></polygon>
 </g>
@@ -578,37 +578,37 @@
 </g>
 <!-- apps/web&#45;app/src/components/nodes/IdeaNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge11" class="edge">
-<title>apps/web-app/src/components/nodes/IdeaNode.component.tsx-&gt;@ns-world-lab-kxn/logic</title>
+<title>apps/web-app/src/components/nodes/IdeaNode.component.tsx-&gt;@ns-world-lab/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M839.13,-375.53C862.04,-365.05 895.14,-346.05 911.65,-318.24 928.98,-289.03 900.95,-270.59 919.65,-242.24 920.03,-241.66 920.44,-241.09 920.87,-240.54"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="923.1,-243.24 928.2,-233.95 918.42,-238.04 923.1,-243.24"></polygon>
 </g>
 <!-- apps/web&#45;app/src/components/nodes/IdeaNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge12" class="edge">
-<title>apps/web-app/src/components/nodes/IdeaNode.component.tsx-&gt;@ns-world-lab-kxn/types</title>
+<title>apps/web-app/src/components/nodes/IdeaNode.component.tsx-&gt;@ns-world-lab/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M828.13,-375.41C849.99,-358.66 892.56,-322.28 911.65,-280.24 925.5,-249.71 901.17,-233.21 919.65,-205.24 920.03,-204.66 920.44,-204.09 920.87,-203.54"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="923.1,-206.24 928.2,-196.96 918.42,-201.03 923.1,-206.24"></polygon>
 </g>
 <!-- apps/web&#45;app/src/components/nodes/IdeaNode.component.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge13" class="edge">
-<title>apps/web-app/src/components/nodes/IdeaNode.component.tsx-&gt;@ns-world-lab-kxn/web</title>
+<title>apps/web-app/src/components/nodes/IdeaNode.component.tsx-&gt;@ns-world-lab/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M872.08,-379.31C886.93,-375.05 901.55,-367.96 911.65,-356.24 928.06,-337.19 909.32,-323.16 919.65,-300.24 923.3,-292.12 929.11,-284.38 934.9,-277.91"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="937.11,-280.66 941.53,-271.04 932.07,-275.8 937.11,-280.66"></polygon>
 </g>
 <!-- apps/web&#45;app/src/components/user/UsersTable.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge15" class="edge">
-<title>apps/web-app/src/components/user/UsersTable.tsx-&gt;@ns-world-lab-kxn/logic</title>
+<title>apps/web-app/src/components/user/UsersTable.tsx-&gt;@ns-world-lab/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M851.98,-448.41C872.78,-447.43 897.31,-442.23 911.65,-425.24 924.77,-409.68 908.97,-259.56 919.65,-242.24 919.93,-241.78 920.23,-241.33 920.54,-240.89"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="922.85,-243.52 927.69,-234.09 918.03,-238.44 922.85,-243.52"></polygon>
 </g>
 <!-- apps/web&#45;app/src/components/user/UsersTable.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge16" class="edge">
-<title>apps/web-app/src/components/user/UsersTable.tsx-&gt;@ns-world-lab-kxn/types</title>
+<title>apps/web-app/src/components/user/UsersTable.tsx-&gt;@ns-world-lab/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M852.02,-448.45C872.85,-447.48 897.37,-442.29 911.65,-425.24 927.35,-406.48 906.89,-226.11 919.65,-205.24 919.93,-204.78 920.23,-204.32 920.54,-203.88"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="922.85,-206.52 927.67,-197.08 918.02,-201.45 922.85,-206.52"></polygon>
 </g>
 <!-- apps/web&#45;app/src/components/user/UsersTable.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge17" class="edge">
-<title>apps/web-app/src/components/user/UsersTable.tsx-&gt;@ns-world-lab-kxn/web</title>
+<title>apps/web-app/src/components/user/UsersTable.tsx-&gt;@ns-world-lab/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M851.85,-448.3C872.61,-447.29 897.14,-442.09 911.65,-425.24 929.81,-404.14 909.21,-326.04 919.65,-300.24 922.98,-291.99 928.72,-284.21 934.54,-277.75"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="936.74,-280.5 941.25,-270.91 931.75,-275.6 936.74,-280.5"></polygon>
 </g>
@@ -650,19 +650,19 @@
 </g>
 <!-- apps/web&#45;app/src/features/board&#45;surface/IdeasBoard.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge23" class="edge">
-<title>apps/web-app/src/features/board-surface/IdeasBoard.tsx-&gt;@ns-world-lab-kxn/logic</title>
+<title>apps/web-app/src/features/board-surface/IdeasBoard.tsx-&gt;@ns-world-lab/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M578.42,-377.44C585.1,-374.39 591.29,-370.15 595.58,-364.24 605.39,-350.73 591.47,-225.72 603.58,-214.24 690.72,-131.62 851.77,-181.84 920.82,-209.1"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="919.48,-212.34 930.06,-212.85 922.11,-205.85 919.48,-212.34"></polygon>
 </g>
 <!-- apps/web&#45;app/src/features/board&#45;surface/IdeasBoard.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge24" class="edge">
-<title>apps/web-app/src/features/board-surface/IdeasBoard.tsx-&gt;@ns-world-lab-kxn/types</title>
+<title>apps/web-app/src/features/board-surface/IdeasBoard.tsx-&gt;@ns-world-lab/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M578.47,-377.48C585.15,-374.43 591.32,-370.17 595.58,-364.24 607.9,-347.07 589.16,-189.68 603.58,-174.24 637.08,-138.36 715.13,-121.84 911.65,-166.24 916.84,-167.41 922.14,-169.3 927.15,-171.47"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="925.61,-174.62 936.14,-175.82 928.66,-168.31 925.61,-174.62"></polygon>
 </g>
 <!-- apps/web&#45;app/src/features/board&#45;surface/IdeasBoard.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge25" class="edge">
-<title>apps/web-app/src/features/board-surface/IdeasBoard.tsx-&gt;@ns-world-lab-kxn/web</title>
+<title>apps/web-app/src/features/board-surface/IdeasBoard.tsx-&gt;@ns-world-lab/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M573.29,-375.38C580.91,-372.37 588.78,-368.66 595.58,-364.24 599.8,-361.5 599.06,-358.44 603.58,-356.24 727.56,-295.73 800.8,-400.36 911.65,-318.24 918.68,-313.03 914.99,-307.65 919.65,-300.24 924.45,-292.6 930.62,-284.89 936.39,-278.3"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="938.66,-281 942.81,-271.25 933.49,-276.28 938.66,-281"></polygon>
 </g>
@@ -695,19 +695,19 @@
 </g>
 <!-- apps/web&#45;app/src/features/user&#45;admin/UserAdmin.tsx&#45;&gt;@ns&#45;lab&#45;knx/logic -->
 <g id="edge31" class="edge">
-<title>apps/web-app/src/features/user-admin/UserAdmin.tsx-&gt;@ns-world-lab-kxn/logic</title>
+<title>apps/web-app/src/features/user-admin/UserAdmin.tsx-&gt;@ns-world-lab/logic</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M577.58,-438.48C584.49,-435.43 590.99,-431.17 595.58,-425.24 614.49,-400.83 583.21,-379.43 603.58,-356.24 650.11,-303.26 862.57,-330.87 911.65,-280.24 923.66,-267.84 909.42,-256.14 919.65,-242.24 920.16,-241.54 920.7,-240.87 921.27,-240.22"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="923.39,-243.01 928.82,-233.91 918.9,-237.64 923.39,-243.01"></polygon>
 </g>
 <!-- apps/web&#45;app/src/features/user&#45;admin/UserAdmin.tsx&#45;&gt;@ns&#45;lab&#45;knx/types -->
 <g id="edge32" class="edge">
-<title>apps/web-app/src/features/user-admin/UserAdmin.tsx-&gt;@ns-world-lab-kxn/types</title>
+<title>apps/web-app/src/features/user-admin/UserAdmin.tsx-&gt;@ns-world-lab/types</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M577.74,-438.61C584.64,-435.54 591.09,-431.25 595.58,-425.24 608.92,-407.38 590.33,-343.17 603.58,-325.24 679.22,-222.86 842.24,-195.81 916.01,-188.72"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="916.31,-192.21 925.97,-187.85 915.7,-185.23 916.31,-192.21"></polygon>
 </g>
 <!-- apps/web&#45;app/src/features/user&#45;admin/UserAdmin.tsx&#45;&gt;@ns&#45;lab&#45;knx/web -->
 <g id="edge33" class="edge">
-<title>apps/web-app/src/features/user-admin/UserAdmin.tsx-&gt;@ns-world-lab-kxn/web</title>
+<title>apps/web-app/src/features/user-admin/UserAdmin.tsx-&gt;@ns-world-lab/web</title>
 <path fill="none" stroke="#283178" stroke-opacity="0.450980" d="M577.62,-438.84C584.61,-435.76 591.13,-431.41 595.58,-425.24 606.84,-409.63 589.67,-265.53 603.58,-252.24 690.42,-169.32 851.63,-219.11 920.77,-246.19"></path>
 <polygon fill="#283178" fill-opacity="0.450980" stroke="#283178" stroke-opacity="0.450980" points="919.44,-249.43 930.03,-249.91 922.05,-242.93 919.44,-249.43"></polygon>
 </g>

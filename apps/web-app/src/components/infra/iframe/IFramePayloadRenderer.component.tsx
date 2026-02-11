@@ -1,6 +1,6 @@
 import {
     IFrameWithKind
-} from '@ns-world-lab-kxn/types'
+} from '@ns-world-lab/types'
 import {
     _cn,
     _layoutEffect,
@@ -10,7 +10,7 @@ import {
     PayloadRenderer_Props,
     PickHtmlAttributes,
     ShowInfoToggle,
-} from '@ns-world-lab-kxn/web'
+} from '@ns-world-lab/web'
 
 // ======================================== props
 export type IFramePayloadRendererProps =

@@ -5,14 +5,14 @@ import {
     _memo,
     _use_state,
     BoardSurface_Props
-} from '@ns-world-lab-kxn/web'
+} from '@ns-world-lab/web'
 import {
     createIdeaWithAuthor,
     createIdeaWithAuthorCollection
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import {
     IdeaWithKindAndAuthor
-} from '@ns-world-lab-kxn/types'
+} from '@ns-world-lab/types'
 import { IdeaPayloadRenderer } from '../../../components'
 
 // ======================================== CONST

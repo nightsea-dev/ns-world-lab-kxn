@@ -1,6 +1,6 @@
-import { SurfaceBoard_PayloadInfos_Map } from "@ns-world-lab-kxn/web";
+import { SurfaceBoard_PayloadInfos_Map } from "@ns-world-lab/web";
 import { IdeaPayloadRenderer, IFrame_InputView, IFrame_InputView_Props, IFramePayloadRenderer, Image_InputView, ImagePayloadRenderer } from "../../../components";
-import { createIdeaWithAuthor } from "@ns-world-lab-kxn/logic";
+import { createIdeaWithAuthor } from "@ns-world-lab/logic";
 import { ComponentProps } from "react";
 
 

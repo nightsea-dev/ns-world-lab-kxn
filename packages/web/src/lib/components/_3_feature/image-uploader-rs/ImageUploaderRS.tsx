@@ -7,7 +7,7 @@ import {
 import {
     EventHandlersFromMap
     , HasId
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import { HasLoadedFileItems, ImageInfo, LoadedFileItem } from "../../../types"
 import { _effect, _getFileID_fromFile, _getUrl_fromFile, _memo, _use_state } from "../../../utils"
 import { ControlButtons, ControlButtonsRenderer, ImageCard } from "../../_2_composite"

@@ -1,4 +1,4 @@
-import { pickFrom } from "@ns-world-lab-kxn/logic";
+import { pickFrom } from "@ns-world-lab/logic";
 import { ObjectView } from "../../_2_composite";
 import { FileItemRenderer } from "../../../types";
 import { _memo } from "../../../utils";

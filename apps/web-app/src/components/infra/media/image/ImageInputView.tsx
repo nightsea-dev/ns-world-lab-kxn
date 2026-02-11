@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasMimeType, HasType, IMAGE_MIME } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData, HasMimeType, HasType, IMAGE_MIME } from "@ns-world-lab/types"
 import {
     _cn, _effect, _isValidUrl, _memo, _tw, _use_state
     , ControlButton_EventMapFor
@@ -18,7 +18,7 @@ import {
     LoadedFileItemWithPartialError,
     InputView_EventsMap,
     InputView_Props,
-} from "@ns-world-lab-kxn/web"
+} from "@ns-world-lab/web"
 import { ComponentProps, useRef } from "react"
 
 

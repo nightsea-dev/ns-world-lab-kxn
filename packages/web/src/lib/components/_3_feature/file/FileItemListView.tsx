@@ -3,7 +3,7 @@ import {
     , HasName
     , HasPartialError, HasUrl,
     PartialEventHandlersFromMap
-} from "@ns-world-lab-kxn/types";
+} from "@ns-world-lab/types";
 import { HTMLAttributes, HtmlHTMLAttributes, MouseEvent, ReactNode, useId, useReducer } from "react";
 import { _cn, _memo, _use_state, OmitHtmlAttributes, PickHtmlAttributes } from "../../../utils";
 import { FileItemRenderer, FileItemRenderer_DataItem, FileItemRenderer_Props, HasFileItemRenderer } from "../../../types";

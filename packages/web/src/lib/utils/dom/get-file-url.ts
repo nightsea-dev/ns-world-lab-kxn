@@ -1,4 +1,4 @@
-import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-world-lab-kxn/types"
+import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-world-lab/types"
 import { AnyFileItemType, FileItemWithPartialUrl, FileItemWithPartialUrlAndPartialFileID
     , FileItemWithUrlAndFileID, FileItemWithUrlAndFileIDAndID, InputFileItemList } from "../../types"
 

@@ -4,7 +4,7 @@ import {
     HasData,
     HasPartialError,
     HasPartialErrorWithDataHandler,
-} from "@ns-world-lab-kxn/types";
+} from "@ns-world-lab/types";
 import { FileItemWithUrlAndFileID } from "./file-item";
 import { HasClassName, HasPartialClassName, Renderer } from "../../capabilities";
 

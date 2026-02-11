@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { Toggle, ToggleProps } from "rsuite"
 import { _cn, OmitHtmlAttributes, OmitHtmlAttributesFrom, PickHtmlAttributes } from "../../../utils"
-import { EventHandlersFromMap, HasEventHandler, HasName, HasPartialEventHandler, HasPartialName, KeyOf, PartialEventHandlersFromMap, XOR } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasEventHandler, HasName, HasPartialEventHandler, HasPartialName, KeyOf, PartialEventHandlersFromMap, XOR } from "@ns-world-lab/types"
 
 // ======================================== events
 export type ToggleRSEventsMap = {

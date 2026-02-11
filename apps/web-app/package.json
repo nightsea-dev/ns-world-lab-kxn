@@ -1,10 +1,10 @@
 {
-    "name": "@ns-world-lab-kxn/web-app",
+    "name": "@ns-world-lab/web-app",
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "@ns-world-lab-kxn/types": "file:../../packages/types",
-        "@ns-world-lab-kxn/logic": "file:../../packages/logic",
-        "@ns-world-lab-kxn/web": "file:../../packages/web"
+        "@ns-world-lab/types": "file:../../packages/types",
+        "@ns-world-lab/logic": "file:../../packages/logic",
+        "@ns-world-lab/web": "file:../../packages/web"
     }
 }

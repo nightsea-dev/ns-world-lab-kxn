@@ -1,13 +1,13 @@
 import {
     EventHandlersFromMap
     , HasData, KeyOf, PartialOrFull
-} from "@ns-world-lab-kxn/types"
+} from "@ns-world-lab/types"
 import {
     FormValueInput
     , ValidInputValue
 } from "./FormValueInput"
 import { useRef } from "react"
-import { _capitalise, _isNumber, entriesOf, keysOf, pickFromAsArray, valuesOf } from "@ns-world-lab-kxn/logic"
+import { _capitalise, _isNumber, entriesOf, keysOf, pickFromAsArray, valuesOf } from "@ns-world-lab/logic"
 import { ControlButton_EventKind, ControlButton_EventMapFor, ControlButtons, ObjectView } from "../../_2_composite"
 import { _effect, _use_state } from "../../../utils"
 import { Box } from "../../_1_primitive"

@@ -1,4 +1,4 @@
-import { _isBoolean } from "@ns-world-lab-kxn/logic"
+import { _isBoolean } from "@ns-world-lab/logic"
 import { PinIcon, PinIconProps } from "../../../_1_primitive"
 import { useIsPinned, UseIsPinnedInput } from "../../../../hooks/use-is-pinned"
 import { _cn } from "../../../../utils"

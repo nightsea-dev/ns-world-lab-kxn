@@ -1,5 +1,5 @@
-import { EventHandlersFromMap, PickRequired } from "@ns-world-lab-kxn/types"
-import { _isBoolean } from "@ns-world-lab-kxn/logic"
+import { EventHandlersFromMap, PickRequired } from "@ns-world-lab/types"
+import { _isBoolean } from "@ns-world-lab/logic"
 import { HasClassName } from "../types"
 import { _cn, _effect, _memo, _use_state, PickHtmlAttributes, Tw } from "../utils"
 

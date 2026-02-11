@@ -1,5 +1,5 @@
 import { ChangeEvent, HTMLAttributes, useRef } from "react"
-import { EventHandlersFromMap } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap } from "@ns-world-lab/types"
 import { HasFileLoader_EventHandlers, InputFileItemList } from "../../../types"
 import { _effect, _transform_AnyFileItemType_to_FileItemWithUrlAndFileIDAndID, _use_state } from "../../../utils"
 

@@ -2,7 +2,7 @@ import {
     EventHandlersFromMap
     , HasPayloads
     , KeyOf, PayloadWithKind
-} from "@ns-world-lab-kxn/types";
+} from "@ns-world-lab/types";
 import { ControlButton_EventMapFor } from "../../../../_2_composite";
 import { Renderer } from "../../../../../types";
 

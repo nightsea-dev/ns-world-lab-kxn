@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasData, HasId, KeyOf } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, HasData, HasId, KeyOf } from "@ns-world-lab/types"
 import { ReactNode } from "react"
 import { HasRenderer } from "../../../types"
 import { Box, BoxProps, NoData } from "../../_1_primitive"

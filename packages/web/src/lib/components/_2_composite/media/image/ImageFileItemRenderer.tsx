@@ -1,4 +1,4 @@
-import { HasError } from "@ns-world-lab-kxn/types"
+import { HasError } from "@ns-world-lab/types"
 import {
     FileItemRenderer_Props
     , ImageInfo

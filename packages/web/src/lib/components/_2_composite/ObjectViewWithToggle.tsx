@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, KeyOf } from "@ns-world-lab-kxn/types"
+import { EventHandlersFromMap, KeyOf } from "@ns-world-lab/types"
 import { Box, ToggleRS, ToggleRSProps } from "../_1_primitive"
 import { ObjectView, ObjectViewProps, ObjectViewValue } from "./ObjectView"
 import { _cn, _effect, _use_state, CssPosition } from "../../utils"

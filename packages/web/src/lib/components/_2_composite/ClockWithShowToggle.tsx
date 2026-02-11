@@ -1,6 +1,6 @@
 import { Toggle } from 'rsuite'
 import { TimerComponent, TimerProps } from './Timer.component'
-import { padNumber as _p } from "@ns-world-lab-kxn/logic"
+import { padNumber as _p } from "@ns-world-lab/logic"
 import { _cn, _effect, _use_state, PickHtmlAttributes } from '../../utils'
 
 // ========================================

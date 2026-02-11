@@ -9,7 +9,7 @@ import {
     JitterPositionsOptions,
     entriesOf,
     _shuffleInPlace
-} from "@ns-world-lab-kxn/logic"
+} from "@ns-world-lab/logic"
 import {
     Position
     , Transformation
@@ -20,7 +20,7 @@ import {
     HasData,
     HasPayloads,
     HasPayloadKind
-} from '@ns-world-lab-kxn/types'
+} from '@ns-world-lab/types'
 
 
 import {

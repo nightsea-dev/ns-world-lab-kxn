@@ -1,5 +1,5 @@
-import { EventHandlersFromMap, FirstParam, HasData, HasKind, KeyOf, PayloadWithKind } from "@ns-world-lab-kxn/types";
-import { InputView_Props } from "@ns-world-lab-kxn/web";
+import { EventHandlersFromMap, FirstParam, HasData, HasKind, KeyOf, PayloadWithKind } from "@ns-world-lab/types";
+import { InputView_Props } from "@ns-world-lab/web";
 import { IFrame_InputView, Image_InputView } from "../../../components";
 import { ComponentProps, FunctionComponent } from "react";
 import { KnownPayloadKind, KnownPayloadOf } from "./KnownPayload.renderers";
@@ -36,17 +36,17 @@ export const KNOWN_PAYLOAD_INPUT_VIEWS_BY_KIND = {
 // import {
 //     IFrameWithKind,
 //     ImageWithKind
-// } from "@ns-world-lab-kxn/types";
+// } from "@ns-world-lab/types";
 // import {
 //     createID
-// } from "@ns-world-lab-kxn/logic";
+// } from "@ns-world-lab/logic";
 import {
     //      DrawerInfo
     //     , Renderer
     //     , _getMimeType
     //     , LoadedFileItem
     PayloadLoader_Props
-} from "@ns-world-lab-kxn/web";
+} from "@ns-world-lab/web";
 // import {
 //     KnownPayloadKind
 //     , KnownPayloadOf

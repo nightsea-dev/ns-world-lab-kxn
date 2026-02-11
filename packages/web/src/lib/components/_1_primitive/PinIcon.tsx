@@ -1,5 +1,5 @@
 import { SVGProps } from "react"
-import { KeyOf } from "@ns-world-lab-kxn/types"
+import { KeyOf } from "@ns-world-lab/types"
 import { _cn } from "../../utils"
 
 const PIN_ICONS = {
