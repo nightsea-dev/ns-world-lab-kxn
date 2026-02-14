@@ -1,7 +1,7 @@
 import { ReactNode, useReducer, useRef } from "react"
 import {
     HasData, HasEventKind
-    , PartialEventHandlersFromMap
+    , EventHandlersFromMapPartial
 } from "@ns-world-lab/types"
 import {
     ImageCard
@@ -16,41 +16,40 @@ import { ButtonRS } from "../../controls"
 const EMPTY_data = [] as ImageInfo[]
 
 
-export type ImageListEventKind =
+type EventKind =
     | keyof ImageCard_EventsMap
     | "remove"
 
 
-export type ImageListEvent =
+type Event =
     & HasData<ImageInfo>
-    & HasEventKind<ImageListEventKind>
+    & HasEventKind<EventKind>
     & {
         idx: number
     }
 
-export type ImageListEventsMap = {
-    change: ImageListEvent
+type EventsMap = {
+    change: Event
 }
 
 
 // ======================================== props
-export type ImageListProps =
+type Props =
     Partial<
         & HasData<ImageInfo[]>
         & {
             noDataRender: ReactNode
         }
     >
-    & PartialEventHandlersFromMap<ImageListEventsMap>
+    & EventHandlersFromMapPartial<EventsMap>
 
 // ======================================== component
-export const ImageList = ({
+export const ImageList: React.FC<Props> = ({
     data: data_IN
     , noDataRender
     , onChange
     , ...rest
-}: ImageListProps
-) => {
+}) => {
 
     const [state, _set_state] = _use_state({} as {
         items?: ImageInfo[]
@@ -60,7 +59,7 @@ export const ImageList = ({
         })
 
         , _handleRename: ImageCard_Props["onRename"] = ({
-            data: data
+            data
         }) => {
 
             const {
@@ -77,8 +76,7 @@ export const ImageList = ({
 
         }
         , _handleRemove = ({
-            data: data
-            // , idx
+            data
         }:
             & HasData<ImageInfo>
             // & {
@@ -202,4 +200,22 @@ export const ImageList = ({
                 </div>}
         </div>
     )
+}
+
+
+
+
+
+
+
+export {
+
+    type EventKind as ImageList_EventKind
+
+    , type Event as ImageList_Event
+
+    , type EventsMap as ImageList_EventsMap
+
+    , type Props as ImageList_Props
+
 }

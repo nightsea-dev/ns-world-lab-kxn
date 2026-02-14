@@ -3,8 +3,8 @@ import { _cn, PickHtmlAttributes } from "../../utils"
 export type HeaderNSProps =
     & PickHtmlAttributes<"children" | "className">
 
-export const HeaderNS = (
-    props: HeaderNSProps
+export const HeaderNS: React.FC<HeaderNSProps> = (
+    props
 ) => <div
         {...props}
         className={_cn(

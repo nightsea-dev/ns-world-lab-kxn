@@ -2,8 +2,7 @@ import { ButtonGroup, ButtonProps, ButtonGroupProps, Button } from "rsuite"
 import { _capitalise, entriesOf } from "@ns-world-lab/logic"
 import { EntryItem, KeyOf, PickRequiredRestPartial, XOR, XOR_3 } from "@ns-world-lab/types"
 import React, {
-    Children, ComponentProps, ComponentType, FunctionComponent
-    , HTMLAttributes, isValidElement, ReactElement, ReactNode
+    ComponentProps, ReactNode
 } from "react"
 import { _cn, _filterElementsOfType, _memo } from "../../../../utils"
 import { Box, BoxProps } from "../../../_1_primitive"
@@ -34,8 +33,8 @@ export type ButtonIsDisabledInputMap<
 
 // ======================================== component - ButtonRS
 export type ButtonRSProps = ButtonProps
-export const ButtonRS = (
-    props: ButtonProps
+export const ButtonRS: React.FC<ButtonRSProps> = (
+    props
 ) => (
     <Button
         appearance="subtle"
@@ -64,8 +63,10 @@ export type ButtonRS_Element =
 export type ButtonGroupMapValue
     = ButtonProps["onClick"] | ButtonProps
 
-export type ButtonGroupEntryItem
-    = EntryItem<string, ButtonGroupMapValue>
+export type ButtonGroupEntryItem<
+    K extends string = string
+>
+    = EntryItem<K, ButtonGroupMapValue>
 
 export type ButtonGroupEntries
     = ButtonGroupEntryItem[]

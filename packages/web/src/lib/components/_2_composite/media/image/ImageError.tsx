@@ -94,11 +94,11 @@ export type ImageErrorProps
     & HasError
 
 
-export const ImageErrorPlaceholder = ({
+export const ImageErrorPlaceholder: React.FC<ImageErrorProps> = ({
     data: imageInfo
     , error
     , ...rest
-}: ImageErrorProps) => {
+}) => {
     return (
         <div
             {...rest}

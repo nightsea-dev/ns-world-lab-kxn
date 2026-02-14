@@ -1,6 +1,8 @@
-import { HasFile, HasPartialUrl, HasUrl, KeyOf } from "@ns-world-lab/types"
-import { AnyFileItemType, FileItemWithPartialUrl, FileItemWithPartialUrlAndPartialFileID
-    , FileItemWithUrlAndFileID, FileItemWithUrlAndFileIDAndID, InputFileItemList } from "../../types"
+import { HasFile, HasPartialUrl, HasUrl, KeyOf, PickRequiredRestPartial } from "@ns-world-lab/types"
+import {
+    AnyFileItemType, FileItemWithPartialUrl, FileItemWithPartialUrlAndPartialFileID
+    , FileItemWithUrlAndFileID, FileItemWithUrlAndFileIDAndID, InputFileItemList
+} from "../../types"
 
 
 
@@ -11,14 +13,28 @@ import { AnyFileItemType, FileItemWithPartialUrl, FileItemWithPartialUrlAndParti
 // ========================================
 
 
+export const _createFileInfo = ({
+    name
+    , lastModified = Date.now()
+    , size = Math.random()
+}:
+    & PickRequiredRestPartial<Pick<FileItemWithPartialUrl, "name" | "size" | "lastModified">, "name">
+) => {
+    return {
+        fileID: [name, size, lastModified].filter(Boolean).join("|")
+        , name
+        , lastModified
+        , size
+    }
+}
 
-export const _getUrl_fromFile = <
-    F extends FileItemWithPartialUrl
->(
-    file?: F
-) => !file
-        ? undefined
-        : ((file as FileItemWithPartialUrl).url ?? URL.createObjectURL(file as File))
+    , _getUrl_fromFile = <
+        F extends FileItemWithPartialUrl
+    >(
+        file?: F
+    ) => !file
+            ? undefined
+            : ((file as FileItemWithPartialUrl).url ?? URL.createObjectURL(file as File))
 
     , _getFileID_fromFile = <
         F extends File

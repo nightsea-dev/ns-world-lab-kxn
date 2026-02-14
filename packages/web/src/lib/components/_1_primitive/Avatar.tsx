@@ -27,13 +27,12 @@ export type AvatarProps =
 
 
 // ========================================
-export const Avatar = ({
+export const Avatar: React.FC<AvatarProps> = ({
     src
     , alt = "Profile"
     , css
     , ...rest
-}: AvatarProps
-) => {
+}) => {
     return (
         <img
             {...rest}

@@ -33,7 +33,9 @@
         "src/**/*.test.jsx",
         "eslint.config.js",
         "eslint.config.cjs",
-        "eslint.config.mjs"
+        "eslint.config.mjs",
+        "**/**(deprecated)**",
+        "**/**(disabled)**"
     ],
     "include": [
         "src/**/*.js",

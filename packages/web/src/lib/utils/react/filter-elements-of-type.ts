@@ -1,8 +1,8 @@
-import { Children, ComponentProps, FunctionComponent, isValidElement, ReactElement, ReactNode } from "react";
+import { Children, ComponentProps, isValidElement, ReactElement, ReactNode } from "react";
 import { EventHandlersFromMap } from "@ns-world-lab/types";
 
 export type FilterElementsOfTypeInput<
-    FC extends FunctionComponent
+    FC extends React.FC
 > =
     & {
         fcType: FC
@@ -15,7 +15,7 @@ export type FilterElementsOfTypeInput<
     >
 
 export const _filterElementsOfType = <
-    FC extends FunctionComponent
+    FC extends React.FC
 >({
     fcType
     , children

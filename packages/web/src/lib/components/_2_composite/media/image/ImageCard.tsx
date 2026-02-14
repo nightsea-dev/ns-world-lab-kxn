@@ -6,33 +6,33 @@ import { _cn, _use_state } from "../../../../utils"
 import { _isNumber } from "@ns-world-lab/logic"
 import { useImageExtent, UseImageExtentInput } from "../../../../hooks"
 import { ImageErrorPlaceholder } from "./ImageError"
-import { ImageInfo, ImageRenderer, ImageRendererProps } from "../../../../types"
+import { ImageInfo, ImageRenderer, ImageRenderer_Props } from "../../../../types"
 
 // ======================================== events
-export type ImageCard_Event
+type Event
     = HasData<ImageInfo>
 
-export type ImageCard_EventsMap = {
-    rename: ImageCard_Event
+type EventsMap = {
+    rename: Event
 }
 
-export type ImageCardDisplayMode = "card" | "row"
+type DisplayMode = "card" | "row"
 
 // ======================================== props
-export type ImageCard_Props =
-    & ImageRendererProps
+type Props =
+    & ImageRenderer_Props
     & Partial<
         & {
             isReadonly: boolean
-            displayMode: ImageCardDisplayMode
+            displayMode: DisplayMode
         }
         & Size
         & HasChildren<ReactNode>
     >
-    & PartialEventHandlersWithKindFromMap<ImageCard_EventsMap>
+    & PartialEventHandlersWithKindFromMap<EventsMap>
 
 // ======================================== component
-export const ImageCard: ImageRenderer<ImageCard_Props> = ({
+export const ImageCard: ImageRenderer.FC<Props> = ({
     data
     , children
     , width
@@ -75,7 +75,7 @@ export const ImageCard: ImageRenderer<ImageCard_Props> = ({
 
             }
         , imageExtentHandlers = useImageExtent({
-            data: data
+            data
             , onError: _handle_Error
         })
 
@@ -188,4 +188,18 @@ export const ImageCard: ImageRenderer<ImageCard_Props> = ({
             )}
         </Box>
     )
+}
+
+
+
+
+
+export {
+    type Event as ImageCard_Event
+    , type EventsMap as ImageCard_EventsMap
+    , type DisplayMode as ImageCardDisplayMode
+
+    // ======================================== props
+    , type Props as ImageCard_Props
+
 }

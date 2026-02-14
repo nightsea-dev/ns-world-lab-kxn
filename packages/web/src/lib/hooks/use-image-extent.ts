@@ -2,13 +2,14 @@ import { ImgHTMLAttributes, useReducer } from "react"
 import { HasImageInfo, ImageInfo } from "../types"
 import { _cb } from "../utils"
 import {
+    EventHandlersFromMapPartial,
     HasData, HasError
-    , HasErrorWithDataHandler, HasExtent, HasPartialErrorWithDataHandler, PartialEventHandlersFromMap
+    , HasErrorWithDataHandler, HasExtent, HasPartialErrorWithDataHandler
 } from "@ns-world-lab/types"
 
 export type UseImageExtentInput =
     & HasData<ImageInfo>
-    & PartialEventHandlersFromMap<{
+    & EventHandlersFromMapPartial<{
         load: HasData<ImageInfo>
     }>
     & HasPartialErrorWithDataHandler<ImageInfo>
@@ -42,7 +43,7 @@ export const useImageExtent = ({
                     width
                     , height
                 }
-                console.log({ imageInfo })
+                console.log(useImageExtent.name, { imageInfo })
                 onLoad_IN?.({ data: imageInfo })
                 _update_component()
             })

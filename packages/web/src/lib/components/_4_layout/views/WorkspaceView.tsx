@@ -3,14 +3,16 @@ import { _cn } from "../../../utils"
 
 
 
-export const WorkspaceView = ({
-    isActive
-    , children
-    , className
-}: {
+export type WorkspaceView_Props = {
     isActive: boolean
     children: ReactNode
     className?: string
+}
+
+export const WorkspaceView: React.FC<WorkspaceView_Props> = ({
+    isActive
+    , children
+    , className
 }) => (
     <div
         aria-hidden={!isActive}

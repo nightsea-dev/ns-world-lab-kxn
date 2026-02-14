@@ -3,7 +3,7 @@
 
 
 
-export const PageFooter = () => {
+export const PageFooter: React.FC = () => {
     return (
         <footer
             className={`

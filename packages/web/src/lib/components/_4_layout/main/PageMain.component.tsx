@@ -6,12 +6,11 @@ export type PageMain_Props =
 
 
 // ========================================
-export const PageMain = ({
+export const PageMain: React.FC<PageMain_Props> = ({
     children
     , className
     , ...rest
-}: PageMain_Props
-) => {
+}) => {
     return (
         <main
             {...rest}

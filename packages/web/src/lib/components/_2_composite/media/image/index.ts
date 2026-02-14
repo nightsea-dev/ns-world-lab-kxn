@@ -3,4 +3,5 @@ export * from "./ImageError"
 export * from "./ImageFileItemRenderer"
 export * from "./ImageList"
 export * from "./ImageNS"
+export * from "./ImageFactory"
 

@@ -4,13 +4,13 @@ import { _memo, PickHtmlAttributes } from '../../../utils'
 import { Avatar } from '../../_1_primitive'
 
 // ======================================== props
-export type PageHeaderContentWithUserProps =
+export type PageHeaderContentWithUser_Props =
     & Partial<
         & HasUser
     >
-export type PageHeaderProps =
+export type PageHeader_Props =
     & Partial<
-        & PageHeaderContentWithUserProps
+        & PageHeaderContentWithUser_Props
         & HasTitle<ReactNode>
         & PickHtmlAttributes<"children">
         & {
@@ -20,10 +20,9 @@ export type PageHeaderProps =
 
 // ======================================== components
 
-const PageHeaderContentWithUser = ({
+const PageHeaderContentWithUser: React.FC<PageHeaderContentWithUser_Props> = ({
     user
-}: PageHeaderContentWithUserProps
-) => {
+}) => {
     const { avatarSrc } = _memo([user?.uuid], () => ({
         avatarSrc: user?.uuid ? `https://i.pravatar.cc/150?u=${user.uuid}` : undefined
     }))
@@ -50,7 +49,7 @@ export const PageHeader = ({
     , user
     , children
     , midContent
-}: PageHeaderProps
+}: PageHeader_Props
 ) => {
 
     return (

@@ -3,32 +3,45 @@ import {
     , HasPayloads
     , KeyOf, PayloadWithKind
 } from "@ns-world-lab/types";
-import { ControlButton_EventMapFor } from "../../../../_2_composite";
-import { Renderer } from "../../../../../types";
+import { ControlButton_ButtonEventsMapFor } from "../../../../_2_composite";
 
 // ======================================== events
-export type PayloadLoader_EventsMap<
+type EventsMap<
     P extends PayloadWithKind<any>
-> = ControlButton_EventMapFor<{
+> = ControlButton_ButtonEventsMapFor<{
     done: HasPayloads<P>
 }>
 // ======================================== types/props
-export type PayloadLoader_Props<
+type Props<
     P extends PayloadWithKind<any>
 > =
     & EventHandlersFromMap<
-        PayloadLoader_EventsMap<P>
+        EventsMap<P>
     >
 // ======================================== types/renderer
-export type PayloadLoader<
+type PayloadLoaderFC<
     P extends PayloadWithKind<any>
-> = Renderer<
-    PayloadLoader_Props<P>
+> = React.FC<
+    Props<P>
 >
+
+
+export {
+    type EventsMap as PayloadLoader_EventsMap
+    , type Props as PayloadLoader_Props
+}
+export namespace PayloadLoader {
+    export type FC<
+        P extends PayloadWithKind<any>
+    > = PayloadLoaderFC<P>
+}
+
 
 // ======================================== capability
 export type HasPayloadLoader<
     P extends PayloadWithKind<any>
 > = {
-    payloadLoader: PayloadLoader<P>
+    payloadLoader: PayloadLoaderFC<P>
 }
+
+

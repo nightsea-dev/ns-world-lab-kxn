@@ -13,16 +13,14 @@ export type ClockWithShowToggleProps =
         & PickHtmlAttributes<"className">
     >
 // ========================================
-export const ClockWithShowToggle = (
-    {
-        show: show_IN = true
-        , time
-        , refreshIntervalSeconds
-        , className
-        , onTick
-        , ...rest
-    }: ClockWithShowToggleProps
-) => {
+export const ClockWithShowToggle: React.FC<ClockWithShowToggleProps> = ({
+    show: show_IN = true
+    , time
+    , refreshIntervalSeconds
+    , className
+    , onTick
+    , ...rest
+}) => {
 
     const [state, _set_state] = _use_state({
         showTimer: false

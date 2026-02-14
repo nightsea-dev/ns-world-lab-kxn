@@ -1,32 +1,35 @@
 import {
-    HasData
-    , HasName
-    , HasPartialError, HasUrl,
-    PartialEventHandlersFromMap
+    ExtractEventHandlersMapPartial
+    , HasData
+    , EventHandlersFromMapPartial
 } from "@ns-world-lab/types";
-import { HTMLAttributes, HtmlHTMLAttributes, MouseEvent, ReactNode, useId, useReducer } from "react";
+import { MouseEvent, ReactNode, useId, useReducer } from "react";
 import { _cn, _memo, _use_state, OmitHtmlAttributes, PickHtmlAttributes } from "../../../utils";
-import { FileItemRenderer, FileItemRenderer_DataItem, FileItemRenderer_Props, HasFileItemRenderer } from "../../../types";
+import { FileItemRenderer_Props, HasFileItemRenderer, LoadedFileItemWithPartialError } from "../../../types";
 import { ButtonRS, CloseButton } from "../../_2_composite";
 import { NoData } from "../../_1_primitive";
 import { Default_FileItemRenderer } from "./DefaultFileItemRenderer";
 
 
+type Data = LoadedFileItemWithPartialError
 
-type FileItem_ListView_DataItem
-    =
-    & FileItemRenderer_DataItem
-    & HasPartialError
+
+type EventsMap = {
+    itemCloseButtonClick: HasData<Data>
+    clearButtonClick: MouseEvent<HTMLElement>
+}
+
 
 // ======================================== props
-export type FileItem_ListView_Props<
-    TDataItem extends FileItem_ListView_DataItem = FileItem_ListView_DataItem
-> =
-    & HasData<TDataItem[]>
+type Props =
+    // Base
+    & HasData<Data[]>
     & Partial<
-        & HasFileItemRenderer<TDataItem>
+        & HasFileItemRenderer<Data>
         & {
-            placeholder: ReactNode
+            noDataPlaceholder: ReactNode
+
+            header: ReactNode
             headerProps: OmitHtmlAttributes<"children">
         }
         & PickHtmlAttributes<"className">
@@ -35,32 +38,25 @@ export type FileItem_ListView_Props<
         }
     >
 
-    & PartialEventHandlersFromMap<
-        & {
-            itemCloseButtonClick: HasData<TDataItem>
-            clearButtonClick: MouseEvent<HTMLElement>
-            click: MouseEvent<HTMLElement>
-        }
-    >
-
+    // Handlers
+    & EventHandlersFromMapPartial<EventsMap>
 
 
 
 // ======================================== component
-export const FileItem_ListView = <
-    TDataItem extends FileItem_ListView_DataItem = FileItem_ListView_DataItem
->({
+export const FileItemListView: React.FC<Props> = ({
     data: data_IN
-    , placeholder
+    , header: tableHeader
+    , noDataPlaceholder
     , headerProps
-    , fileItemRenderer: R = Default_FileItemRenderer as NonNullable<FileItem_ListView_Props<TDataItem>["fileItemRenderer"]>
-    , onClick
+    , fileItemRenderer: R = Default_FileItemRenderer as NonNullable<Props["fileItemRenderer"]>
+
+    // , onClick
     , onClearButtonClick
     , onItemCloseButtonClick
     , onItemError
     , ...rest
-}: FileItem_ListView_Props<TDataItem>
-) => {
+}) => {
 
     const id = useId()
 
@@ -68,37 +64,21 @@ export const FileItem_ListView = <
 
         , filesWithError = data_IN.filter(o => o.error)
 
-        , _handleClick: HTMLAttributes<any>["onClick"] = (
-            ev
-        ) => {
-            const target = (ev.target as HTMLElement)
-                , isFileItem = !!target.closest(`[data-file-collection-items-container="${id}"]`)
-                , isClearButton = target.hasAttribute("data-clear-button")
-            if (!onClick
-                || isFileItem
-                || isClearButton
-            ) {
-                return
-            }
-            ev.preventDefault()
-            ev.stopPropagation()
-            onClick(ev)
-        }
-
-        , _handle_ItemError: FileItemRenderer_Props["onError"]
-            = (ev) => {
-                ;
-                ; (ev.data as TDataItem).error = ev.error
-                _update_component()
-                onItemError?.(ev)
-            }
+        , fileItemHandlers: ExtractEventHandlersMapPartial<FileItemRenderer_Props>
+            = _memo([onItemError], () => ({
+                onError: (ev) => {
+                    ; (ev.data as Data).error = ev.error
+                    _update_component()
+                    onItemError?.(ev)
+                }
+            }))
 
 
     return (
         <div
             {...rest}
             id={id}
-            data-file-collection-view={id}
+            data-file-item-list={id}
 
             className={_cn(`
                 border border-gray-200 rounded-[10px] p-0 m-1
@@ -107,8 +87,8 @@ export const FileItem_ListView = <
                 `
                 , rest.className
             )}
-            //onPointerDown={_handleClick}
-            onClick={_handleClick}
+        //onPointerDown={_handleClick}
+        // onClick={_handleClick}
         >
             <div
                 {...headerProps}
@@ -141,7 +121,7 @@ export const FileItem_ListView = <
                     }
 
                 </div>
-                {placeholder && !!data_IN.length && (
+                {tableHeader && !!data_IN.length && (
                     <div
                         data-file-collection-placeholder
 
@@ -158,7 +138,7 @@ export const FileItem_ListView = <
                             p-2
                         `}
                     >
-                        {placeholder}
+                        {tableHeader}
                     </div>
                 )}
                 {onClearButtonClick && (
@@ -181,7 +161,7 @@ export const FileItem_ListView = <
             {!data_IN.length
                 ? <NoData
                 >
-                    {placeholder}
+                    {noDataPlaceholder}
                 </NoData>
                 : (
                     <div
@@ -199,8 +179,8 @@ export const FileItem_ListView = <
                                 <R
                                     key={data.url ?? data.name}
                                     data={data}
-                                    onError={_handle_ItemError}
                                     data-item-has-errors={!!data.error}
+                                    {...fileItemHandlers}
                                 />
                                 <CloseButton
                                     data-file-item-close-button
@@ -212,4 +192,11 @@ export const FileItem_ListView = <
                 )}
         </div>
     )
+}
+
+
+
+export {
+    type Props as FileItemListView_Props
+    , type EventsMap as FileItemListView_EventsMap
 }

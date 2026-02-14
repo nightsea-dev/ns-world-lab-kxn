@@ -1,2 +1,3 @@
 export * from "./SurfaceNode.component"
-export * from "./SurfaceNodePayloadInfo.component"
+export * from "./SurfaceNode.types"
+export * from "./SurfaceNodePayloadDetail.component"

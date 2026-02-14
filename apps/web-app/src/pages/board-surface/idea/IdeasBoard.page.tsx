@@ -1,19 +1,20 @@
 import {
     _effect
     , BoardSurface_Component,
-    HasCreatePayloadFn,
     _memo,
     _use_state,
-    BoardSurface_Props
+    BoardSurface_Props,
+    IdeaPayloadRenderer
 } from '@ns-world-lab/web'
 import {
     createIdeaWithAuthor,
     createIdeaWithAuthorCollection
 } from "@ns-world-lab/logic"
 import {
+    ExtractEventsMap,
     IdeaWithKindAndAuthor
 } from '@ns-world-lab/types'
-import { IdeaPayloadRenderer } from '../../../components'
+import { AppPage } from '../../_types'
 
 // ======================================== CONST
 // ======================================== props
@@ -27,14 +28,19 @@ export type IdeasBoard_Page_Props =
             | "onChange"
         >
     >
+
+// ======================================== events/derived from props
+export type IdeasBoard_Page_EventMap
+    = ExtractEventsMap<IdeasBoard_Page_Props>
+
+
 // ======================================== component
-export const IdeasBoard_Page = ({
+export const IdeasBoard_Page: AppPage.FC<IdeasBoard_Page_Props> = ({
     data: data_IN
     // , createPayloadFn = () => createIdeaWithAuthor()
     // , children = IdeaPayloadRenderer
     , ...rest
-}: IdeasBoard_Page_Props
-) => {
+}) => {
 
     const [state, _set_state] = _use_state({
         data: [] as IdeaWithKindAndAuthor[]

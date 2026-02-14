@@ -1,21 +1,52 @@
 import {
     EventHandlersFromMap
-    , HasData, KeyOf, PartialOrFull
+    , ExtractEventHandlersMap, HasData, KeyOf, PartialOrFull
 } from "@ns-world-lab/types"
 import {
-    FormValueInput
-    , ValidInputValue
-} from "./FormValueInput"
-import { useRef } from "react"
-import { _capitalise, _isNumber, entriesOf, keysOf, pickFromAsArray, valuesOf } from "@ns-world-lab/logic"
-import { ControlButton_EventKind, ControlButton_EventMapFor, ControlButtons, ObjectView } from "../../_2_composite"
-import { _effect, _use_state } from "../../../utils"
-import { Box } from "../../_1_primitive"
+    SimpleFormFormValueInput as FormValueInput
+    , SimpleFormValidInputValue as ValidInputValue
+} from "./SimpleFormFormValueInput"
+import { ReactNode, useRef } from "react"
+import {
+    _capitalise, _isEmpty, _isNumber, entriesOf
+    , keysOf
+} from "@ns-world-lab/logic"
+import {
+    ControlButton_ButtonEventKind
+    , ControlButtons
+    , ControlButtons_Props
+    , ObjectView
+
+} from "../../_2_composite"
+import { _cn, _effect, _use_state } from "../../../utils"
+import { Box, BoxProps } from "../../_1_primitive"
 
 
 
 
 // ======================================== helpers
+const _isValidData = <
+    TData extends ValidFormData
+>(
+    data: TData
+    , requiredKeys = [] as KeyOf<TData>[]
+) => {
+
+    for (const k in data) {
+        const v = data[k]
+        if (requiredKeys.includes(k)
+            && (
+                !_isNumber(v)
+                || _isEmpty(v)
+            )
+        ) {
+            return false
+        }
+    }
+
+    return true
+}
+
 const _eqData = <
     TData extends ValidFormData
 >(
@@ -36,56 +67,55 @@ const _eqData = <
 
 }
 // ======================================== types
-export type ValidFormData =
+type ValidFormData =
     & Record<string, ValidInputValue>
 
 
 
 // ======================================== events
-export type SimpleFormEventsMap<
+type ChangeEvent<
+    TData extends ValidFormData
+> = {
+    previousData: TData
+    currentData: TData
+}
+type EventsMap<
     TData extends ValidFormData
 > =
     & {
-        change:
-        & {
-            previousData: TData
-            currentData: TData
-        }
+        change: ChangeEvent<TData>
+        done: HasData<TData>
+        cancel: {}
     }
-    & ControlButton_EventMapFor<{
-        done:
-        & HasData<TData>
-    }
-        , "cancel"
-    >
+
 
 type ButtonEventKind
-    = Extract<KeyOf<SimpleFormEventsMap<any>>, ControlButton_EventKind>
+    = Extract<KeyOf<EventsMap<any>>, ControlButton_ButtonEventKind>
 
-export type SimpleFormEventHandlersWithKindMap<
+type EventHandlersWithKindMap<
     TData extends ValidFormData
-> = EventHandlersFromMap<SimpleFormEventsMap<TData>>
+> = EventHandlersFromMap<EventsMap<TData>>
 
 
 // ======================================== props
-export type SimpleFormProps<
+type BaseProps<
     TData extends ValidFormData
 > =
     & HasData<TData>
     & Partial<
         & {
             hideButtons: ButtonEventKind[] | boolean
+            buttonAreDisabled: boolean
+            // buttonLabels: Partial<Record<ButtonEventKind, ReactNode>>
         }
-        & SimpleFormEventHandlersWithKindMap<TData>
+        & Pick<ControlButtons_Props, "buttonLabels">
+        & EventHandlersWithKindMap<TData>
     >
-
-const _isValidData = <
+type Props<
     TData extends ValidFormData
->(
-    data: TData
-) =>
-    valuesOf(data)
-        .every(v => _isNumber(v) || (v as string ?? "").trim().length)
+> =
+    & BaseProps<TData>
+    & Omit<BoxProps, KeyOf<BaseProps<any>> | "children">
 
 
 // ======================================== component
@@ -97,9 +127,12 @@ export const SimpleForm = <
 >({
     data: data_IN
     , hideButtons
+    , buttonAreDisabled
+    , buttonLabels
     , onChange
     , onDone
-}: SimpleFormProps<TData>
+    , ...rest
+}: Props<TData>
 ) => {
 
     const [state, _set_state] = _use_state({
@@ -157,16 +190,24 @@ export const SimpleForm = <
 
         }
 
-        , _handle_Clear = () => _clear_current_data()
-        , _handle_Done = () => {
-            if (!_isValidData(state.currentData)
-                || !onDone) {
-                return
+        , controlButtonHandlers = {
+            onShowInfoChange: _set_state
+            , onDone: () => {
+                if (!_isValidData(state.currentData)
+                    || !onDone) {
+                    return
+                }
+                onDone({
+                    data: state.currentData
+                })
             }
-            onDone({
-                data: state.currentData
-            })
-        }
+            , onClear: () => {
+                _clear_current_data()
+            }
+        } as ExtractEventHandlersMap<ControlButtons_Props>
+
+    // debugger
+
 
     _effect([data_IN, state.currentData], () => {
         if (
@@ -183,14 +224,22 @@ export const SimpleForm = <
 
     return (
         <Box
-            data-text-number-form
-            className={`
+            {...rest}
+            data-simple-form
+            className={_cn(`
                 grid
                 gap-4
                 ---bg-gray-100
-                p-1
-                `}
+                p-0
+                `
+                , rest.className
+            )}
+            childrenContainerProps={{
+                className: "px-2 pt-0"
+                , ...rest.childrenContainerProps
+            }}
         >
+
             <div>
                 {_refs.keys.map(k => (
                     <FormValueInput
@@ -214,24 +263,37 @@ export const SimpleForm = <
                     }
                     isDisabled={{
                         //clear: clearIsDiabled
-                        done: !_isValidData(state.currentData)
+                        done: !_isValidData(state.currentData) || buttonAreDisabled
                     }}
 
-                    onClear={_handle_Clear}
-                    onDone={_handle_Done}
+                    infoDataViewHeader={SimpleForm.name}
 
-                    showInfoName={SimpleForm.name}
-                    onShowInfoChange={_set_state}
+                    {...controlButtonHandlers}
+                    buttonLabels={{
+                        done: "Add"
+                    }}
 
                 />
             }
 
             <ObjectView
                 data={state}
-                header="state-info"
+                header={SimpleForm.name}
                 isHidden={!state.showInfo}
             />
 
         </Box>
     )
 }
+
+
+
+export {
+    type Props as SimpleFormProps
+    , type EventHandlersWithKindMap as SimpleForm_EventHandlersWithKindMap
+    , type EventsMap as SimpleForm_EventsMap
+    , type ChangeEvent as SimpleForm_ChangeEvent
+    , type ValidFormData as SimpleForm_ValidFormData
+}
+
+

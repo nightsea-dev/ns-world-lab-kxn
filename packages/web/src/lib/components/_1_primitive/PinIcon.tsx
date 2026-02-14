@@ -43,13 +43,13 @@ export type PinIconProps =
     }
     & Omit<SVGProps<SVGSVGElement>, "viewBox">
 
-export const PinIcon = ({
+export const PinIcon: React.FC<PinIconProps> = ({
     iconType = "Dock",
     width = 18,
     height = width,
     className,
     ...rest
-}: PinIconProps) => {
+}) => {
     const R = PIN_ICONS[iconType]
 
     return (

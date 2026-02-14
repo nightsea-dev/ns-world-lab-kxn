@@ -42,7 +42,7 @@ export const TableRow = <
     TData extends object
 >({
     idx
-    , data: data//: user
+    , data//: user
     // , data: {
     //     email
     //     , job

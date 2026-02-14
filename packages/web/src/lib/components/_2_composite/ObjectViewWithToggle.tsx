@@ -38,7 +38,7 @@ export const ObjectViewWithToggle = <
 >({
     isShown = false
     , onChange
-    , data: data
+    , data
     , label: toggleLabel = "Show"
     , toggleProps
     , className

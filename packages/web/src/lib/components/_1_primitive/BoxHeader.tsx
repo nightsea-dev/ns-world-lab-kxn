@@ -24,14 +24,13 @@ export type BoxHeaderProps =
     & PickHtmlAttributes
 
 
-export const BoxHeader = ({
-    data: data
+export const BoxHeader: React.FC<BoxHeaderProps> = ({
+    data
     , children = data
     , bgColour// = "gray-200"
     , headerRef
     , ...rest
-}: BoxHeaderProps
-) => (
+}) => (
     <div
         {...rest}
         ref={headerRef}

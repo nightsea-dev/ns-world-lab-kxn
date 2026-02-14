@@ -53,7 +53,7 @@ export type EventHandlersFromMap<
     }
 
 
-export type PartialEventHandlersFromMap<
+export type EventHandlersFromMapPartial<
     EvMap extends Record<string, object>
 > = Partial<EventHandlersFromMap<EvMap>>
 
@@ -128,8 +128,24 @@ export type ExtractEventHandlersMap<
         ]: Extract<NonNullable<T[k]>, AnyFn>
     }
 
+export type ExtractEventHandlersMapPartial<
+    T extends object
+> = Partial<
+    ExtractEventHandlersMap<T>
+>
 
 export type ExtractEventsMap<T extends object> = {
     [K in keyof ExtractEventHandlersMap<T> as OnKeyToKind<K>]
     : HandlerEvent<ExtractEventHandlersMap<T>[K]>
 }
+
+export type ExtractDataPropsMap<
+    T extends object
+> = {
+        [k in KeyOf<T> as
+        k extends `on${string}`
+        ? never
+        : k
+        ]: T[k]
+    }
+

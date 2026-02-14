@@ -1,5 +1,11 @@
 import { HasId, KeyOf } from "@ns-world-lab/types"
 
+
+
+
+
+
+
 type KeyFn<
     K extends PropertyKey
     , T extends { [k in K]: any }
@@ -9,8 +15,8 @@ export const findByKey = <
     K extends PropertyKey
     , T extends { [k in K]: any }
 >(
-    A: Iterable<T>
-    , B: Iterable<T>
+    master: Iterable<T>
+    , toSeekFor: Iterable<T>
     , key_or_fn: | KeyFn<K, T> | K
 ) => {
     const keyFn: KeyFn<K, T> = typeof (key_or_fn) === "function"
@@ -22,24 +28,24 @@ export const findByKey = <
             , remaining_in_A: [] as T[]
         }
         , A_keys = new Set(
-            [...B].map(keyFn)
+            [...toSeekFor].map(keyFn)
         )
-        ;[...A].forEach(o => {
+        ;[...master].forEach(o => {
             out[
                 A_keys.has(keyFn(o))
                     ? "foundIn_A" : "remaining_in_A"
             ].push(o)
         })
 
-    return { ...out, A, B }
+    return { ...out, A: master, B: toSeekFor }
 }
 
     , findById = <
         T extends HasId
     >(
-        A: Iterable<T>
-        , B: Iterable<T>
-    ) => findByKey(A, B, "id")
+        master: Iterable<T>
+        , toSeekFor: Iterable<T>
+    ) => findByKey(master, toSeekFor, "id")
 
 
     // ----------------------------------------
@@ -67,6 +73,6 @@ export const findByKey = <
     , toRemoveById = <
         T extends HasId
     >(
-        A: Iterable<T>
-        , B: Iterable<T>
-    ) => toRemoveByKey(A, B, "id")
+        master: Iterable<T>
+        , toRemoveItems: Iterable<T>
+    ) => toRemoveByKey(master, toRemoveItems, "id")

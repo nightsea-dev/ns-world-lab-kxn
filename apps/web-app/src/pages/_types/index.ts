@@ -1,1 +1,1 @@
-export * from "./page-props"
+export * from "./app-page"

@@ -1,4 +1,4 @@
-import { EventHandlersFromMap, HasPartialError } from "@ns-world-lab/types"
+import { EventHandlersFromMap, HasData, HasDataProvider, HasPartialError, HasProvider } from "@ns-world-lab/types"
 import { FileItemWithUrlAndFileID } from "./file-item"
 
 // ======================================== types/loader
@@ -12,35 +12,78 @@ export type LoadedFileItemWithPartialError =
 // ======================================== capabilities/loader
 export type HasLoadedFileItems<
     TLoadedFileItem extends LoadedFileItem = LoadedFileItem
-> = {
-    loadedFileItems: TLoadedFileItem[]
-}
+> = HasData<TLoadedFileItem[]>
 
 // ======================================== events/loader
-export type FileLoader_Event<
+type Event<
     TLoadedFileItem extends LoadedFileItem = LoadedFileItem
 >
     = HasLoadedFileItems<TLoadedFileItem>
 
-export type FileLoader_EventsMap<
+type EventsMap<
     TLoadedFileItem extends LoadedFileItem = LoadedFileItem
 > = {
-    load: FileLoader_Event<TLoadedFileItem>
+    load: Event<TLoadedFileItem>
 }
 
 
 // ======================================== renderer/props
-export type HasFileLoader_EventHandlers<
-    T extends LoadedFileItem = LoadedFileItem
+type HasEventHandlers<
+    TFileItem extends LoadedFileItem = LoadedFileItem
 >
-    = EventHandlersFromMap<FileLoader_EventsMap<T>>
+    = EventHandlersFromMap<EventsMap<TFileItem>>
 
-export type FileLoader_Props<
-    T extends LoadedFileItem = LoadedFileItem
+type Props<
+    TFileItem extends LoadedFileItem = LoadedFileItem
 > =
-    & HasFileLoader_EventHandlers<T>
+    & HasEventHandlers<TFileItem>
+
 
 // ======================================== renderer/component-type
+type EnsurePropsMatchItem<
+    TProps
+    , TFileItem extends LoadedFileItem = LoadedFileItem
+> = TProps extends Props<TFileItem> ? TProps : never
+
+type FileLoader_FC<
+    TProps extends Props<LoadedFileItemWithPartialError> = Props<LoadedFileItemWithPartialError>
+// , TFileItem extends LoadedFileItemWithPartialError
+// = TProps extends FileLoader_Props<infer _fileItem> ? _fileItem : LoadedFileItemWithPartialError
+> =
+    & React.FC<TProps>
+
+
+
+//EnsurePropsMatchItem<TProps, TFileItem>>
 // export type FileLoader<
 //     P extends FileLoaderProps<any>
 // > = Renderer<P>
+
+
+
+// export type HasFileLoader<P = {}> = {
+//     fileLoader: FileLoader<P, LoadedFileItemWithPartialError>
+// }
+
+
+
+export {
+    type Props as FileLoader_Props
+    , type Event as FileLoader_Event
+    , type EventsMap as FileLoader_EventsMap
+    , type HasEventHandlers as HasFileLoader_EventHandlers
+}
+
+
+export namespace FileLoader {
+    export type FC<
+        TProps extends Props<LoadedFileItemWithPartialError> = Props<LoadedFileItemWithPartialError>
+    > = FileLoader_FC<TProps>
+}
+
+
+export type HasFileItemProvider<
+    TProps extends Props<LoadedFileItemWithPartialError> = Props<LoadedFileItemWithPartialError>
+>
+    = HasDataProvider<FileLoader_FC<TProps>>
+

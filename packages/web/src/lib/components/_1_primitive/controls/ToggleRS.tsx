@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { Toggle, ToggleProps } from "rsuite"
 import { _cn, OmitHtmlAttributes, OmitHtmlAttributesFrom, PickHtmlAttributes } from "../../../utils"
-import { EventHandlersFromMap, HasEventHandler, HasName, HasPartialEventHandler, HasPartialName, KeyOf, PartialEventHandlersFromMap, XOR } from "@ns-world-lab/types"
+import { EventHandlersFromMap, HasEventHandler, HasName, HasPartialEventHandler, HasPartialName, KeyOf, EventHandlersFromMapPartial, XOR } from "@ns-world-lab/types"
 
 // ======================================== events
 export type ToggleRSEventsMap = {
@@ -58,6 +58,7 @@ export const ToggleRS = ({
                 py-1.5
                 px-2.5
                 bg-white
+                cursor-default
                 ${inline ? "inline" : ""}
                     `
                 , className

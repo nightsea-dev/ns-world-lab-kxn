@@ -2,20 +2,17 @@ import {
     _effect
     , _memo,
     _use_state,
-    PayloadRenderer,
-    DrawerInfo,
     BoardSurface,
-    PayloadLoader_Props,
+    BoardSurface_EventsMap,
 } from '@ns-world-lab/web'
 import {
     _capitalise,
     createIdeaWithAuthor,
-    pickFromAsArray,
-    pickFromAsTuple,
 } from "@ns-world-lab/logic"
-import { PickRequired } from '@ns-world-lab/types'
+import { EventHandlersWithKindFromMap, ExtractEventsMap, PickRequired } from '@ns-world-lab/types'
 import { useRef } from 'react'
 import { KNOWN_SURFACEBOARD_PAYLOAD_INFOS_MAP, KnownPayload_Type, KnownPayload_Kind } from './KnownPayloadInfo'
+import { AppPage } from '../../_types'
 
 // ======================================== helpers
 
@@ -50,15 +47,23 @@ export type KnownPayloadsBoard_Page_Props =
             | "data"
             | "onPayloadsAdded"
             | "onPayloadsRemoved"
-            | "onChange"
+        // | "onChange"
         >
+        & EventHandlersWithKindFromMap<{
+            change: Pick<BoardSurface_EventsMap<KnownPayload_Type>["change"], "payloads" | "surfaceNodes">
+        }>
     >
+
+// ======================================== events/derived from props
+export type KnownPayloadsBoard_Page_EventsMap =
+    ExtractEventsMap<KnownPayloadsBoard_Page_Props>
+
 // ======================================== component
-export const KnownPayloadsBoard_Page = ({
+export const KnownPayloadsBoard_Page: AppPage.FC<KnownPayloadsBoard_Page_Props> = ({
     data: data_IN
+    , onChange: onChange_IN
     , ...rest
-}: KnownPayloadsBoard_Page_Props
-) => {
+}) => {
 
     const [state, _set_state] = _use_state({
         payloads: []
@@ -110,7 +115,11 @@ export const KnownPayloadsBoard_Page = ({
                 eventKind
                 , payloads
                 , surfaceNodes
-            }) => _set_state({ payloads })
+            }) => {
+                _set_state({ payloads })
+                // debugger
+                onChange_IN?.({ payloads, surfaceNodes, eventKind: "change" })
+            }
 
             , onControlPanelNumberOfItemsEnterKey: ({
                 numberOfItems
@@ -137,35 +146,35 @@ export const KnownPayloadsBoard_Page = ({
             | "onControlPanelNumberOfItemsEnterKey"
         >
 
-        , inputViewHanders = {
-            onCancel() {
-                _setTo_IDLE("inputViewHanders.onCancel")
-            }
-            , onClear() {
-                _set_state(p => ({
-                    ...p
-                    , payloads: []
-                }))
-            }
-            , onDone({
-                payloads: new_payloads
-            }) {
+    // , inputViewHanders = {
+    //     onCancel() {
+    //         _setTo_IDLE("inputViewHanders.onCancel")
+    //     }
+    //     , onClear() {
+    //         _set_state(p => ({
+    //             ...p
+    //             , payloads: []
+    //         }))
+    //     }
+    //     , onDone({
+    //         payloads: new_payloads
+    //     }) {
 
-                const {
-                    payloads: current_payloads
-                } = state
+    //         const {
+    //             payloads: current_payloads
+    //         } = state
 
-                    , payloads = [
-                        ...current_payloads
-                        , ...new_payloads
-                    ]
+    //             , payloads = [
+    //                 ...current_payloads
+    //                 , ...new_payloads
+    //             ]
 
-                _set_state({ payloads })
+    //         _set_state({ payloads })
 
-                _setTo_IDLE("inputViewHanders.onDone")
+    //         _setTo_IDLE("inputViewHanders.onDone")
 
-            }
-        } as PayloadLoader_Props<KnownPayload_Type>
+    //     }
+    // } as PayloadLoader_Props<KnownPayload_Type>
 
     // Pick<KnownPayloadLoaderProps<KnownPayloadKind>, "onCancel" | "onClear" | "onDone">
 
@@ -252,6 +261,7 @@ export const KnownPayloadsBoard_Page = ({
                 data={state.payloads}
 
                 payloadInfosMap={KNOWN_SURFACEBOARD_PAYLOAD_INFOS_MAP}
+
 
                 boardSurfaceRef={ref => {
                     _refs.boardSurfaceRef = ref

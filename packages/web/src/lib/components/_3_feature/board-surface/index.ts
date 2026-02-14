@@ -4,3 +4,4 @@ export * from "./control-panel";
 export * from "./surface-node";
 export * from "./surface-payload";
 export * from "./hooks";
+export * from "./input-views";

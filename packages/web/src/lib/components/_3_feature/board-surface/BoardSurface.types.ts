@@ -1,82 +1,56 @@
-import React, { FunctionComponent, isValidElement, ReactElement, ReactNode, RefCallback, RefObject, useId, useReducer, useRef } from 'react'
+import React, { RefCallback, RefObject, useId, useReducer, useRef } from 'react'
 import {
     _capitalise, _jitterPositions, _t
-    , keysOf, pickFromAsArray, pickFrom,
-    pickFromAsTuple
 } from "@ns-world-lab/logic"
 import {
     HasData
-    , Position
-    , Transformation
     , PayloadWithKind
     , M_StateFromMap
-    , HasPayloadWithKind
     , HasEventKind
     , EventHandlersFromMap
     , KeyOf,
     HasPayloads,
     XOR,
-    PickRequiredRestPartial,
-    KindBase,
     EventHandler,
-    HasPayloadKind
+    HasPayloadKind,
+    ExtractEventsMap,
+    ExtractEventHandlersMap
 } from '@ns-world-lab/types'
+import { SurfaceNode_ButtonAction } from './hooks'
+import { HasSurfaceNodes, HasSurfaceNodesMap, SurfaceNode_Props } from './surface-node'
+import { SurfaceBoard_PayloadInfos_Map } from './surface-payload'
+import { BoardSurface_ControlPanel_EventsMap } from './control-panel'
 
 
-import {
-    HasSurfaceNodes
-    , SurfaceNode
-    , SurfaceNode_Props
-} from './surface-node'
-import { CreatePayloadFn, PayloadRenderer, SurfaceBoard_PayloadInfos_Map } from './surface-payload'
-import { ButtonsMap, DrawerInfo } from '../../_2_composite'
-import { BoardSurface_ControlPanel_EventsMap, BoardSurface_ControlPanel_Props } from './control-panel'
 
 
-/**
- * @deprecated go for SurfaceBoardPayload_Info
- * 202602110100
- */
-export type InputViewInfo = {
-    content: ReactNode | FunctionComponent | DrawerInfo
-    isOpen: boolean
-}
-
-// ======================================== types
-
-export type SurfaceNodesMap<
-    P extends PayloadWithKind<any>
-> = Map<P["id"], SurfaceNode<P>>
-
-export type HasSurfaceNodesMap<
-    P extends PayloadWithKind<any>
-> = {
-    surfaceNodesMap: SurfaceNodesMap<P>
-}
 
 // ======================================== types - M_STATES
 
 type _Stage = "PROCESSING" | "DONE"
-type _M_STATES_MAP<
-    P extends PayloadWithKind<any>
-> = {
-    IDLE: {
-        latestAction?: string
-    }
-    "ADDING PAYLOADS": {
-        stage: _Stage
-        addedPayloads?: P[]
-    }
-    "REMOVING PAYLOADS": {
-        stage: _Stage
-        removedPayloads?: P[]
-        // unableToRemovedPayloads?: P[]
-    }
-}
 
 export type BoardSurface_M_State<
     P extends PayloadWithKind<any>
-> = M_StateFromMap<_M_STATES_MAP<P>>
+> =
+    | {
+        name: "IDLE"
+        latestAction?: string
+    }
+    | {
+        name: "ADDING PAYLOADS"
+        stage: _Stage
+        addedPayloads?: P[]
+    }
+    | {
+        name: "REMOVING PAYLOADS"
+        stage: _Stage
+        removedPayloads?: P[]
+    }
+    | {
+        name: "PAYLOAD ACTION BUTTON"
+        stage: "DONE"
+        action: SurfaceNode_ButtonAction
+    }
 
 // ======================================== state
 
@@ -86,8 +60,8 @@ export type BoardSurface_M_State<
 export type BoardSurface_State<
     P extends PayloadWithKind<any>
 > =
+    & HasPayloads<P>
     & {
-        payloads: P[]
         numberOfItems: number
         m_state: BoardSurface_M_State<P>
         showInfo: boolean
@@ -95,7 +69,7 @@ export type BoardSurface_State<
     }
 
 // ======================================== events/types
-type BaseBoardSurfaceEvent<
+type BaseBoardSurface_Event<
     P extends PayloadWithKind<any>
 > =
     & HasSurfaceNodes<P>
@@ -104,34 +78,31 @@ type BaseBoardSurfaceEvent<
 type PayloadsAdded_Event<
     P extends PayloadWithKind<any>
 > =
-    & BaseBoardSurfaceEvent<P>
+    & BaseBoardSurface_Event<P>
     & HasEventKind<"payloadsAdded">
     & {
         addedPayloads: P[]
     }
 
-type PayloadsRemovedEvent<
+type PayloadsRemoved_Event<
     P extends PayloadWithKind<any>
 > =
-    & BaseBoardSurfaceEvent<P>
+    & BaseBoardSurface_Event<P>
     & HasEventKind<"payloadsRemoved">
     & {
         removedPayloads: P[]
     }
 
 // ======================================== events/map
-export type BoardSurface_EventsMap<
+type BaseBoardSurface_EventsMap<
     P extends PayloadWithKind<any>
 > = {
     payloadsAdded: PayloadsAdded_Event<P>
 
-    payloadsRemoved: PayloadsRemovedEvent<P>
+    payloadsRemoved: PayloadsRemoved_Event<P>
 
     inputViewClose: {}
 }
-
-export type BoardSurface_EventKind
-    = KeyOf<BoardSurface_EventsMap<any>>
 
 
 export type BoardSurface_Ref<
@@ -144,6 +115,16 @@ export type BoardSurface_Ref<
     >
     & HasSurfaceNodesMap<P>
 >
+
+export type BoardSurface_ChangeEvent<
+    P extends PayloadWithKind<any>
+> =
+    | PayloadsAdded_Event<P>
+    | PayloadsRemoved_Event<P>
+
+export type BoardSurface_ChangeEventHandler<
+    P extends PayloadWithKind<any>
+> = (ev: BoardSurface_ChangeEvent<P>) => void
 
 
 // ======================================== props
@@ -170,7 +151,7 @@ export type BoardSurface_Props<
         }
 
         & EventHandlersFromMap<
-            & BoardSurface_EventsMap<P>
+            & BaseBoardSurface_EventsMap<P>
         >
         & EventHandlersFromMap<{
             controlPanelNumberOfItemsEnterKey:
@@ -185,13 +166,23 @@ export type BoardSurface_Props<
             }
         }>
         & {
-            onChange: (
-                ev:
-                    | PayloadsAdded_Event<P>
-                    | PayloadsRemovedEvent<P>
-            ) => void
+            onChange: BoardSurface_ChangeEventHandler<P>
         }
 
     >
+
+
+
+// ======================================== events/derived
+export type BoardSurface_EventsMap<
+    P extends PayloadWithKind<any>
+> = ExtractEventsMap<BoardSurface_Props<P>>
+
+export type BoardSurface_EventHandlers<
+    P extends PayloadWithKind<any>
+> = ExtractEventHandlersMap<BoardSurface_Props<P>>
+
+export type BoardSurface_EventKind
+    = KeyOf<BoardSurface_EventsMap<any>>
 
 

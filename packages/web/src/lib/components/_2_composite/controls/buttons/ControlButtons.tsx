@@ -4,7 +4,7 @@ import {
     , KeyOf,
     OverrideMap
 } from "@ns-world-lab/types"
-import { FunctionComponent, ReactNode } from "react"
+import { ReactNode } from "react"
 import { _capitalise, _isEmpty, entriesOf } from "@ns-world-lab/logic"
 import { BasicSize } from "rsuite/esm/internals/types"
 import { ButtonGroupRS, ButtonGroupRSProps, ButtonIsDisabledFn, ButtonRSProps } from "./ButtonGroupRS"
@@ -16,7 +16,7 @@ import { Box, BoxProps } from "../../../_1_primitive"
 // ======================================== types
 
 // ======================================== events
-export type ControlButtons_EventsMap = {
+type _AllEvMap_ = {
     cancel: {}
     clear: {}
     done: {}
@@ -25,22 +25,21 @@ export type ControlButtons_EventsMap = {
     }
 }
 
-type EventKind
-    = KeyOf<ControlButtons_EventsMap>
+type AllEventKind = KeyOf<_AllEvMap_>
 
-export type ControlButton_EventKind
-    = Exclude<EventKind, `show${string}`>
+type ButtonEventKind
+    = Exclude<AllEventKind, `show${string}`>
 
-export type ControlButton_EventsMap
-    = Pick<ControlButtons_EventsMap, ControlButton_EventKind>
+type ButtonEventsMap
+    = Pick<_AllEvMap_, ButtonEventKind>
 
-export type ControlButton_EventMapFor<
-    O extends Partial<ControlButtons_EventsMap> | undefined = undefined
-    , Ex extends ControlButton_EventKind | never = never
-> = OverrideMap<ControlButton_EventsMap, O, Ex>
+type ButtonEventsMapFor<
+    O extends Partial<_AllEvMap_> | undefined = undefined
+    , Ex extends ButtonEventKind | never = never
+> = OverrideMap<ButtonEventsMap, O, Ex>
 
-export type ControlButtons_EventHandlers
-    = EventHandlersFromMap<ControlButtons_EventsMap>
+type AllEventHandlers
+    = EventHandlersFromMap<_AllEvMap_>
 
 
 // ========================================  CONSTS
@@ -49,56 +48,55 @@ const EVENT_KINDS = [
     , "clear"
     , "done"
     , "showInfoChange"
-] as EventKind[]
+] as AllEventKind[]
 
     , EMPTY_isDisabledFn: ButtonIsDisabledFn<any> = (() => false)
 
 type InputViewControl_ButtonIsDisabledFn
-    = ButtonIsDisabledFn<EventKind>
+    = ButtonIsDisabledFn<AllEventKind>
 
-type InputViewControl_ButtonIsDisabledFnMap
-    = Record<EventKind, InputViewControl_ButtonIsDisabledFn>
 
 type InputViewControl_ButtonIsDisabledInputMap
     = Partial<
-        Record<EventKind, InputViewControl_ButtonIsDisabledFn | boolean>
+        Record<AllEventKind, InputViewControl_ButtonIsDisabledFn | boolean>
     >
 
 
 // ======================================== props
-type BaseControlButtonsProps<
+type BaseProps<
     TInfoData extends ObjectViewValue | undefined = undefined
 > =
     & {
-        // showInfo: boolean
         infoData: TInfoData extends ObjectViewValue ? ObjectViewProps<TInfoData>["data"] : never
-        showInfoName: string
-        hideButtons: ControlButton_EventKind[]
+        infoDataViewHeader: ReactNode
+        infoDataViewToggleName: string
+        hideButtons: ButtonEventKind[]
         isDisabled: InputViewControl_ButtonIsDisabledInputMap | boolean
         buttonProps: Omit<
             ButtonRSProps,
-            | KeyOf<ControlButtons_EventHandlers>
+            | KeyOf<AllEventHandlers>
         >
+        buttonLabels: Partial<Record<AllEventKind, ReactNode>>
     }
-    & ControlButtons_EventHandlers
+    & AllEventHandlers
 
-export type ControlButtonsProps<
+type Props<
     TInfoData extends ObjectViewValue | undefined = undefined
 > =
     & Partial<
-        & BaseControlButtonsProps<TInfoData>
+        & BaseProps<TInfoData>
         & Omit<
             & BoxProps
             & Pick<ButtonGroupRSProps, "children">
             & Pick<ButtonRSProps, "size">
-            , keyof BaseControlButtonsProps<TInfoData>
+            , keyof BaseProps<TInfoData>
         >
     >
 
 // ======================================== renderer
-export type ControlButtonsRenderer<
+type ControlButtonsRenderer_FC<
     TInfoData extends ObjectViewValue | undefined = undefined
-> = FunctionComponent<ControlButtonsProps<TInfoData>>
+> = React.FC<Props<TInfoData>>
 
 
 
@@ -107,11 +105,13 @@ export const ControlButtons = <
     TInfoData extends ObjectViewValue | undefined = undefined
 >({
     // showInfo
-    showInfoName
+    infoDataViewHeader
+    , infoDataViewToggleName
     , infoData
     , isDisabled: isDisabledFnMap_IN
 
     , buttonProps: common_buttonProps
+    , buttonLabels
     , hideButtons
 
     , onCancel
@@ -124,7 +124,7 @@ export const ControlButtons = <
     , children
 
     , ...rest
-} = {} as ControlButtonsProps<TInfoData>
+} = {} as Props<TInfoData>
 ) => {
 
     const { isDisabledFn } = _memo([isDisabledFnMap_IN], () => {
@@ -151,58 +151,60 @@ export const ControlButtons = <
                         , fn = typeof (v) === "function"
                             ? v
                             : () => v
-                    return [k, fn]
-                }).filter(Boolean) as EntryItem<EventKind, InputViewControl_ButtonIsDisabledFn | undefined>[]
+                    return [
+                        k
+                        , fn
+                    ]
+                }).filter(Boolean) as EntryItem<AllEventKind, InputViewControl_ButtonIsDisabledFn | undefined>[]
         )
 
         return {
-            isDisabledFn: (k: EventKind) => isDisabledFnMap[k]?.(k)
+            isDisabledFn: (k: AllEventKind) => isDisabledFnMap[k]?.(k)
         }
 
     })
 
-    const { buttonsInput } = _memo([
-        onCancel
-        , onClear
-        , onDone
-    ], () => ({
-        buttonsInput: entriesOf({
-            cancel: onCancel
-            , clear: onClear
-            , done: onDone
-        }).filter(([k, fn]) =>
-            !!fn
-            && (!hideButtons || !hideButtons.includes(k))
-        )
-            .map(([k, onClick]) => {
-                return [
-                    _capitalise(k)
-                    , {
-                        appearance: k === "done" ? "primary" : undefined
-                        , size
-                        , ...common_buttonProps
-                        , disabled: isDisabledFn(k)
-                        , onClick
-                    } as ButtonRSProps
-                ] as EntryItem<typeof k, ButtonRSProps>
-            })
-    })
-    )
+        , { buttons: buttonsInput } = _memo<
+            Pick<ButtonGroupRSProps, "buttons">
+        >([onCancel, onClear, onDone, buttonLabels]
+            , () => ({
+                buttons: entriesOf({
+                    cancel: onCancel
+                    , clear: onClear
+                    , done: onDone
+                }).filter(([k, fn]) =>
+                    !!fn
+                    && (!hideButtons || !hideButtons.includes(k))
+                )
+                    .map(([k, onClick]) => {
+                        return [
+                            buttonLabels?.[k] ?? _capitalise(k)
+                            , {
+                                appearance: k === "done" ? "primary" : undefined
+                                , size
+                                , ...common_buttonProps
+                                , disabled: isDisabledFn(k)
+                                , onClick
+                            } as ButtonRSProps
+                        ] as EntryItem<typeof k, ButtonRSProps>
+                    })
+            }))
 
-    const toggleSize: BasicSize = _memo([size], () => {
-        switch (size) {
-            case "lg": {
-                return "md" as BasicSize
+
+        , toggleSize = _memo<BasicSize>([size], () => {
+            switch (size) {
+                case "lg": {
+                    return "md"
+                }
+                case "md": {
+                    return "sm"
+                }
+                case "sm":
+                case "xs": {
+                    return "xs"
+                }
             }
-            case "md": {
-                return "sm" as BasicSize
-            }
-            case "sm":
-            case "xs": {
-                return "xs" as BasicSize
-            }
-        }
-    })
+        })
 
     return (
         <Box
@@ -211,13 +213,13 @@ export const ControlButtons = <
         >
             <ObjectViewWithToggle
                 data={infoData}
-                header={showInfoName}
+                header={infoDataViewHeader}
                 className="mb-2"
                 showOnlyArrayLength
                 toggleProps={{
-                    name: showInfoName
+                    name: infoDataViewToggleName
                     , size: toggleSize
-                    , label: <div>Show {showInfoName ? <b>{showInfoName}</b> : undefined}</div>
+                    , label: <div>Show {infoDataViewHeader ? <b>{infoDataViewHeader}</b> : undefined}</div>
                 }}
                 onChange={({ isShown: showInfo }) => onShowInfoChange?.({ showInfo })}
             />
@@ -243,3 +245,37 @@ export const ControlButtons = <
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+export {
+
+    type _AllEvMap_ as ControlButtons_AllEventsMap
+
+    , type ButtonEventKind as ControlButton_ButtonEventKind
+
+    , type ButtonEventsMap as ControlButton_ButtonEventsMap
+
+    , type ButtonEventsMapFor as ControlButton_ButtonEventsMapFor
+
+    , type AllEventHandlers as ControlButtons_AllEventHandlers
+
+    , type Props as ControlButtons_Props
+
+}
+
+export namespace ControlButtons {
+    export type FC<
+        TInfoData extends ObjectViewValue | undefined = undefined
+    > = ControlButtonsRenderer_FC<TInfoData>
+}

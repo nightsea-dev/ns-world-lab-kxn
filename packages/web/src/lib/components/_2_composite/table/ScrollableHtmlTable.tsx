@@ -27,7 +27,7 @@ export type ScrollableHtmlTableProps<
 export const ScrollableHtmlTable = <
     T extends object
 >({
-    data: data
+    data
     , showIndex
     , idxColWidth = DEFAULT_CommonTable.idxColWidth
     , keys: keys_IN

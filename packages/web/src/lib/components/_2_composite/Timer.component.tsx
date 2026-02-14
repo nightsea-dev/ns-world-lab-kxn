@@ -25,13 +25,12 @@ export type TimerProps =
     & PickHtmlAttributes<"className">
 
 // ========================================
-export const TimerComponent = ({
+export const TimerComponent: React.FC<TimerProps> = ({
     refreshIntervalSeconds
     , time: time_IN
     , onTick
     , ...rest
-}: TimerProps
-) => {
+}) => {
 
     const [state, _set_state] = _use_state({
         startTime: Date.now()

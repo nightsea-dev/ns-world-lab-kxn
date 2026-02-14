@@ -33,13 +33,12 @@ export type Image_FileItemRenderer_Props
 
 
 // ======================================== component
-export const Image_FileItemRenderer = ({
+export const Image_FileItemRenderer: React.FC<Image_FileItemRenderer_Props> = ({
     data
     , onError
     , displayMode
     , ...rest
-}: Image_FileItemRenderer_Props
-) => {
+}) => {
     const { imageInfo } = _memo([data], () => ({
         imageInfo: _transform_Image_FileItemRenderer_DataItem_to_ImageInfo(data)
     }))

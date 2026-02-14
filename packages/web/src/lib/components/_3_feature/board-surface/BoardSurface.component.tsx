@@ -1,12 +1,9 @@
-import React, { FunctionComponent, isValidElement, ReactElement, ReactNode, RefObject, useId, useReducer, useRef } from 'react'
+import React, { useId, useRef } from 'react'
 import {
     _capitalise, _jitterPositions, _t
-    , keysOf, pickFromAsArray, pickFrom,
+    , pickFrom,
     pickFromAsTuple,
-    omitFrom,
-    findById,
     toRemoveById,
-    JitterPositionsOptions,
     entriesOf,
     _shuffleInPlace
 } from "@ns-world-lab/logic"
@@ -15,9 +12,7 @@ import {
     , Transformation
     , PayloadWithKind,
     KeyOf,
-    PickRequired,
     ExtractEventHandlersMap,
-    HasData,
     HasPayloads,
     HasPayloadKind
 } from '@ns-world-lab/types'
@@ -31,25 +26,31 @@ import {
 } from './BoardSurface.types'
 import {
     SurfaceNode
-    , SurfaceNode_Props
+    , SurfaceNode_Component, SurfaceNode_Props
     , SurfaceNode_Ref
 } from './surface-node'
-import { ObjectViewPayloadRenderer, PayloadRenderer_Props, SurfaceBoard_PayloadInfo, SurfaceBoard_Payload_InputView_Props } from './surface-payload'
-import { ButtonGroupEntryItem, DrawerInfo, DrawerRS, ObjectView, ObjectViewWithToggle } from '../../_2_composite'
+import {
+    ObjectViewPayloadRenderer
+    , SurfaceBoard_PayloadInfo, SurfaceBoard_Payload_InputView_Props
+} from './surface-payload'
+import {
+    ButtonGroupEntryItem, ButtonsMap, DrawerRS, ObjectView
+
+} from '../../_2_composite'
 import { _cb, _effect, _memo, _use_state } from '../../../utils'
 import { HeaderNS, NoData } from '../../_1_primitive'
 import { BoardSurface_ControlPanel, BoardSurface_ControlPanel_Props } from './control-panel'
 import { ImportMetaEnv } from '../../../infra'
 import {
-    usePayloadActionButtons
-    , UsePayloadActionButtons_Input
-} from './hooks/use-payload-action-buttons'
+    useSurfaceNodeActionButtons
+    , UseSurfaceNodeActionButtons_Input
+} from './hooks'
 
 
 // ======================================== CONSTS/DEFAULTS
 const {
     MAX_NUMBER_OF_PAYLOADS
-    , MAX_PAYLOAD_FACTORY_ADD
+    // , MAX_PAYLOAD_FACTORY_ADD
 } = ImportMetaEnv
 
     , DEFAULT = {
@@ -164,7 +165,11 @@ export const BoardSurface_Component = <
         })
 
         , _emit_Change: BoardSurface_Props<P>["onChange"]
-            = ev => onChange?.(ev)
+            = ev => {
+                !onChange
+                    || setTimeout(() => onChange(ev))
+
+            }
 
         , _add_Payloads_Async = async ({
             payloads: payloadsToAdd
@@ -242,13 +247,15 @@ export const BoardSurface_Component = <
                 }
             })
             const {
-                toKeep
+                toKeep: next_payloads
                 , toRemove: removedPayloads
             } = toRemoveById(current_payloads, payloadsToRemove)
 
             if (removedPayloads.length) {
+                const { current: { surfaceNodesMap } } = _refs
+                removedPayloads.forEach(({ id }) => surfaceNodesMap.delete(id))
                 _set_state({
-                    payloads: toKeep
+                    payloads: next_payloads
                 })
             }
 
@@ -261,13 +268,21 @@ export const BoardSurface_Component = <
             })
 
             return {
-                payloads: toKeep
+                payloads: next_payloads
                 , removedPayloads
             }
 
         }
 
-        , _handle_PayloadKind_ControlButtonClick = ({
+        , _handle_Clear_ButtonClick = () => {
+            if (!confirm(`Sure you want to CLEAR the SurfaceBoard?`)) {
+                return
+            }
+
+            _remove_Payloads_Async(...state.payloads)
+        }
+
+        , _handle_Payload_ControlButtonClick = ({
             payloadKind
         }: HasPayloadKind<P["kind"]>
         ) => {
@@ -301,7 +316,8 @@ export const BoardSurface_Component = <
 
         , {
             payloadButtonsMap
-        } = _memo([payloadInfosMap], () => {
+        } = _memo([payloadInfosMap, _handle_Payload_ControlButtonClick], () => {
+
             if (!payloadInfosMap) {
                 return {}
             }
@@ -318,11 +334,11 @@ export const BoardSurface_Component = <
                             return [
                                 payloadKind
                                 , {
-                                    onClick: () => _handle_PayloadKind_ControlButtonClick({ payloadKind })
+                                    onClick: () => _handle_Payload_ControlButtonClick({ payloadKind })
                                     , children: info.buttonLabel ?? payloadKind
-                                }] as ButtonGroupEntryItem
+                                }] as ButtonGroupEntryItem<P["kind"]>
                         })
-                )
+                ) as ButtonsMap<P["kind"]>
             }
         })
 
@@ -338,7 +354,7 @@ export const BoardSurface_Component = <
                         if (!doContinue) {
                             return
                         }
-                        _handle_PayloadKind_ControlButtonClick({
+                        _handle_Payload_ControlButtonClick({
                             payloadKind
                         })
                     }
@@ -348,19 +364,9 @@ export const BoardSurface_Component = <
         } as ExtractEventHandlersMap<BoardSurface_ControlPanel_Props>
 
 
-        ,
-        /**
-         * * [_removePayloadAsync]
-         */
-        _handle_CloseButtonClick: SurfaceNode_Props<P>["onCloseButtonClick"]
-            = ({ surfaceNode: { payload } }) => {
 
-                _remove_Payloads_Async(payload)
-
-            }
-
-        , _handle_SpatialNodeChange: SurfaceNode_Props<P>["onChange"]
-            = ({ eventKind, surfaceNode }) => {
+        , surfaceNodeHandlers = _memo([], () => ({
+            onChange: ({ eventKind, surfaceNode }) => {
 
                 const {
                     current: {
@@ -373,7 +379,7 @@ export const BoardSurface_Component = <
                 COUNTERS[eventKind]++
 
                 console.log(
-                    _t(_handle_SpatialNodeChange!.name)
+                    _t(surfaceNodeHandlers.onChange!.name)
                     , {
                         eventKind
                         , surfaceNode
@@ -382,20 +388,30 @@ export const BoardSurface_Component = <
                         , COUNTER: COUNTERS[eventKind]
                     })
             }
+            , onClose: ({ surfaceNode: { payload } }) => _remove_Payloads_Async(payload)
+        } as ExtractEventHandlersMap<SurfaceNode_Props<P>>
+        ))
+
+
 
 
         , _handle_SurfaceNodeRef = (
-            ref?: SurfaceNode_Ref<P> | null
+            ref_IN?: SurfaceNode_Ref<P> | null
         ) => {
 
-            if (!ref) {
+            if (!ref_IN) {
                 return
             }
 
             const {
                 action
                 , surfaceNode
-            } = ref
+                , surfaceNode: {
+                    payload: {
+                        id: payloadID
+                    }
+                }
+            } = ref_IN
                 , {
                     current: {
                         surfaceNodesMap
@@ -428,9 +444,9 @@ export const BoardSurface_Component = <
             console.log(
                 _t(counter_key)
                 , {
-                    surfaceNode
-                    , surfaceNodesMap
-                    , "surfaceNodesMap.size": surfaceNodesMap.size
+                    // surfaceNode
+                    // , surfaceNodesMap
+                    "surfaceNodesMap.size": surfaceNodesMap.size
                     , COUNTER: COUNTERS[counter_key]
                 })
 
@@ -492,41 +508,35 @@ export const BoardSurface_Component = <
 
             }
 
-            // , onInputViewChange: ({
-            //     isOpen
-            //     , payloadKind
-            // }) => {
-            //     debugger
-            //     console.log(_t(`[InputView] for [payloadKind: ${payloadKind}] ${isOpen ? "OEPENED" : "CLOSED"}`))
-            // }
         } as ExtractEventHandlersMap<SurfaceBoard_Payload_InputView_Props<P>>
 
-        , _handle_PayloadAction: UsePayloadActionButtons_Input<P>["onAction"]
-            = ({
-                action
-                , payloads
-            }) => {
-                if (payloads !== state.payloads) {
-                    _set_state({ payloads })
-                }
-                switch (action) {
-                    case "clear": {
+        , _handle_SurfaceNodeAction: UseSurfaceNodeActionButtons_Input<P>["onAction"]
+            = ({ action }) => {
+                // debugger
+                // switch (action) {
+                //     case "jitter":
+                //     case "reset":
+                //     case "shuffle": {
+                //         break
+                //     }
+                // }
 
-                        break
-
+                _set_state({
+                    m_state: {
+                        name: "PAYLOAD ACTION BUTTON"
+                        , stage: "DONE"
+                        , action
                     }
-
-                }
+                })
 
             }
 
         , {
-            payloadActionsMap: actionButtonPropsMap
-        } = usePayloadActionButtons({
+            actionButtonsMap: surfaceNodeActionButtonsMap
+        } = useSurfaceNodeActionButtons({
             defaultSize: DEFAULT.transform.size
-            , payloads: state.payloads
             , ...pickFrom(_refs.current, "el", "surfaceNodesMap")
-            , onAction: _handle_PayloadAction
+            , onAction: _handle_SurfaceNodeAction
         })
 
 
@@ -611,6 +621,7 @@ export const BoardSurface_Component = <
             }
 
             case "REMOVING PAYLOADS": {
+
                 const {
                     m_state: {
                         stage
@@ -701,31 +712,28 @@ export const BoardSurface_Component = <
 
                     const payloadRenderer
                         = payloadInfosMap?.[payload.kind as P["kind"]].payloadRenderer as
-                        SurfaceNode.Props<P>["payloadRenderer"]
+                        SurfaceNode_Props<P>["payloadRenderer"]
 
                     return (
-                        <SurfaceNode.Component<P>
+                        <SurfaceNode_Component<P>
                             key={payload.id}
 
                             payload={payload}
-                            surfaceNodeRef={ref => {
-                                _handle_SurfaceNodeRef(ref)
-                            }}
 
                             initialSize={_refs.current.initialSize}
                             initialPosition={_get_NextPosition(_refs.current.el)}
 
-                            onCloseButtonClick={_handle_CloseButtonClick}
-                            onChange={_handle_SpatialNodeChange}
-
                             children={children}
                             payloadRenderer={payloadRenderer as any}
+
+                            surfaceNodeRef={_handle_SurfaceNodeRef}
+                            {...surfaceNodeHandlers}
 
                         >
                             {/* <PayloadRenderer
                                     payload={payload}
                                 /> */}
-                        </SurfaceNode.Component>
+                        </SurfaceNode_Component>
                     )
                 })}
             </div>
@@ -734,24 +742,11 @@ export const BoardSurface_Component = <
                 buttonsAreDisabled={!!state.currentPayloadKind}
                 buttons={{
                     ...payloadButtonsMap
-                    , ...actionButtonPropsMap
-                    //     , Sort: {
-                    //         onClick: () => _handle_ActionButtonClick("jitter")
-                    //         , disabled: !state.payloads.length
-                    //     }
-                    //     , Shuffle: {
-                    //         onClick: () => _handle_ActionButtonClick("shuffle")
-                    //         , disabled: !state.payloads.length
-                    //     }
-                    //     , Reset: {
-                    //         onClick: () => _handle_ActionButtonClick("reset")
-                    //         , disabled: !state.payloads.length
-                    //     }
-                    //     , Clear: {
-                    //         onClick: () => _handle_ActionButtonClick("clear")
-                    //         , disabled: !state.payloads.length
-                    //     }
-                    // 
+                    , ...surfaceNodeActionButtonsMap
+                    , clear: {
+                        onClick: _handle_Clear_ButtonClick
+                        , disabled: !state.payloads.length || state.currentPayloadKind
+                    }
                 }}
                 {...{
                     ...boardSurfaceControlPanelhandlers

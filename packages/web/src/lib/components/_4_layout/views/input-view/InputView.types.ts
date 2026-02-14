@@ -1,26 +1,37 @@
 import { EventHandlersFromMap, HasData } from "@ns-world-lab/types"
-import { FunctionComponent } from "react"
 
 
 
 
 
 // ======================================== events
-export type InputView_EventsMap<
-    D extends object
+type EventsMap<
+    TData extends object
 > = {
-    done: HasData<D[]>
+    done: HasData<TData[]>
     cancel: {}
 }
 // ======================================== props
-export type InputView_Props<
-    D extends object
+type Props<
+    TData extends object
 > =
-    & EventHandlersFromMap<InputView_EventsMap<D>>
+    & EventHandlersFromMap<EventsMap<TData>>
 
 // ======================================== props
-export type InputView<
-    D extends object
-> =
-    & FunctionComponent<InputView_Props<D>>
+type InputView_FC<
+    // D extends object
+    TProps extends Props<any> = Props<any>
+> = React.FC<TProps>
 
+
+
+export {
+    type EventsMap as InputView_EventsMap
+    , type Props as InputView_Props
+}
+
+export namespace InputView {
+    export type FC<
+        TProps extends Props<any> = Props<any>
+    > = InputView_FC<TProps>
+}

@@ -1,6 +1,6 @@
 import { _cn, _effect, _use_state, PickHtmlAttributes } from "../../../../utils"
 import {
-    PartialEventHandlersFromMap
+    EventHandlersFromMapPartial
     , PickRequired
 } from "@ns-world-lab/types"
 import {
@@ -16,22 +16,22 @@ const {
 } = ImportMetaEnv
 
 // ======================================== events
-export type BoardSurface_ControlPanel_Event =
+type Event =
     & {
         numberOfItems: number
         showInfo: boolean
     }
 
-export type BoardSurface_ControlPanel_EventsMap = {
+type EventsMap = {
     change:
-    & BoardSurface_ControlPanel_Event
+    & Event
 
     , numberOfItemsEnterKey:
-    & BoardSurface_ControlPanel_Event
+    & Event
 }
 
 // ======================================== props
-export type BoardSurface_ControlPanel_Props =
+type Props =
     & Partial<{
         numberOfItems: number
         showInfo: boolean
@@ -42,12 +42,12 @@ export type BoardSurface_ControlPanel_Props =
         ButtonGroupRSProps
         , "buttons"
     >
-    & PartialEventHandlersFromMap<BoardSurface_ControlPanel_EventsMap>
+    & EventHandlersFromMapPartial<EventsMap>
     & PickHtmlAttributes<"className">
 
 
 // ======================================== component
-export const BoardSurface_ControlPanel = ({
+export const BoardSurface_ControlPanel: React.FC<Props> = ({
     buttons: buttonsMap
     , numberOfItems
     , showInfo = true
@@ -56,8 +56,7 @@ export const BoardSurface_ControlPanel = ({
     , onChange
     , onNumberOfItemsEnterKey
     , ...rest
-}: BoardSurface_ControlPanel_Props
-) => {
+}) => {
     numberOfItems = Math.max(1, numberOfItems || 1)
 
     const [state, _set_state] = _use_state({
@@ -107,7 +106,7 @@ export const BoardSurface_ControlPanel = ({
                 mt-6
                 origin-bottom-left
                 `
-                , state.isPinned ? undefined : "scale-[.75] hover:scale-[1]"
+                , state.isPinned ? undefined : "scale-[.6] hover:scale-[1]"
                 , rest.className
 
             )}
@@ -156,4 +155,20 @@ export const BoardSurface_ControlPanel = ({
             />
         </div>
     )
+}
+
+
+
+
+
+
+
+
+export {
+    type Event as BoardSurface_ControlPanel_Event
+
+    , type EventsMap as BoardSurface_ControlPanel_EventsMap
+
+    , type Props as BoardSurface_ControlPanel_Props
+
 }

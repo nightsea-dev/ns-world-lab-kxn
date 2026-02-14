@@ -1,2 +1,2 @@
-export * from "./FormValueInput";
+export * from "./SimpleFormFormValueInput";
 export * from "./SimpleForm";

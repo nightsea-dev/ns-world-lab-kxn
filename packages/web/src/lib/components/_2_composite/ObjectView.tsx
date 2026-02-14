@@ -1,11 +1,10 @@
-import React, { type CSSProperties, FunctionComponent, isValidElement, type ReactNode, useRef } from "react"
+import React, { isValidElement, type ReactNode, useRef } from "react"
 import { HasData, HasDepth, HasHeader, PickAndPrefixKeys, PickAndSuffixKeys, PrefixKeys, PrimitiveValue } from "@ns-world-lab/types"
 import {
     _colours, _isEmpty, _isIterable, entriesOf, EntriesOfOptions
     , _isStringArray
 } from "@ns-world-lab/logic"
 import { _memo, CssPosition, PickCssProperties, PickHtmlAttributes } from "../../utils"
-import { Renderer } from "../../types"
 import { BoxHeader, BoxHeaderProps, NoData, TagGroupNS, TagGroupNSProps } from "../_1_primitive"
 
 
@@ -43,12 +42,13 @@ export type ObjectViewProps<
             isHidden: boolean
             showStringArraysAsTags: boolean
             showOnlyArrayLength: boolean
+            showNoData: boolean
             showEmptyProperties: boolean
             fixedAt: CssPosition
             relative: boolean
             absolute: boolean
             grayHeader: boolean
-            headerProps: Omit<BoxHeaderProps,"children">
+            headerProps: Omit<BoxHeaderProps, "children">
         }
         & PickAndSuffixKeys<"Keys", EntriesOfOptions, "sorted">
         & PickCssProperties<"maxWidth" | "maxHeight"
@@ -74,7 +74,7 @@ type ObjectViewValueProps<
 > =
     & {
         v: unknown
-        objectRenderer: Renderer<
+        objectRenderer: React.FC<
             & Omit<ObjectViewValueProps<T>, "v">
             & HasData<ObjectViewValue>
         >
@@ -175,15 +175,16 @@ export const ObjectView = <
     , showStringArraysAsTags
     , showOnlyArrayLength
     , showEmptyProperties = true
+    , showNoData
     , stringTags_withRandomColour
     , headerProps
     , ...rest
 }: ObjectViewProps<T>
 ) => {
 
-    if (!data) {
-        return <NoData />
-    }
+    // if (!data && typeof (isHidden) !== "boolean") {
+    //     return <NoData />
+    // }
     if (absolute) {
         relative = false
     }
@@ -210,20 +211,22 @@ export const ObjectView = <
     }
 
     return (
-        <table
-            {...rest}
-            data-object-view
-            cellPadding={0}
-            cellSpacing={0}
-            style={{
-                ...rest.style
-                , ...style2
-                , maxWidth
-                , maxHeight
-                , zIndex: 100
-                , display: isHidden ? "none" : undefined
-            }}
-            className={`
+        !data
+            ? (showNoData ? <NoData /> : undefined)
+            : <table
+                {...rest}
+                data-object-view
+                cellPadding={0}
+                cellSpacing={0}
+                style={{
+                    ...rest.style
+                    , ...style2
+                    , maxWidth
+                    , maxHeight
+                    , zIndex: 100
+                    , display: isHidden ? "none" : undefined
+                }}
+                className={`
                     border
                     relative
                     border-slate-600
@@ -238,64 +241,64 @@ export const ObjectView = <
                     p-0
                     ${rest.className ?? ""}
         `}
-        >
-            {header && (
-                <thead>
-                    <tr>
-                        <th
-                            colSpan={2}
-                        >
-                            <BoxHeader
-                                {...headerProps as any}
-                                data={header ?? headerProps?.data}
-                                bgColour={
-                                    (grayHeader ? "gray-200" : undefined)
-                                    ?? headerProps?.bgColour
-                                }
-                            />
-                        </th>
-                    </tr>
-                </thead>
-            )}
+            >
+                {header && (
+                    <thead>
+                        <tr>
+                            <th
+                                colSpan={2}
+                            >
+                                <BoxHeader
+                                    {...headerProps as any}
+                                    data={header ?? headerProps?.data}
+                                    bgColour={
+                                        (grayHeader ? "gray-200" : undefined)
+                                        ?? headerProps?.bgColour
+                                    }
+                                />
+                            </th>
+                        </tr>
+                    </thead>
+                )}
 
-            <tbody>
-                {entriesOf(data, { sorted: sortedKeys }).
-                    map(([k, v], i) => {
+                <tbody>
+                    {entriesOf(data, { sorted: sortedKeys }).
+                        map(([k, v], i) => {
 
-                        if (!showEmptyProperties && _isEmpty(v)) {
-                            return undefined
-                        }
+                            if (!showEmptyProperties && _isEmpty(v)) {
+                                return undefined
+                            }
 
-                        return (
-                            <tr key={k}
-                                className={`hover:bg-gray-100 transition-colors duration-[.1s]
+                            return (
+                                <tr key={k}
+                                    className={`hover:bg-gray-100 transition-colors duration-[.1s]
                         ${i % 2 === 0 ? "bg-slate-50/50" : ""}                       `
 
-                                }>
-                                <td className="align-top border-t border-slate-200">
-                                    <div className="px-2 py-1 font-medium break-all text-slate-600">
-                                        {k}:
-                                    </div>
-                                </td>
+                                    }>
+                                    <td className="align-top border-t border-slate-200">
+                                        <div className="px-2 py-1 font-medium break-all text-slate-600">
+                                            {k}:
+                                        </div>
+                                    </td>
 
-                                <td className="align-top border-t border-slate-200">
-                                    <div className="px-2 py-1 break-all">
-                                        <ObjectViewValue {...{
-                                            v
-                                            , depth
-                                            , showStringArraysAsTags
-                                            , stringTags_withRandomColour
-                                            , showOnlyArrayLength
-                                            , showEmptyProperties
-                                            , sortedKeys
-                                            , objectRenderer: ObjectView
-                                        }} />
-                                    </div>
-                                </td>
-                            </tr>
-                        )
-                    })}
-            </tbody>
-        </table>
+                                    <td className="align-top border-t border-slate-200">
+                                        <div className="px-2 py-1 break-all">
+                                            <ObjectViewValue {...{
+                                                v
+                                                , depth
+                                                , showStringArraysAsTags
+                                                , stringTags_withRandomColour
+                                                , showOnlyArrayLength
+                                                , showEmptyProperties
+                                                , sortedKeys
+                                                , objectRenderer: ObjectView
+                                            }} />
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                </tbody>
+            </table>
     )
 }

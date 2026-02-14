@@ -27,15 +27,14 @@ export type CloseButtonProps =
 
 
 // ======================================== component
-export const CloseButton = ({
+export const CloseButton: React.FC<CloseButtonProps> = ({
     debugMode
     , className
     , closeButtonRef
     , size = 16
     , onClick
     , ...rest
-}: CloseButtonProps
-) => {
+}) => {
     const id = useId()
 
         , _handleClick = (

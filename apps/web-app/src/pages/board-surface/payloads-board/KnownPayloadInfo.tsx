@@ -1,7 +1,10 @@
-import { SurfaceBoard_PayloadInfos_Map } from "@ns-world-lab/web";
-import { IdeaPayloadRenderer, IFrame_InputView, IFrame_InputView_Props, IFramePayloadRenderer, Image_InputView, ImagePayloadRenderer } from "../../../components";
-import { createIdeaWithAuthor } from "@ns-world-lab/logic";
 import { ComponentProps } from "react";
+import {
+    IdeaPayloadRenderer, IFrame_InputView, IFramePayloadRenderer, Image_InputView
+    , ImagePayloadRenderer,
+    SurfaceBoard_PayloadInfos_Map
+} from "@ns-world-lab/web";
+import { createIdeaWithAuthor } from "@ns-world-lab/logic";
 
 
 // ======================================== renderers
@@ -81,9 +84,7 @@ export const KNOWN_SURFACEBOARD_PAYLOAD_INFOS_MAP = {
             , onDone
         }) => <Image_InputView
                 onCancel={onCancel}
-                onDone={({
-                    data
-                }) => {
+                onDone={({ data }) => {
                     // transformation
                     onDone({
                         data: data.map(

@@ -5,7 +5,7 @@ import { _memo } from "../../../utils";
 
 
 // ======================================== component/default
-export const Default_FileItemRenderer: FileItemRenderer = ({
+export const Default_FileItemRenderer: FileItemRenderer.FC = ({
     data
     , ...rest
 }) => {

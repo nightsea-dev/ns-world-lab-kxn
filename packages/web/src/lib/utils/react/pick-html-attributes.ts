@@ -30,5 +30,10 @@ export type {
 
 
 export type OmitHtmlAttributesFrom<
-    T
+    T extends object
 > = Omit<T, KeyOf<HTMLAttributes<HTMLElement>>>
+
+export type PickHtmlAttributesFrom<
+    T extends object
+> =
+    Pick<T, Extract<KeyOf<T>, KeyOf<HTMLAttributes<HTMLElement>>>>

@@ -1,60 +1,36 @@
-import { FunctionComponent, ReactNode, useRef, useState } from "react"
 import {
-    HasColor
-    , HasContent
-    , HasPayloadWithKind
-    , PayloadWithKind
+    HasPayloadWithKind
+    , PayloadWithKind,
+    XOR
 } from "@ns-world-lab/types"
-import { _isString, getRandomColour } from "@ns-world-lab/logic"
-import { _cn, _effect, _memo, PickHtmlAttributes } from "../../../../../utils"
+import { _isString } from "@ns-world-lab/logic"
+import { _cn, _effect, _memo } from "../../../../../utils"
 
 // ======================================== types
 
-export type CreatePayloadFn<
-    P extends PayloadWithKind<any>
-> = () => P
-
-export type HasCreatePayloadFn<
-    P extends PayloadWithKind<any>
-> = {
-    createPayloadFn: CreatePayloadFn<P>
-}
-
-export type CreatePayloadFnMap<
-    P extends PayloadWithKind<any>
-> = {
-        [kind in P["kind"]]: CreatePayloadFn<P>
-    }
-
-export type HasCreatePayloadFnMap<
-    P extends PayloadWithKind<any>
-> = {
-    createPayloadFnMap: CreatePayloadFnMap<P>
-}
-
-
 // ======================================== PayloadRenderer/props
-export type PayloadRenderer_Props<
-    P extends PayloadWithKind<any>
+type Props<
+    TPayload extends PayloadWithKind<any>
 > =
-    & HasPayloadWithKind<P>
+    & HasPayloadWithKind<TPayload>
 
 // ======================================== PayloadRenderer/component-type
-export type PayloadRenderer<
-    P extends PayloadWithKind<any>
-> = FunctionComponent<
-    PayloadRenderer_Props<P>
->
+export type PayloadRenderer_FC<
+    TPayload extends PayloadWithKind<any>
+    , TProps extends Props<TPayload> = Props<TPayload>
+> = React.FC<TProps>
 
 // ======================================== PayloadRenderer/capability
 export type HasPayloadRenderer<
-    P extends PayloadWithKind<any>
+    TPayload extends PayloadWithKind<any>
+    , TProps extends Props<TPayload> = Props<TPayload>
 > = {
-    payloadRenderer: PayloadRenderer<P>
+    payloadRenderer: PayloadRenderer_FC<TPayload, TProps>
 }
 export type HasPartialPayloadRenderer<
-    P extends PayloadWithKind<any>
-> = Partial<HasPayloadRenderer<P>>
+    TPayload extends PayloadWithKind<any>
+    , TProps extends Props<TPayload> = Props<TPayload>
+> = Partial<HasPayloadRenderer<TPayload, TProps>>
 
 
 
@@ -63,4 +39,16 @@ export type HasPartialPayloadRenderer<
 
 
 
+export {
+    type Props as PayloadRenderer_Props
+}
+
+
+
+export namespace PayloadRenderer {
+    export type FC<
+        TPayload extends PayloadWithKind<any>
+        , TProps extends Props<TPayload> = Props<TPayload>
+    > = PayloadRenderer_FC<TPayload, TProps>
+}
 

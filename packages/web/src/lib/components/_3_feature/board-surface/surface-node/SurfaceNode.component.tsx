@@ -12,39 +12,18 @@ import {
     XOR
 } from "@ns-world-lab/types"
 import {
-    SpatialNode,
     SpatialNode_Component
-    , SpatialNodeComponentEventHandlers
-    , SpatialNode_Component_Props,
+    , SpatialNode_EventHandlers
+    , SpatialNode_Props,
     SpatialNodeRef
 } from "../../../_2_composite/spatial/SpatialNode.component"
 import { HasPartialPayloadRenderer, HasPayloadRenderer, ObjectViewPayloadRenderer, PayloadRenderer } from "../surface-payload"
-import { SurfaceNode_PayloadInfo_Component } from "./SurfaceNodePayloadInfo.component"
+import { SurfaceNode_PayloadDetail } from "./SurfaceNodePayloadDetail.component"
+import { _use_state } from "../../../../utils"
+import { HasSurfaceNode } from "./SurfaceNode.types"
 
 
 
-// ======================================== types - graph/surface lexicon
-/**
- * * [SpatialNode_UI/HasTransformation] with [KindedPayload]
- * 
- * [type]
- */
-export type SurfaceNode<
-    P extends PayloadWithKind<any>
-> =
-    & HasPayloadWithKind<P>
-    & HasSpatialNode_UI
-
-export type HasSurfaceNode<
-    P extends PayloadWithKind<any>
-> = {
-    surfaceNode: SurfaceNode<P>
-}
-export type HasSurfaceNodes<
-    P extends PayloadWithKind<any>
-> = {
-    surfaceNodes: SurfaceNode<P>[]
-}
 // ======================================== events
 export type SurfaceNode_Event<
     P extends PayloadWithKind<any>
@@ -55,15 +34,14 @@ export type SurfaceNode_EventsMap<
     P extends PayloadWithKind<any>
 > = {
     change: SurfaceNode_Event<P>
-    , closeButtonClick: SurfaceNode_Event<P>
-    // , mount: SurfaceNodeEvent<P>
+    , close: SurfaceNode_Event<P>
 }
 
 export type HasSurfaceNode_Children<
     P extends PayloadWithKind<any>
 > =
     & HasPartialChildren<
-        ReactNode | PayloadRenderer<P>
+        ReactNode | PayloadRenderer.FC<P>
     >
 
 export type SurfaceNode_Ref<
@@ -89,18 +67,16 @@ export type SurfaceNode_Props<
     >
 
     & Omit<
-        SpatialNode_Component_Props,
+        SpatialNode_Props,
         | "children"
         | "content"
         | "contentContainer"
-        | keyof SpatialNodeComponentEventHandlers
+        | keyof SpatialNode_EventHandlers
     >
 
     & Partial<
         & {
-            surfaceNodeRef: RefCallback<
-                & SurfaceNode_Ref<P>
-            >
+            surfaceNodeRef: RefCallback<SurfaceNode_Ref<P>>
         }
         & EventHandlersWithKindFromMap<
             SurfaceNode_EventsMap<P>
@@ -115,30 +91,44 @@ export type SurfaceNode_Props<
  * [component]
  */
 export const SurfaceNode_Component = <
-    P extends PayloadWithKind<any>
+    TPayload extends PayloadWithKind<any>
 >({
     payload
     , children = ObjectViewPayloadRenderer
     , payloadRenderer
 
     , onChange
-    , onCloseButtonClick
+    , onClose
 
     , surfaceNodeRef
 
     , ...rest
-}: SurfaceNode_Props<P>
+}: SurfaceNode_Props<TPayload>
 ) => {
 
-    const R: PayloadRenderer<P>
+    const [state, _set_state] = _use_state({
+        closeRequested: false
+    })
+    const PayloadRenderer: PayloadRenderer.FC<TPayload>
         = payloadRenderer ?? (
             typeof (children) === "function"
                 ? children
                 : () => children
         )
+        , _handle_CloseButtonClick: SpatialNode_Props["onCloseButtonClick"] = ({
+            spatialNode
+        }) => {
+            _set_state({ closeRequested: true })
+                ; !onClose
+                    || setTimeout(
+                        () => onClose({ eventKind: "close", surfaceNode: { payload, spatialNode } })
+                    )
+
+        }
 
     return (
-        <SpatialNode.Component
+        state.closeRequested
+        || <SpatialNode_Component
             {...rest}
 
             header={payload.kind}
@@ -150,13 +140,7 @@ export const SurfaceNode_Component = <
                 })
             }}
 
-            onCloseButtonClick={({ spatialNode }) => {
-                onCloseButtonClick?.({
-                    eventKind: "closeButtonClick"
-                    , surfaceNode: { payload, spatialNode }
-                })
-            }}
-
+            onCloseButtonClick={_handle_CloseButtonClick}
 
             spatialNodeRef={ref => {
                 if (!surfaceNodeRef || !ref) {
@@ -171,37 +155,15 @@ export const SurfaceNode_Component = <
 
             }}
         >
-            <SurfaceNode_PayloadInfo_Component
+            <SurfaceNode_PayloadDetail
                 payload={payload}
             />
-
-            {/* <ObjectViewWithToggle
-                data={payload}
-                //isShown={state.showInfo}
-                //onChange={({ isShown: showInfo }) => _set_state({ showInfo })}
-                toggleProps={{
-                    size: "xs"
-                }}
-                className={`
-                    absolute 
-                    bottom-2 
-                    left-0
-                    scale-50 
-                    hover:scale-150
-                    opacity-50
-                    hover:opacity-100
-                    transition-all
-                    duration-200
-                    origin-bottom-left
-                    `}
-            /> */}
-
-            <R
+            <PayloadRenderer
                 data-surface-node-component-payload-id={payload.id}
                 data-surface-node-component-payload-kind={payload.kind}
                 payload={payload}
             />
-        </SpatialNode.Component>
+        </SpatialNode_Component>
     )
 
 }
@@ -210,18 +172,3 @@ export const SurfaceNode_Component = <
 
 
 
-export namespace SurfaceNode {
-    export const Component = SurfaceNode_Component
-    export type Props<
-        P extends PayloadWithKind<any>
-    > = SurfaceNode_Props<P>
-    export type Ref<
-        P extends PayloadWithKind<any>
-    > = SurfaceNode_Ref<P>
-    export type EventsMap<
-        P extends PayloadWithKind<any>
-    > = SurfaceNode_EventsMap<P>
-    export type Event<
-        P extends PayloadWithKind<any>
-    > = SurfaceNode_Event<P>
-}

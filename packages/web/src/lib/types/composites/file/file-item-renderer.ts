@@ -6,30 +6,31 @@ import {
     HasPartialErrorWithDataHandler,
 } from "@ns-world-lab/types";
 import { FileItemWithUrlAndFileID } from "./file-item";
-import { HasClassName, HasPartialClassName, Renderer } from "../../capabilities";
+import { HasClassName, HasPartialClassName } from "../../capabilities";
+import React from "react";
 
 // ======================================== types
-export type FileItemRenderer_DataItem
+type DataItem
     =
     & FileItemWithUrlAndFileID
     & HasPartialError
 // ======================================== types/props
-export type FileItemRenderer_Props<
-    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+type Props<
+    TDataItem extends DataItem = DataItem
 > =
     & HasData<TDataItem>
     & HasPartialClassName
     & HasPartialErrorWithDataHandler<TDataItem>
 
 // ======================================== types/eventHandlers
-export type FileItemRenderer_EventHandlers<
-    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
-> = ExtractEventHandlersMap<FileItemRenderer_Props<TDataItem>>
+type EventHandlers<
+    TDataItem extends DataItem = DataItem
+> = ExtractEventHandlersMap<Props<TDataItem>>
 
-export type FileItemRenderer_EventsMap<
-    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+type EventsMap<
+    TDataItem extends DataItem = DataItem
 > = ExtractEventsMap<
-    FileItemRenderer_EventHandlers<
+    EventHandlers<
         TDataItem
     >
 >
@@ -37,18 +38,30 @@ export type FileItemRenderer_EventsMap<
 
 
 // ======================================== types/renderer
-export type FileItemRenderer<
-    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
-> =
-    & Renderer<
-        FileItemRenderer_Props<TDataItem>
-    >
+type FileItemRenderer_FC<
+    TDataItem extends DataItem = DataItem
+> = React.FC<
+    Props<TDataItem>
+>
 
 // ======================================== capabilities
 export type HasFileItemRenderer<
-    TDataItem extends FileItemRenderer_DataItem = FileItemRenderer_DataItem
+    TDataItem extends DataItem = DataItem
 > =
     & {
-        fileItemRenderer: FileItemRenderer<TDataItem>
+        fileItemRenderer: FileItemRenderer_FC<TDataItem>
     }
+
+export {
+    type DataItem as FileItemRenderer_DataItem
+    , type Props as FileItemRenderer_Props
+    , type EventHandlers as FileItemRenderer_EventHandlers
+    , type EventsMap as FileItemRenderer_EventsMap
+}
+
+export namespace FileItemRenderer {
+    export type FC<
+        TDataItem extends DataItem = DataItem
+    > = FileItemRenderer_FC<TDataItem>
+}
 

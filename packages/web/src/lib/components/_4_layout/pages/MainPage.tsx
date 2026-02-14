@@ -1,5 +1,5 @@
 import { HasData, HasHeader, HasId, PrefixKeys, PrefixKeysAndCapitalisedAfter } from "@ns-world-lab/types"
-import { PageHeader, PageHeaderProps } from "../../_4_layout/header"
+import { PageHeader, PageHeader_Props } from "../../_4_layout/header"
 import { PageFooter } from "../footer"
 import { _cn, _effect, PickHtmlAttributes } from "../../../utils"
 import { ReactNode, useId } from "react"
@@ -10,7 +10,7 @@ import { PageMain_Props } from "../main"
 export type MainPage_Props =
     & Partial<
         & HasId
-        & PrefixKeysAndCapitalisedAfter<"header", PageHeaderProps>
+        & PrefixKeysAndCapitalisedAfter<"header", PageHeader_Props>
         & HasHeader<ReactNode>
 
         & PickHtmlAttributes<"className" | "children">
@@ -18,7 +18,7 @@ export type MainPage_Props =
     >
 
 // ======================================== component
-export const MainPage = ({
+export const MainPage: React.FC<MainPage_Props> = ({
     id: id_IN
     , headerTitle
     , headerUser
@@ -27,9 +27,7 @@ export const MainPage = ({
     , main_className
     , className
     , children: main_children
-}: MainPage_Props
-
-) => {
+}) => {
 
     const _id = useId()
         , id = id_IN ?? _id

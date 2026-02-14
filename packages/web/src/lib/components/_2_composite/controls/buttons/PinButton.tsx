@@ -19,7 +19,7 @@ export type PinButtonProps =
         , "children"
     >
 
-export const PinButton = ({
+export const PinButton: React.FC<PinButtonProps> = ({
     isPinned: isPinned_IN
     , className: className_IN
     , position: position_IN = "top-right"
@@ -33,8 +33,7 @@ export const PinButton = ({
 
     , onChange: onChange_IN
     , ...rest
-}: PinButtonProps
-) => {
+}) => {
 
     const {
         className

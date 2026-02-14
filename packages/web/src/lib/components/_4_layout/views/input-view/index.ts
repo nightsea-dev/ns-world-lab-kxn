@@ -1,2 +1,2 @@
 export * from "./InputView.types"
-export * from "./InputViewLayout.component"
+export * from "./InputView.component"

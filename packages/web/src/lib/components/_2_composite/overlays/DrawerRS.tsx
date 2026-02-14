@@ -1,4 +1,4 @@
-import { FunctionComponent, isValidElement, ReactNode } from "react"
+import React, { isValidElement, ReactNode } from "react"
 import { Drawer, DrawerProps } from "rsuite"
 import { _cn, _memo } from "../../../utils"
 import { NoData } from "../../_1_primitive"
@@ -14,7 +14,7 @@ export type DrawerInfo<
     & HasBody<
         XOR<
             ReactNode
-            , FunctionComponent<P>
+            , React.FC<P>
         >
     >
 
@@ -29,15 +29,14 @@ export type DrawerRSProps =
     >
 
 // ======================================== component
-export const DrawerRS = ({
+export const DrawerRS: React.FC<DrawerRSProps> = ({
     showNoData
     , className
     , header
     , children
     , body: body_IN = children
     , ...rest
-}: DrawerRSProps
-) => {
+}) => {
     const { B } = _memo([body_IN], () => {
 
         if (isValidElement(body_IN)) {

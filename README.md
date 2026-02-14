@@ -1,117 +1,117 @@
 # ns-world-lab
 
-Nx-based monorepo containing frontend applications and shared libraries
-for spatial graph / board-style UI experimentation.
+Monorepo demonstrating structured front-end and system design using Nx,
+React (Vite), and modular packages.
 
-This repository separates **runtime logic**, **type contracts**, and **UI components**
-into explicit workspace packages, consumed by one or more apps.
+This repository is a self-contained engineering sample. It focuses on
+clarity of structure, separation of concerns, and delivery-ready
+software rather than production infrastructure.
 
-## Technical notes
+------------------------------------------------------------------------
 
-A concise technical review describing the main structural and architectural
-decisions made during delivery is available here:
+## Demos
 
+### 1. Dashboard / Spatial Board Demo
 
-* [Technical Review & Delivery Notes](./docs/202602021407-KNX-Technical_Review_Delivery_Notes.md)
+Location: `apps/web-app`
 
+Run locally:
 
-## Repository layout
+    npm install
+    npx nx serve web-app
 
-```
-apps/
-  web-app/         Primary React application (Vite)
-packages/
-  logic/           Runtime logic (graph state, factories, utils)
-  types/           Types-only package (contracts, composites, primitives)
-  web/             Shared React UI components and hooks
-```
-
-
-## Design rules (important)
-
-### 1. Types vs runtime are strictly separated
-
-- `@ns-world-lab/types`
-  - Types only
-  - Never used at runtime
-
-- `@ns-world-lab/logic`
-  - Runtime library
-  - Emits JavaScript + types
-  - Contains graph state, factories, utilities
-
-- `@ns-world-lab/web`
-  - Runtime React components and hooks
-  - Depends on `logic` and `types`
-
-
-### 2. No TS path aliases at runtime
-
-Bundlers (Rspack / Vite) do **not** resolve TypeScript path aliases.
-
-All runtime resolution must go through:
-- `node_modules`
-- `package.json` `exports` / `main` fields
-- compiled output in `dist/`
-
-Never rely on TS-only path mapping for runtime imports.
-
-
-### 3. No self-imports inside a package
-
-Inside a package:
-- ❌ `import { X } from "@ns-world-lab/web"` (from within `packages/web`)
-- ✅ relative imports only
-
-Each package must be buildable in isolation.
-
-
-## Build and clean
-
-Canonical clean (from repo root):
-
-```bash
-nx reset
-tsc -b tsconfig.build.json --clean
-```
-
-Build order is handled via TypeScript project references.
-Applications consume **built package outputs**, not source files.
-
-
-## Styling (Tailwind CSS)
-
-Tailwind is configured once at the repo root:
-
-- `tailwind.config.mjs`
-- `postcss.config.mjs`
-
-Each app imports its own CSS entry file, for example:
-
-```
-apps/web/src/styles/styles.css
-```
-
-
-## Dependency graphs
-
-#### apps/
-* [web-app](./docs/web-app.svg)
-
-#### packages/
-* [types](./docs/types.svg)
-* [logic](./docs/logic.svg)
-* [web](./docs/web.svg)
+This demo shows: - Modular UI composition - Typed payload contracts -
+Runtime separation between UI, logic, and shared types - Structured
+state management without unnecessary abstraction
 
 
 
+------------------------------------------------------------------------
+
+## Repository Structure
+
+    apps/
+      web-app/        → Main demo application
+
+    packages/
+      types/          → Shared contracts and payload definitions
+      logic/          → Runtime logic, pure functions
+      web/            → Shared UI components
+
+    docs/
+      dependency graphs and notes
+
+------------------------------------------------------------------------
+
+## Architectural Principles
+
+This repository follows a few strict rules:
+
+-   No runtime TypeScript path aliases.
+-   No self-imports inside packages.
+-   Clear separation between:
+    -   Types (contracts)
+    -   Runtime logic
+    -   UI components
+-   Minimal dependency surface.
+-   Shared packages consumed through built outputs.
+
+The goal is navigability and long-term maintainability rather than
+abstraction for its own sake.
+
+------------------------------------------------------------------------
+
+## Technical Review Notes
+
+For a structured overview of the architectural corrections and delivery decisions applied in this implementation, see:
+
+* [KNX_Technical_Review](KNX_Technical_Review.md)
 
 
+------------------------------------------------------------------------
 
-## Status
+## Engineering Stance
 
-This repository is under active development and serves as an
-experimental foundation for spatial UI and graph-based interaction models.
+This sample reflects a practical engineering approach:
+
+-   Prefer standards over heavy abstraction.
+-   Keep dependency surface small unless a library materially reduces
+    risk or delivery time.
+-   Structure-first design: clarity of contracts and boundaries before
+    adding features.
+-   Optimise for delivery readiness rather than production
+    infrastructure.
+
+This repository is intended as an evaluative artefact demonstrating how
+complexity is reduced and shaped into coherent, runnable software.
+
+------------------------------------------------------------------------
+
+## Install & Build
+
+Install dependencies:
+
+    npm install
+
+Build all packages:
+
+    npx nx build
+
+Serve an application:
+
+    npx nx serve web-app
+
+------------------------------------------------------------------------
+
+## Notes
+
+-   This is a demonstration repository.
+-   No production infrastructure or secrets are included.
+-   All code is self-contained for evaluation purposes.
+
+
+------------------------------------------------------------------------
+
 
 ## License
 MIT

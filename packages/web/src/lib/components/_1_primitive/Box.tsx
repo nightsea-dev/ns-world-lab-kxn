@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, useId, useLayoutEffect, useRef } from "react"
 import { _cn, _effect, _layoutEffect, _memo, OmitHtmlAttributes } from "../../utils"
-import { PickRequiredRestPartial } from "@ns-world-lab/types"
+import { ID, PickRequiredRestPartial } from "@ns-world-lab/types"
 import { BoxHeader, BoxHeaderProps } from "./BoxHeader"
 
 
@@ -17,24 +17,26 @@ export type BoxProps =
             childrenContainerProps: OmitHtmlAttributes<"children">
             justifyChildren: "left" | "center" | "right" | boolean
             bordered: boolean
+            id: ID
             // collapsible: boolean
             // isCollapsed: boolean
         }
     >
 
 // ======================================== component
-export const Box = ({
+export const Box: React.FC<BoxProps> = ({
     bordered = true
     , children
     , childrenContainerProps
     , header
     , headerProps
     , justifyChildren
+    , id: parentID
     , ...rest
-}: BoxProps
-) => {
+}) => {
 
-    const id = useId()
+    const _id = useId()
+        , id = parentID ?? _id
 
         , { current: _refs } = useRef({} as {
             el?: HTMLElement | null
@@ -79,6 +81,8 @@ export const Box = ({
         <div
             {...rest}
             id={id}
+            data-id={_id}
+            data-parent-id={parentID}
             ref={(el => {
                 _refs.el = el
             })}

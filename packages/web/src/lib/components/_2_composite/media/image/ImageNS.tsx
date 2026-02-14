@@ -18,11 +18,10 @@ export type ImageNSProps
     >
 
 
-export const ImageNS = ({
+export const ImageNS: React.FC<ImageNSProps> = ({
     data
     , ...rest
-}: ImageNSProps
-) => {
+}) => {
 
     return (
         <div
